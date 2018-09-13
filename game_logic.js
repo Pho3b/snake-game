@@ -5,6 +5,7 @@ var context = canvas.getContext("2d");
 var randomPos = [];
 randomPos = populateRandomPos(10);
 console.log(randomPos);
+var current_points = 0;
 
 
 /////////////////////////////////////// OBJECTS //////////////////////////////////////////////////////////
@@ -30,6 +31,12 @@ function Food(width,height,posX,posY){
 		//Drawing the rect
 		context.fillStyle = "green";
 		context.fillRect(this.posX,this.posY,this.width,this.height);
+	}
+	
+	this.collisionDetection = function(snakePosX,snakePosY){
+		if(this.posX == snakePosX && this.posY == snakePosY){
+			this.randomSpawn();
+		}
 	}
 	
 }
@@ -103,12 +110,20 @@ function Snake(width,height,posX,posY){
 	}
 	
 	
-	this.checkForCollision = function(){
+	this.checkForBorders = function(){
 		if((this.posX + (this.width/2)) > canvas.width || (this.posY + (this.height/2)) > canvas.height ||
 		(this.posX + (this.width/2)) < 0 || (this.posY + (this.height/2)) < 0){
 			this.die();
 		}
 	}
+	
+	this.collisionDetection = function(foodPosX,foodPosY){
+		if(this.posX == foodPosX && this.posY == foodPosY){
+			updatePointsText();
+			food.randomSpawn();
+		}
+	}
+	
 }
 
 
@@ -132,6 +147,12 @@ function populateRandomPos(position_increment){
 	return randomPos;
 }
 
+//Mostra il punteggio attuale
+function updatePointsText(){
+	current_points++;
+	getElementById('points').innerHTML = current_points;
+}
+
 
 
 /////////////////////////////////////// MAIN LOOP //////////////////////////////////////////////////////////
@@ -144,12 +165,14 @@ window.addEventListener("keydown", snake.changeDirection);
 
 var FPS = 5;
 
+//Actual Loop
 setInterval(function() {
 	colorBackground();
-	snake.checkForCollision();
+	snake.checkForBorders();
 	
 	food.draw();
 	snake.draw();
+	snake.collisionDetection(food.posX,food.posY);
 
 }, 1000/FPS);
 
