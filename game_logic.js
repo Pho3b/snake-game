@@ -20,9 +20,9 @@ function Food(width,height,posX,posY){
 	
 	
 	this.randomSpawn = function(){
-		this.posX = randomPos[Math.floor((Math.random() * randomPos.length) + 1)];
-		this.posY = randomPos[Math.floor((Math.random() * randomPos.length) + 1)];
-		
+		this.posX = randomPos[Math.floor((Math.random() * randomPos.length))];
+		this.posY = randomPos[Math.floor((Math.random() * randomPos.length))];
+		console.log(this.posX,this.posY);
 		this.draw();
 	}
 	
@@ -56,7 +56,7 @@ function Snake(width,height,posX,posY){
 	this.changeDirection = function(e){
 		
 		var keynum = e.keyCode;
-		console.log('keynum: ' + keynum);
+		// console.log('keynum: ' + keynum);
 		
 		switch(keynum){
 			case 87:
@@ -150,7 +150,7 @@ function populateRandomPos(position_increment){
 //Mostra il punteggio attuale
 function updatePointsText(){
 	current_points++;
-	getElementById('points').innerHTML = current_points;
+	document.getElementById('points').innerHTML = current_points;
 }
 
 
