@@ -7,6 +7,7 @@ randomPos = populateRandomPos(10);
 console.log(randomPos);
 var current_points = 0;
 var tailPieces = [];
+var gameState = true; //Run or stop the game
 
 
 /////////////////////////////////////// OBJECTS //////////////////////////////////////////////////////////
@@ -35,9 +36,22 @@ function Food(width,height,posX,posY){
 	}
 	
 	this.collisionDetection = function(){
+		//Check for collision with snake or tail when spawning so that it will not overlay with other stuff on screen
 		if(this.posX == snake.PosX && this.posY == snake.posY){
 			this.randomSpawn();
+			
+			for(var i=0; i<tailPieces.length; i++){
+				if(this.posX == tailPieces[i].PosX && this.posY == tailPieces[i].posY){
+					this.randomSpawn();	
+				}
+			}
 		}
+	}
+	
+	this.disappear = function(){
+		//Faccio scomparire temporaneamente il cibo
+		context.fillStyle = "white";
+		context.fillRect(this.posX,this.posY,this.width,this.height);
 	}
 	
 }
@@ -69,35 +83,51 @@ function Snake(width,height,posX,posY){
 		switch(keynum){
 			case 87:
 				//Su
-				snake.direction = 'up';
+				if(snake.direction != 'down'){
+					snake.direction = 'up';
+				}
 			break;
 			case 38:
 				//Su
-				snake.direction = 'up';
+				if(snake.direction != 'down'){
+					snake.direction = 'up';
+				}
 			break;
 			case 68:
 				//Destra
-				snake.direction = 'right';
+				if(snake.direction != 'left'){
+					snake.direction = 'right';
+				}
 			break;
 			case 39:
 				//Destra
-				snake.direction = 'right';
+				if(snake.direction != 'left'){
+					snake.direction = 'right';
+				}
 			break;
 			case 65:
 				//Sinistra
-				snake.direction = 'left';
+				if(snake.direction != 'right'){
+					snake.direction = 'left';
+				}
 			break;
 			case 37:
 				//Sinistra
-				snake.direction = 'left';
+				if(snake.direction != 'right'){
+					snake.direction = 'left';
+				}
 			break;
 			case 83:
 				//Sotto
-				snake.direction = 'down';
+				if(snake.direction != 'up'){
+					snake.direction = 'down';
+				}
 			break;
 			case 40:
 				//Sotto
-				snake.direction = 'down';
+				if(snake.direction != 'up'){
+					snake.direction = 'down';
+				}
 			break;
 		}
 	}
@@ -107,7 +137,6 @@ function Snake(width,height,posX,posY){
 		//Salvo la posizione precedente di Snake
 		this.prevPosition.posX = this.posX;
 		this.prevPosition.posY = this.posY;
-		//Salvo la direzione precedente di Snake
 		this.prevPosition.direction = this.direction;
 		// console.log('Prima:' +  this.posX, this.posY,this.direction);
 		
@@ -134,19 +163,31 @@ function Snake(width,height,posX,posY){
 	
 	
 	this.die = function(){
+		gameState = false;
+		
 		this.width = 10;
 		this.height = 10;
 		this.posX = 0;
 		this.posY = 0;	
 		this.direction = 'right';
-		//Svuoto l'array contentente i pezzi di coda
-		tailPieces = [];
 		this.haveTail = false;
 		this.tailPoisition = 0;
 		
+		gameOver();
 		//Resetto il punteggio
-		current_points = 0;
 		updatePointsText();
+		//Resetto la velocità
+		FPS = 5;
+		
+		//Faccio scomparire temporaneamente il serpente
+		context.fillStyle = "white";
+		context.fillRect(this.posX,this.posY,this.width,this.height);
+		
+		//Svuoto l'array contentente i pezzi di coda
+		hideTailPieces();
+		tailPieces = [];
+		food.disappear();
+		
 	}
 	
 	
@@ -173,6 +214,16 @@ function Snake(width,height,posX,posY){
 		}
 	}
 	
+	this.selfCollisionDetection = function(){
+		//Check for collision with his tail pieces
+	
+		for(var i=0; i<tailPieces.length; i++){
+			if(this.posX == tailPieces[i]['posX'] && this.posY == tailPieces[i]['posY']){
+				this.die();
+			}
+		}
+	}
+	
 }
 
 
@@ -184,6 +235,7 @@ function Tail(tailArrPos){
 	this.height = snake.height;
 	this.increment = snake.increment;
 	this.tailArrPos = tailArrPos;
+
 	this.prevPosition = {
 		posX:0,
 		posY:0,
@@ -227,6 +279,13 @@ function Tail(tailArrPos){
 		context.fillStyle = "black";
 		context.fillRect(this.posX,this.posY,this.width,this.height);
 	}
+	
+	this.disappear = function(){
+		//Faccio scomparire temporaneamente il cibo
+		context.fillStyle = "white";
+		context.fillRect(this.posX,this.posY,this.width,this.height);
+	}
+	
 }
 
 
@@ -253,12 +312,37 @@ function populateRandomPos(position_increment){
 
 //Aggiorna il punteggio 
 function updatePointsText(){
-	current_points++;
-	FPS += 0.1;
+	if(gameState == true){
+		current_points++;
+	}else{
+		current_points = 0;
+	}
+	FPS += 0.2;
 	document.getElementById('points').innerHTML = current_points;
 }
 
+function hideTailPieces(){
+	
+	for(var i=0; i<tailPieces.length; i++){
+		console.log('diappear');
+		tailPieces[i].disappear();
+	}
+}
 
+
+function gameOver(){
+	
+	context.font = "30px Comic Sans MS";
+	context.fillStyle = "red";
+	context.textAlign = "center";
+	context.strokeText("You Lost!",canvas.width/2,canvas.height/2);
+
+	//Restart the game after 2 seconds
+	setTimeout(function(){ 
+		gameState = true;
+		mainLoop();
+	}, 1800);
+}
 
 /////////////////////////////////////// MAIN LOOP //////////////////////////////////////////////////////////
 
@@ -271,22 +355,27 @@ window.addEventListener("keydown", snake.changeDirection);
 var FPS = 5;
 
 //Actual Loop
-setInterval(function() {
+var loop = setTimeout(mainLoop, 1000/FPS);
+
+
+function mainLoop(){
 	
-	colorBackground();
-	snake.checkForBorders();
-	food.draw();
-	//Tail pieces update
-	for(var i=0; i<tailPieces.length; i++){
-		tailPieces[i].draw();
+	if(gameState == true){
+		colorBackground();
+		food.draw();
+		//Tail pieces update
+		for(var i=0; i<tailPieces.length; i++){
+			tailPieces[i].draw();
+		}
+		i=0;
+		
+		snake.draw();
+		snake.checkForBorders();
+		snake.selfCollisionDetection();
+		snake.foodCollisionDetection(food.posX,food.posY);
+		setTimeout(mainLoop, 1000/FPS);
 	}
-	i=0;
-	
-	snake.draw();
-	snake.foodCollisionDetection(food.posX,food.posY);
-
-
-}, 1000/FPS);
+}
 
 
 
