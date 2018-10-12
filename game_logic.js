@@ -159,6 +159,9 @@ function Snake(width,height,posX,posY){
 		//Drawing the rect
 		context.fillStyle = "black";
 		context.fillRect(this.posX,this.posY,this.width,this.height);
+		context.strokeStyle = "white";
+		context.lineWidth = 0.5;
+		context.strokeRect(this.posX,this.posY,this.width,this.height);
 	}
 	
 	
@@ -173,7 +176,7 @@ function Snake(width,height,posX,posY){
 		this.haveTail = false;
 		this.tailPoisition = 0;
 		
-		gameOver();
+		
 		//Resetto il punteggio
 		updatePointsText();
 		//Resetto la velocità
@@ -187,6 +190,8 @@ function Snake(width,height,posX,posY){
 		hideTailPieces();
 		tailPieces = [];
 		food.disappear();
+		
+		gameOver();
 		
 	}
 	
@@ -278,6 +283,9 @@ function Tail(tailArrPos){
 		//Drawing the rect
 		context.fillStyle = "black";
 		context.fillRect(this.posX,this.posY,this.width,this.height);
+		context.strokeStyle = "white";
+		context.lineWidth = 0.5;
+		context.strokeRect(this.posX,this.posY,this.width,this.height);
 	}
 	
 	this.disappear = function(){
@@ -333,7 +341,7 @@ function hideTailPieces(){
 function gameOver(){
 	
 	context.font = "30px Comic Sans MS";
-	context.fillStyle = "red";
+	context.strokeStyle = "black";
 	context.textAlign = "center";
 	context.strokeText("You Lost!",canvas.width/2,canvas.height/2);
 
