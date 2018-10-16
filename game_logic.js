@@ -36,17 +36,11 @@ function Food(width,height,posX,posY){
 	}
 	
 	this.collisionDetection = function(){
-		//Check for collision with snake or tail when spawning so that it will not overlay with other stuff on screen
+		//Check for collision with snake 
 		if(this.posX == snake.PosX && this.posY == snake.posY){
 			this.randomSpawn();
-			
-			for(var i=0; i<tailPieces.length; i++){
-				if(this.posX == tailPieces[i].PosX && this.posY == tailPieces[i].posY){
-					this.randomSpawn();	
-				}
-			}
 		}
-	}
+	}	
 	
 	this.disappear = function(){
 		//Faccio scomparire temporaneamente il cibo
@@ -294,6 +288,14 @@ function Tail(tailArrPos){
 		context.fillRect(this.posX,this.posY,this.width,this.height);
 	}
 	
+	this.foodCollisionDetection = function(){
+		//Check for collision with food  
+		if(this.posX == food.PosX && this.posY == food.posY){
+			console.log('collision food');
+			food.randomSpawn();
+		}
+	}	
+
 }
 
 
@@ -332,7 +334,6 @@ function updatePointsText(){
 function hideTailPieces(){
 	
 	for(var i=0; i<tailPieces.length; i++){
-		console.log('diappear');
 		tailPieces[i].disappear();
 	}
 }
@@ -360,7 +361,7 @@ food.randomSpawn();
 
 window.addEventListener("keydown", snake.changeDirection);
 
-var FPS = 5;
+var FPS = 6;
 
 //Actual Loop
 var loop = setTimeout(mainLoop, 1000/FPS);
@@ -370,17 +371,20 @@ function mainLoop(){
 	
 	if(gameState == true){
 		colorBackground();
-		food.draw();
 		//Tail pieces update
 		for(var i=0; i<tailPieces.length; i++){
 			tailPieces[i].draw();
+			// tailPieces[i].foodCollisionDetection();
 		}
 		i=0;
 		
+		food.draw();
+
 		snake.draw();
 		snake.checkForBorders();
 		snake.selfCollisionDetection();
 		snake.foodCollisionDetection(food.posX,food.posY);
+		
 		setTimeout(mainLoop, 1000/FPS);
 	}
 }
