@@ -5,9 +5,11 @@ var context = canvas.getContext("2d");
 var randomPos = [];
 randomPos = populateRandomPos(10);
 console.log(randomPos);
-var current_points = 0;
+var current_points = 1;
 var tailPieces = [];
 var gameState = true; //Run or stop the game
+var game_starting = 0;
+
 
 
 /////////////////////////////////////// OBJECTS //////////////////////////////////////////////////////////
@@ -71,58 +73,60 @@ function Snake(width,height,posX,posY){
 	
 	
 	this.changeDirection = function(e){
-		var keynum = e.keyCode;
-		// console.log('keynum: ' + keynum);
-		
-		switch(keynum){
-			case 87:
-				//Su
-				if(snake.direction != 'down'){
-					snake.direction = 'up';
-				}
-			break;
-			case 38:
-				//Su
-				if(snake.direction != 'down'){
-					snake.direction = 'up';
-				}
-			break;
-			case 68:
-				//Destra
-				if(snake.direction != 'left'){
-					snake.direction = 'right';
-				}
-			break;
-			case 39:
-				//Destra
-				if(snake.direction != 'left'){
-					snake.direction = 'right';
-				}
-			break;
-			case 65:
-				//Sinistra
-				if(snake.direction != 'right'){
-					snake.direction = 'left';
-				}
-			break;
-			case 37:
-				//Sinistra
-				if(snake.direction != 'right'){
-					snake.direction = 'left';
-				}
-			break;
-			case 83:
-				//Sotto
-				if(snake.direction != 'up'){
-					snake.direction = 'down';
-				}
-			break;
-			case 40:
-				//Sotto
-				if(snake.direction != 'up'){
-					snake.direction = 'down';
-				}
-			break;
+		if(game_starting >= 2){
+			var keynum = e.keyCode;
+			// console.log('keynum: ' + keynum);
+			
+			switch(keynum){
+				case 87:
+					//Su
+					if(snake.direction != 'down'){
+						snake.direction = 'up';
+					}
+				break;
+				case 38:
+					//Su
+					if(snake.direction != 'down'){
+						snake.direction = 'up';
+					}
+				break;
+				case 68:
+					//Destra
+					if(snake.direction != 'left'){
+						snake.direction = 'right';
+					}
+				break;
+				case 39:
+					//Destra
+					if(snake.direction != 'left'){
+						snake.direction = 'right';
+					}
+				break;
+				case 65:
+					//Sinistra
+					if(snake.direction != 'right'){
+						snake.direction = 'left';
+					}
+				break;
+				case 37:
+					//Sinistra
+					if(snake.direction != 'right'){
+						snake.direction = 'left';
+					}
+				break;
+				case 83:
+					//Sotto
+					if(snake.direction != 'up'){
+						snake.direction = 'down';
+					}
+				break;
+				case 40:
+					//Sotto
+					if(snake.direction != 'up'){
+						snake.direction = 'down';
+					}
+				break;
+			}
 		}
 	}
 	
@@ -175,6 +179,8 @@ function Snake(width,height,posX,posY){
 		updatePointsText();
 		//Resetto la velocità
 		FPS = 5;
+		//Reset della variabile che serve a far partire il gioco a 3 punti		
+		game_starting = 0;
 		
 		//Faccio scomparire temporaneamente il serpente
 		context.fillStyle = "white";
@@ -252,7 +258,8 @@ function Tail(tailArrPos){
 			this.posX = snake.prevPosition['posX'];
 			this.posY = snake.prevPosition['posY'];
 			this.direction = snake.prevPosition['direction'];
-		}else{ // Se non è il primo pezzo di coda
+		}else{ // Se NON è il primo pezzo di coda
+			console.log("Entrato");
 			this.posX = tailPieces[tailArrPos - 1].prevPosition['posX'];
 			this.posY = tailPieces[tailArrPos - 1].prevPosition['posY'];
 			this.direction = tailPieces[tailArrPos - 1].prevPosition['posY'];
@@ -325,7 +332,7 @@ function updatePointsText(){
 	if(gameState == true){
 		current_points++;
 	}else{
-		current_points = 0;
+		current_points = 1;
 	}
 	FPS += 0.2;
 	document.getElementById('points').innerHTML = current_points;
@@ -357,7 +364,7 @@ function gameOver(){
 
 var snake = new Snake(10,10,0,0);
 var food = new Food(10,10,0,0);
-food.randomSpawn();
+//food.randomSpawn();
 
 window.addEventListener("keydown", snake.changeDirection);
 
@@ -365,7 +372,6 @@ var FPS = 6;
 
 //Actual Loop
 var loop = setTimeout(mainLoop, 1000/FPS);
-
 
 function mainLoop(){
 	
@@ -378,11 +384,19 @@ function mainLoop(){
 		}
 		i=0;
 		
+		//Funzione che permette di raggiungere i 3 punti canonici all inizio della partita
+		if(game_starting < 2){
+			game_starting++;
+			food.posX = (snake.posX + snake.increment);
+			food.posY = snake.posY;
+		}
+		
 		food.draw();
 
 		snake.draw();
 		snake.checkForBorders();
 		snake.selfCollisionDetection();
+		
 		snake.foodCollisionDetection(food.posX,food.posY);
 		
 		setTimeout(mainLoop, 1000/FPS);
