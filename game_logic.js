@@ -9,6 +9,7 @@ var current_points = 1;
 var tailPieces = [];
 var gameState = true; //Run or stop the game
 var game_starting = 0;
+var can_press_key = true;
 
 
 
@@ -73,9 +74,11 @@ function Snake(width,height,posX,posY){
 	
 	
 	this.changeDirection = function(e){
-		if(game_starting >= 2){
+		if(game_starting >= 2 && can_press_key == true){
+			
+			can_press_key = false;
 			var keynum = e.keyCode;
-			// console.log('keynum: ' + keynum);
+			console.log('keynum: ' + keynum);
 			
 			switch(keynum){
 				case 87:
@@ -259,7 +262,6 @@ function Tail(tailArrPos){
 			this.posY = snake.prevPosition['posY'];
 			this.direction = snake.prevPosition['direction'];
 		}else{ // Se NON è il primo pezzo di coda
-			console.log("Entrato");
 			this.posX = tailPieces[tailArrPos - 1].prevPosition['posX'];
 			this.posY = tailPieces[tailArrPos - 1].prevPosition['posY'];
 			this.direction = tailPieces[tailArrPos - 1].prevPosition['posY'];
@@ -399,6 +401,7 @@ function mainLoop(){
 		
 		snake.foodCollisionDetection(food.posX,food.posY);
 		
+		can_press_key = true;
 		setTimeout(mainLoop, 1000/FPS);
 	}
 }
