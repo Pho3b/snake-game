@@ -74,11 +74,10 @@ function Snake(width,height,posX,posY){
 	
 	
 	this.changeDirection = function(e){
-		if(game_starting >= 2 && can_press_key == true){
+		if(game_starting > 2 && can_press_key == true){
 			
 			can_press_key = false;
 			var keynum = e.keyCode;
-			console.log('keynum: ' + keynum);
 			
 			switch(keynum){
 				case 87:
@@ -219,6 +218,11 @@ function Snake(width,height,posX,posY){
 				tailPieces.push(new Tail(this.tailPoisition));
 			}
 			this.tailPoisition++;
+			
+			//Playing Sound
+			if(game_starting > 2){
+				playSound("sounds/eat.mp3");
+			}
 		}
 	}
 	
@@ -312,6 +316,14 @@ function Tail(tailArrPos){
 
 /////////////////////////////////////// FUNCTIONS //////////////////////////////////////////////////////////
 
+function playSound(sound_src){
+	var snd = new Audio(sound_src); 
+	snd.play();
+	snd.volume = 0.2;
+}
+
+
+
 //Ricolora lo sfondo del canvas
 function colorBackground(){	
 	context.fillStyle = "#FFFFFF";
@@ -387,10 +399,12 @@ function mainLoop(){
 		i=0;
 		
 		//Funzione che permette di raggiungere i 3 punti canonici all inizio della partita
-		if(game_starting < 2){
-			game_starting++;
-			food.posX = (snake.posX + snake.increment);
-			food.posY = snake.posY;
+		if(game_starting <= 2){
+			if(game_starting < 2){
+				food.posX = (snake.posX + snake.increment);
+				food.posY = snake.posY;
+			}
+			game_starting++; //Lo faccio arrivare a 3 per vari controlli
 		}
 		
 		food.draw();
