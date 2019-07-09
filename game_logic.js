@@ -13,9 +13,9 @@ var can_press_key = true;
 
 
 
-/////////////////////////////////////// OBJECTS //////////////////////////////////////////////////////////
+/////////////////////////////////////// CLASSES //////////////////////////////////////////////////////////
 
-//Oggetto Cibo
+//Food Class
 function Food(width,height,posX,posY){
 	
 	this.width = width;
@@ -54,7 +54,7 @@ function Food(width,height,posX,posY){
 }
 
 
-//Oggetto Serpente
+//Snake Class
 function Snake(width,height,posX,posY){
 	
 	this.width = width;
@@ -240,7 +240,7 @@ function Snake(width,height,posX,posY){
 
 
 
-//Oggetto Coda Serpente
+//Snake Tail Class
 function Tail(tailArrPos){
 	
 	this.width = snake.width;
