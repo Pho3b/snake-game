@@ -4,7 +4,6 @@ var canvas = document.getElementById("snakeCanvas");
 var context = canvas.getContext("2d");
 var randomPos = [];
 randomPos = populateRandomPos(10);
-console.log(randomPos);
 var current_points = 1;
 var tailPieces = [];
 var gameState = true; //Run or stop the game
