@@ -344,7 +344,6 @@ function populateRandomPos(position_increment){
 //Aggiorna il punteggio 
 function updatePointsText(){
 	
-	
 	if(gameState == true){
 		current_points++;
 		
