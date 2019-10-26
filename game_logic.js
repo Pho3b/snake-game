@@ -9,6 +9,7 @@ var tailPieces = [];
 var gameState = true; //Run or stop the game
 var game_starting = 0;
 var can_press_key = true;
+const displayPointsElement = document.getElementById('points');
 
 
 
@@ -342,13 +343,19 @@ function populateRandomPos(position_increment){
 
 //Aggiorna il punteggio 
 function updatePointsText(){
+	
 	if(gameState == true){
 		current_points++;
+		
+		if (current_points < 3)
+			displayPointsElement.innerHTML = 0;
+		else 
+			displayPointsElement.innerHTML = current_points;
 	}else{
 		current_points = 1;
+		displayPointsElement.innerHTML = 0;
 	}
 	FPS += 0.2;
-	document.getElementById('points').innerHTML = current_points;
 }
 
 function hideTailPieces(){
