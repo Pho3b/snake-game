@@ -1,3 +1,4 @@
+import { HelperComponent } from "./HelperComponent";
 class Main {
     constructor() {
         Main.randomPos = HelperComponent.populateRandomPos(10);
@@ -5,6 +6,7 @@ class Main {
         Main.food = new Food(10, 10, 0, 0);
         window.addEventListener("keydown", Main.snake.changeDirection);
         setTimeout(Main.mainLoop, 1000 / Main.FPS);
+        console.log('ci siamo dentro');
     }
     static mainLoop() {
         if (Main.isGameRunning) {
@@ -44,3 +46,4 @@ Main.records = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 Main.displayPointsElement = document.getElementById('points');
 Main.recordListElements = document.getElementsByClassName('record_list_element');
 Main.FPS = 6;
+let main = new Main();

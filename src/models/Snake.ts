@@ -1,3 +1,5 @@
+import '../HelperComponent';
+
 class Snake {
     width: number;
     height: number;

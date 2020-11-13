@@ -1,3 +1,5 @@
+import {HelperComponent} from "./HelperComponent";
+
 class Main {
     static canvas: HTMLCanvasElement = document.getElementById("snakeCanvas") as HTMLCanvasElement;
     static context: CanvasRenderingContext2D = Main.canvas.getContext("2d");
@@ -21,6 +23,7 @@ class Main {
         Main.food = new Food(10, 10, 0, 0);
         window.addEventListener("keydown", Main.snake.changeDirection);
         setTimeout(Main.mainLoop, 1000 / Main.FPS);
+        console.log('ci siamo dentro');
     }
 
     static mainLoop() {
@@ -51,3 +54,5 @@ class Main {
     }
 
 }
+
+let main = new Main();

@@ -1,3 +1,4 @@
+import '../HelperComponent';
 class Snake {
     constructor(width, height, posX, posY) {
         this.direction = 'right';
