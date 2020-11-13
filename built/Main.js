@@ -1,20 +1,4 @@
 class Main {
-    static canvas: HTMLCanvasElement = document.getElementById("snakeCanvas") as HTMLCanvasElement;
-    static context: CanvasRenderingContext2D = Main.canvas.getContext("2d");
-    static randomPos;
-    static current_points: number = 1;
-    static tailPieces: Tail[] = [];
-    static isGameRunning: boolean = true; //Run or stop the game
-    static game_starting: number = 0;
-    static can_press_key: boolean = true;
-    static records: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    static displayPointsElement = document.getElementById('points');
-    static recordListElements = document.getElementsByClassName('record_list_element');
-    static snake: Snake;
-    static food: Food;
-    static FPS: number = 6;
-
-
     constructor() {
         Main.randomPos = HelperComponent.populateRandomPos(10);
         Main.snake = new Snake(10, 10, 0, 0);
@@ -22,7 +6,6 @@ class Main {
         window.addEventListener("keydown", Main.snake.changeDirection);
         setTimeout(Main.mainLoop, 1000 / Main.FPS);
     }
-
     static mainLoop() {
         if (Main.isGameRunning) {
             HelperComponent.colorBackground();
@@ -49,5 +32,15 @@ class Main {
             setTimeout(Main.mainLoop, 1000 / Main.FPS);
         }
     }
-
 }
+Main.canvas = document.getElementById("snakeCanvas");
+Main.context = Main.canvas.getContext("2d");
+Main.current_points = 1;
+Main.tailPieces = [];
+Main.isGameRunning = true; //Run or stop the game
+Main.game_starting = 0;
+Main.can_press_key = true;
+Main.records = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+Main.displayPointsElement = document.getElementById('points');
+Main.recordListElements = document.getElementsByClassName('record_list_element');
+Main.FPS = 6;

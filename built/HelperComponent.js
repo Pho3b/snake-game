@@ -1,16 +1,13 @@
 class HelperComponent {
-
     static playSound(sound_src) {
         var snd = new Audio(sound_src);
         snd.play();
         snd.volume = 0.2;
     }
-
     static colorBackground() {
         Main.context.fillStyle = "#FFFFFF";
         Main.context.fillRect(0, 0, Main.canvas.width, Main.canvas.height);
     }
-
     static populateRandomPos(position_increment) {
         let single = 0;
         let randomPos = [];
@@ -20,7 +17,6 @@ class HelperComponent {
         }
         return randomPos;
     }
-
     static updatePointsText() {
         if (Main.isGameRunning) {
             Main.current_points++;
@@ -35,7 +31,6 @@ class HelperComponent {
         }
         Main.FPS += 0.2;
     }
-
     static updateRecordsList(entry) {
         for (let i = 0; i < Main.records.length; i++) {
             if (entry === Main.records[i]) {
@@ -48,13 +43,11 @@ class HelperComponent {
             }
         }
     }
-
     static hideTailPieces() {
         for (var i = 0; i < Main.tailPieces.length; i++) {
             Main.tailPieces[i].disappear();
         }
     }
-
     static gameOver() {
         Main.context.font = "30px Comic Sans MS";
         Main.context.strokeStyle = "black";

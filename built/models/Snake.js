@@ -1,27 +1,20 @@
 class Snake {
-    width: number;
-    height: number;
-    posX: number;
-    posY: number;
-    direction: string = 'right';
-    increment: number = 10;
-    prevPosition: IPosition = {
-        posX: 0,
-        posY: 0,
-        direction: 'null'
-    };
-    haveTail: boolean = false;
-    tailPoisition: number = 0;
-
-
-    constructor(width: number, height: number, posX: number, posY: number) {
+    constructor(width, height, posX, posY) {
+        this.direction = 'right';
+        this.increment = 10;
+        this.prevPosition = {
+            posX: 0,
+            posY: 0,
+            direction: 'null'
+        };
+        this.haveTail = false;
+        this.tailPoisition = 0;
         this.width = width;
         this.height = height;
         this.posX = posX;
         this.posY = posY;
     }
-
-    public changeDirection(e) {
+    changeDirection(e) {
         if (Main.game_starting > 2 && Main.can_press_key === true) {
             Main.can_press_key = false;
             let currentKeyCode = e.keyCode;
@@ -68,9 +61,9 @@ class Snake {
                     break;
             }
         }
-    };
-
-    public draw() {
+    }
+    ;
+    draw() {
         this.prevPosition.posX = this.posX;
         this.prevPosition.posY = this.posY;
         this.prevPosition.direction = this.direction;
@@ -94,8 +87,8 @@ class Snake {
         Main.context.strokeStyle = "white";
         Main.context.lineWidth = 0.5;
         Main.context.strokeRect(this.posX, this.posY, this.width, this.height);
-    };
-
+    }
+    ;
     die() {
         Main.isGameRunning = false;
         this.width = 10;
@@ -120,15 +113,14 @@ class Snake {
         Main.tailPieces = [];
         Main.food.disappear();
         HelperComponent.gameOver();
-    };
-
+    }
+    ;
     checkForBorders() {
         if ((this.posX + (this.width / 2)) > Main.canvas.width || (this.posY + (this.height / 2)) > Main.canvas.height ||
             (this.posX + (this.width / 2)) < 0 || (this.posY + (this.height / 2)) < 0) {
             this.die();
         }
     }
-
     foodCollisionDetection(foodPosX, foodPosY) {
         if (this.posX === foodPosX && this.posY === foodPosY) {
             HelperComponent.updatePointsText();
@@ -145,8 +137,8 @@ class Snake {
                 HelperComponent.playSound("sounds/eat.mp3");
             }
         }
-    };
-
+    }
+    ;
     selfCollisionDetection() {
         //Check for collision with his tail pieces
         for (var i = 0; i < Main.tailPieces.length; i++) {
@@ -154,5 +146,6 @@ class Snake {
                 this.die();
             }
         }
-    };
+    }
+    ;
 }
