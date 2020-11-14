@@ -12,7 +12,7 @@ export class Tail {
     };
     posX: number;
     posY: number;
-    direction: string;
+    direction: any;
 
     constructor(tailArrPos: number) {
         this.tailArrPos = tailArrPos;
@@ -25,6 +25,7 @@ export class Tail {
         this.prevPosition.posX = this.posX;
         this.prevPosition.posY = this.posY;
         this.prevPosition.direction = this.direction;
+
         if (this.tailArrPos === 0) {
             this.posX = Main.snake.prevPosition['posX'];
             this.posY = Main.snake.prevPosition['posY'];
@@ -32,7 +33,7 @@ export class Tail {
         } else {
             this.posX = Main.tailPieces[this.tailArrPos - 1].prevPosition['posX'];
             this.posY = Main.tailPieces[this.tailArrPos - 1].prevPosition['posY'];
-            this.direction = Main.tailPieces[this.tailArrPos - 1].prevPosition['direction'];
+            this.direction = Main.tailPieces[this.tailArrPos - 1].prevPosition['posY'];
         }
         switch (this.direction) {
             case 'left':

@@ -8,7 +8,6 @@ export class Main {
         Main.food = new Food(10, 10, 0, 0);
         window.addEventListener("keydown", Main.snake.changeDirection);
         setTimeout(Main.mainLoop, 1000 / Main.FPS);
-        console.log('ci siamo dentro');
     }
     static mainLoop() {
         if (Main.isGameRunning) {

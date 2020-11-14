@@ -23,7 +23,7 @@ export class Tail {
         else {
             this.posX = Main.tailPieces[this.tailArrPos - 1].prevPosition['posX'];
             this.posY = Main.tailPieces[this.tailArrPos - 1].prevPosition['posY'];
-            this.direction = Main.tailPieces[this.tailArrPos - 1].prevPosition['direction'];
+            this.direction = Main.tailPieces[this.tailArrPos - 1].prevPosition['posY'];
         }
         switch (this.direction) {
             case 'left':

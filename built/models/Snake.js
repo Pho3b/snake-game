@@ -1,5 +1,6 @@
 import { HelperComponent } from '../HelperComponent.js';
 import { Main } from '../Main.js';
+import { Tail } from './Tail.js';
 export class Snake {
     constructor(width, height, posX, posY) {
         this.direction = 'right';
@@ -10,7 +11,7 @@ export class Snake {
             direction: 'null'
         };
         this.haveTail = false;
-        this.tailPoisition = 0;
+        this.tailPosition = 0;
         this.width = width;
         this.height = height;
         this.posX = posX;
@@ -99,7 +100,7 @@ export class Snake {
         this.posY = 0;
         this.direction = 'right';
         this.haveTail = false;
-        this.tailPoisition = 0;
+        this.tailPosition = 0;
         // Updating records list
         HelperComponent.updateRecordsList(Main.current_points);
         // Resetto il punteggio
@@ -128,13 +129,13 @@ export class Snake {
             HelperComponent.updatePointsText();
             Main.food.randomSpawn();
             if (this.haveTail === false) {
-                Main.tailPieces.push(new Tail(this.tailPoisition));
+                Main.tailPieces.push(new Tail(this.tailPosition));
                 this.haveTail = true;
             }
             else {
-                Main.tailPieces.push(new Tail(this.tailPoisition));
+                Main.tailPieces.push(new Tail(this.tailPosition));
             }
-            this.tailPoisition++;
+            this.tailPosition++;
             if (Main.game_starting > 2) {
                 HelperComponent.playSound("sounds/eat.mp3");
             }
