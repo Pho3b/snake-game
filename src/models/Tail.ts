@@ -1,23 +1,23 @@
 import {Main} from '../Main.js';
+import {Direction} from "../HelperComponent.js";
+import {IPosition} from "./interfaces/IPosition.js";
 
 export class Tail {
-    width: number;
-    height: number;
+    size: number;
     increment: number;
     tailArrPos: number;
-    prevPosition = {
+    prevPosition: IPosition = {
         posX: 0,
         posY: 0,
-        direction: 'null'
+        direction: Direction.Still
     };
     posX: number;
     posY: number;
-    direction: any;
+    direction: Direction;
 
     constructor(tailArrPos: number) {
         this.tailArrPos = tailArrPos;
-        this.width = Main.snake.width;
-        this.height = Main.snake.height;
+        this.size = Main.snake.size;
         this.increment = Main.snake.increment;
     }
 
@@ -35,36 +35,36 @@ export class Tail {
             this.posY = Main.tailPieces[this.tailArrPos - 1].prevPosition['posY'];
             this.direction = Main.tailPieces[this.tailArrPos - 1].prevPosition['posY'];
         }
+
         switch (this.direction) {
-            case 'left':
+            case Direction.Left:
                 this.posX -= this.increment;
                 break;
-            case 'right':
+            case Direction.Right:
                 this.posX += this.increment;
                 break;
-            case 'up':
+            case Direction.Up:
                 this.posY -= this.increment;
                 break;
-            case 'down':
+            case Direction.Down:
                 this.posY += this.increment;
                 break;
         }
-        // Drawing the rect
+
         Main.context.fillStyle = "black";
-        Main.context.fillRect(this.posX, this.posY, this.width, this.height);
+        Main.context.fillRect(this.posX, this.posY, this.size, this.size);
         Main.context.strokeStyle = "white";
         Main.context.lineWidth = 0.5;
-        Main.context.strokeRect(this.posX, this.posY, this.width, this.height);
+        Main.context.strokeRect(this.posX, this.posY, this.size, this.size);
     };
 
     public disappear() {
         Main.context.fillStyle = "white";
-        Main.context.fillRect(this.posX, this.posY, this.width, this.height);
+        Main.context.fillRect(this.posX, this.posY, this.size, this.size);
     };
 
     public foodCollisionDetection() {
         if (this.posX === Main.food.posX && this.posY === Main.food.posY) {
-            console.log('collision food');
             Main.food.randomSpawn();
         }
     };

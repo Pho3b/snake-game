@@ -1,14 +1,51 @@
 import {Main} from './Main.js';
 
-export class HelperComponent {
+export enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+    Still
+}
 
-    static playSound(sound_src) {
-        var snd = new Audio(sound_src);
-        snd.play();
-        snd.volume = 0.2;
+export class HelperComponent {
+    static eatingSound: HTMLAudioElement = new Audio("sounds/eat.mp3");
+    static instance = null;
+
+
+    private constructor() {
     }
 
-    static colorBackground() {
+    /**
+     * Singleton related method to retrieve a single
+     * instance of the HelperComponent.
+     *
+     * TODO: use it instead of using all of the static methods
+     */
+    public getInstance(): HelperComponent {
+        if (HelperComponent.instance !== null) {
+            return new HelperComponent();
+        } else {
+            return HelperComponent.instance;
+        }
+    }
+
+    /**
+     * Plays the eating sound
+     */
+    static playEatingSound(): void {
+        let playPromise: Promise<HTMLAudioElement> = HelperComponent.eatingSound.play().then();
+
+        if (playPromise !== undefined) {
+            playPromise.then(function() {
+                HelperComponent.eatingSound.volume = 0.2;
+            }).catch(function(error) {
+                console.log('Error while playing sound : ' + error);
+            });
+        }
+    }
+
+    static backgroundRefresh() {
         Main.context.fillStyle = "#FFFFFF";
         Main.context.fillRect(0, 0, Main.canvas.width, Main.canvas.height);
     }
@@ -52,7 +89,7 @@ export class HelperComponent {
     }
 
     static hideTailPieces() {
-        for (var i = 0; i < Main.tailPieces.length; i++) {
+        for (let i = 0; i < Main.tailPieces.length; i++) {
             Main.tailPieces[i].disappear();
         }
     }

@@ -9,7 +9,7 @@ export class Main {
     static randomPos;
     static current_points: number = 1;
     static tailPieces: Tail[] = [];
-    static isGameRunning: boolean = true; //Run or stop the game
+    static isGameRunning: boolean = true;
     static game_starting: number = 0;
     static can_press_key: boolean = true;
     static records: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -22,29 +22,32 @@ export class Main {
 
     constructor() {
         Main.randomPos = HelperComponent.populateRandomPos(10);
-        Main.snake = new Snake(10, 10, 0, 0);
-        Main.food = new Food(10, 10, 0, 0);
+        Main.snake = new Snake(10, 0, 0);
+        Main.food = new Food(10, 0, 0);
         window.addEventListener("keydown", Main.snake.changeDirection);
         setTimeout(Main.mainLoop, 1000 / Main.FPS);
     }
 
     static mainLoop() {
         if (Main.isGameRunning) {
-            HelperComponent.colorBackground();
+            HelperComponent.backgroundRefresh();
+
             //Tail pieces update
-            for (var i = 0; i < Main.tailPieces.length; i++) {
+            for (let i = 0; i < Main.tailPieces.length; i++) {
                 Main.tailPieces[i].draw();
                 Main.tailPieces[i].foodCollisionDetection();
             }
-            i = 0;
+
             // Starting the game with 3 points as the original game did.
             if (Main.game_starting <= 2) {
                 if (Main.game_starting < 2) {
                     Main.food.posX = (Main.snake.posX + Main.snake.increment);
                     Main.food.posY = Main.snake.posY;
                 }
+
                 Main.game_starting++;
             }
+
             Main.food.draw();
             Main.snake.draw();
             Main.snake.checkForBorders();

@@ -4,20 +4,19 @@ import { Food } from './models/Food.js';
 export class Main {
     constructor() {
         Main.randomPos = HelperComponent.populateRandomPos(10);
-        Main.snake = new Snake(10, 10, 0, 0);
-        Main.food = new Food(10, 10, 0, 0);
+        Main.snake = new Snake(10, 0, 0);
+        Main.food = new Food(10, 0, 0);
         window.addEventListener("keydown", Main.snake.changeDirection);
         setTimeout(Main.mainLoop, 1000 / Main.FPS);
     }
     static mainLoop() {
         if (Main.isGameRunning) {
-            HelperComponent.colorBackground();
+            HelperComponent.backgroundRefresh();
             //Tail pieces update
-            for (var i = 0; i < Main.tailPieces.length; i++) {
+            for (let i = 0; i < Main.tailPieces.length; i++) {
                 Main.tailPieces[i].draw();
                 Main.tailPieces[i].foodCollisionDetection();
             }
-            i = 0;
             // Starting the game with 3 points as the original game did.
             if (Main.game_starting <= 2) {
                 if (Main.game_starting < 2) {
@@ -40,7 +39,7 @@ Main.canvas = document.getElementById("snakeCanvas");
 Main.context = Main.canvas.getContext("2d");
 Main.current_points = 1;
 Main.tailPieces = [];
-Main.isGameRunning = true; //Run or stop the game
+Main.isGameRunning = true;
 Main.game_starting = 0;
 Main.can_press_key = true;
 Main.records = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
