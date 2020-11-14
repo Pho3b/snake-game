@@ -1,4 +1,6 @@
-class Food {
+import {Main} from '../Main.js';
+
+export class Food {
     width: number;
     height: number;
     posX: number;

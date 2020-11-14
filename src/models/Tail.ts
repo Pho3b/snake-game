@@ -1,4 +1,6 @@
-class Tail {
+import {Main} from '../Main.js';
+
+export class Tail {
     width: number;
     height: number;
     increment: number;

@@ -1,6 +1,9 @@
-import {HelperComponent} from "./HelperComponent";
+import {HelperComponent} from './HelperComponent.js';
+import {Snake} from './models/Snake.js';
+import {Tail} from './models/Tail.js';
+import {Food} from './models/Food.js';
 
-class Main {
+export class Main {
     static canvas: HTMLCanvasElement = document.getElementById("snakeCanvas") as HTMLCanvasElement;
     static context: CanvasRenderingContext2D = Main.canvas.getContext("2d");
     static randomPos;

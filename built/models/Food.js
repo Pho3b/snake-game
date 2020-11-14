@@ -1,4 +1,5 @@
-class Food {
+import { Main } from '../Main.js';
+export class Food {
     constructor(width, height, posX, posY) {
         this.width = width;
         this.height = height;

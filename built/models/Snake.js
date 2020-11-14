@@ -1,5 +1,6 @@
-import '../HelperComponent';
-class Snake {
+import { HelperComponent } from '../HelperComponent.js';
+import { Main } from '../Main.js';
+export class Snake {
     constructor(width, height, posX, posY) {
         this.direction = 'right';
         this.increment = 10;

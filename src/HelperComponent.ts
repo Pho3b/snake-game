@@ -1,3 +1,5 @@
+import {Main} from './Main.js';
+
 export class HelperComponent {
 
     static playSound(sound_src) {

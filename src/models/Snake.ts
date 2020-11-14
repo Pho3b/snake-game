@@ -1,6 +1,7 @@
-import '../HelperComponent';
+import {HelperComponent} from '../HelperComponent.js';
+import {Main} from '../Main.js';
 
-class Snake {
+export class Snake {
     width: number;
     height: number;
     posX: number;

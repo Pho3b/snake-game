@@ -1,5 +1,7 @@
-import { HelperComponent } from "./HelperComponent";
-class Main {
+import { HelperComponent } from './HelperComponent.js';
+import { Snake } from './models/Snake.js';
+import { Food } from './models/Food.js';
+export class Main {
     constructor() {
         Main.randomPos = HelperComponent.populateRandomPos(10);
         Main.snake = new Snake(10, 10, 0, 0);

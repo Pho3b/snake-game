@@ -1,4 +1,5 @@
-class Tail {
+import { Main } from '../Main.js';
+export class Tail {
     constructor(tailArrPos) {
         this.prevPosition = {
             posX: 0,
