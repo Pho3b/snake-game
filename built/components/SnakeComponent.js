@@ -1,5 +1,5 @@
 import { Direction } from "./EnumeratorsComponent.js";
-import { Main } from "../Main.js";
+import { GameManager } from "../GameManager.js";
 export class SnakeComponent {
     /**
      * Switches over various browser keyboard keys and returns
@@ -15,22 +15,22 @@ export class SnakeComponent {
             case 'w':
             case 87:
             case 38:
-                return Main.snake.direction !== Direction.Down ? Direction.Up : Direction.Down;
+                return GameManager.snake.direction !== Direction.Down ? Direction.Up : Direction.Down;
             case 'ArrowRight':
             case 'd':
             case 68:
             case 39:
-                return Main.snake.direction !== Direction.Left ? Direction.Right : Direction.Left;
+                return GameManager.snake.direction !== Direction.Left ? Direction.Right : Direction.Left;
             case 'ArrowLeft':
             case 'a':
             case 65:
             case 37:
-                return Main.snake.direction !== Direction.Right ? Direction.Left : Direction.Right;
+                return GameManager.snake.direction !== Direction.Right ? Direction.Left : Direction.Right;
             case 'ArrowDown':
             case 's':
             case 83:
             case 40:
-                return Main.snake.direction !== Direction.Up ? Direction.Down : Direction.Up;
+                return GameManager.snake.direction !== Direction.Up ? Direction.Down : Direction.Up;
         }
     }
 }

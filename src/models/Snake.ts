@@ -1,5 +1,5 @@
 import {UtilsComponent} from "../components/UtilsComponent.js";
-import {Main} from '../Main.js';
+import {GameManager} from "../GameManager.js";
 import {Tail} from './Tail.js';
 import {Direction, SoundEffect} from "../components/EnumeratorsComponent.js";
 import {SnakePart} from "../abstract_classes/SnakePart.js";
@@ -22,25 +22,25 @@ export class Snake extends SnakePart {
     }
 
     public changeDirection(e) {
-        if (Main.game_starting > 2 && Main.can_press_key === true) {
-            Main.can_press_key = false;
+        if (GameManager.game_starting > 2 && GameManager.can_press_key === true) {
+            GameManager.can_press_key = false;
             let key: string | number = e.key || e.keyCode;
 
-            Main.snake.direction = SnakeComponent.checkDirectionFromKey(key);
+            GameManager.snake.direction = SnakeComponent.checkDirectionFromKey(key);
         }
     };
 
-    public draw() {
+    public update() {
         this.prevPosition.posX = this.posX;
         this.prevPosition.posY = this.posY;
         this.prevPosition.direction = this.direction;
 
         this.updatePositionFromDirection(this.direction);
-        this.drawRect();
+        this.draw();
     };
 
     die() {
-        Main.isGameRunning = false;
+        GameManager.isGameRunning = false;
         this.size = 10;
         this.posX = 0;
         this.posY = 0;
@@ -48,19 +48,19 @@ export class Snake extends SnakePart {
         this.haveTail = false;
         this.tailPosition = 0;
         // Updating records list
-        UtilsComponent.updateRecordsList(Main.current_points);
+        UtilsComponent.updateRecordsList(GameManager.current_points);
         // Resetto il punteggio
         UtilsComponent.updatePointsText();
         // Resetto la velocità
-        Main.FPS = 5;
+        GameManager.FPS = 5;
         // Reset della variabile che serve a far partire il gioco a 3 punti
-        Main.game_starting = 0;
+        GameManager.game_starting = 0;
         // Faccio scomparire temporaneamente il serpente
-        Main.context.fillStyle = "white";
-        Main.context.fillRect(this.posX, this.posY, this.size, this.size);
+        GameManager.context.fillStyle = "white";
+        GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
         UtilsComponent.hideTailPieces();
-        Main.tailPieces = [];
-        Main.food.disappear();
+        GameManager.tailPieces = [];
+        GameManager.food.disappear();
         UtilsComponent.gameOver();
     };
 
@@ -71,8 +71,8 @@ export class Snake extends SnakePart {
      * @return void
      */
     checkForBorders(): void {
-        if ((this.posX + (this.size / 2)) > Main.canvas.width ||
-            (this.posY + (this.size / 2)) > Main.canvas.height ||
+        if ((this.posX + (this.size / 2)) > GameManager.canvas.width ||
+            (this.posY + (this.size / 2)) > GameManager.canvas.height ||
             (this.posX + (this.size / 2)) < 0 ||
             (this.posY + (this.size / 2)) < 0)
         {
@@ -92,18 +92,18 @@ export class Snake extends SnakePart {
     foodCollisionDetection(foodPosX, foodPosY): void {
         if (this.posX === foodPosX && this.posY === foodPosY) {
             UtilsComponent.updatePointsText();
-            Main.food.randomSpawn();
+            GameManager.food.randomSpawn();
 
             if (this.haveTail === false) {
-                Main.tailPieces.push(new Tail(this.tailPosition));
+                GameManager.tailPieces.push(new Tail(this.tailPosition));
                 this.haveTail = true;
             } else {
-                Main.tailPieces.push(new Tail(this.tailPosition));
+                GameManager.tailPieces.push(new Tail(this.tailPosition));
             }
 
             this.tailPosition++;
 
-            if (Main.game_starting > 2) {
+            if (GameManager.game_starting > 2) {
                 this.soundComponent.playSoundEffect(SoundEffect.EatingSound);
             }
         }
@@ -116,8 +116,8 @@ export class Snake extends SnakePart {
      * @returns void
      */
     selfCollisionDetection(): void {
-        for (let i = 0; i < Main.tailPieces.length; i++) {
-            if (this.posX == Main.tailPieces[i]['posX'] && this.posY == Main.tailPieces[i]['posY']) {
+        for (let i = 0; i < GameManager.tailPieces.length; i++) {
+            if (this.posX == GameManager.tailPieces[i]['posX'] && this.posY == GameManager.tailPieces[i]['posY']) {
                 this.die();
             }
         }

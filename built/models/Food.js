@@ -1,4 +1,4 @@
-import { Main } from '../Main.js';
+import { GameManager } from "../GameManager.js";
 export class Food {
     constructor(size, posX, posY) {
         this.size = size;
@@ -6,13 +6,14 @@ export class Food {
         this.posY = posY;
     }
     /**
-     * Spawns the food piece in a random position on the grid
+     * Assign the posX and posY to random position values
+     * and then it calls the draw method.
      *
      * @returns void
      */
     randomSpawn() {
-        this.posX = Main.randomPos[Math.floor((Math.random() * Main.randomPos.length))];
-        this.posY = Main.randomPos[Math.floor((Math.random() * Main.randomPos.length))];
+        this.posX = this.generateRandomPosition();
+        this.posY = this.generateRandomPosition();
         this.draw();
     }
     ;
@@ -22,8 +23,8 @@ export class Food {
      * @returns void
      */
     draw() {
-        Main.context.fillStyle = "green";
-        Main.context.fillRect(this.posX, this.posY, this.size, this.size);
+        GameManager.context.fillStyle = "green";
+        GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
     }
     ;
     /**
@@ -32,7 +33,19 @@ export class Food {
      * @returns void
      */
     disappear() {
-        Main.context.fillStyle = "white";
-        Main.context.fillRect(this.posX, this.posY, this.size, this.size);
+        GameManager.context.fillStyle = "white";
+        GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
+    }
+    /**
+     * Generates a feasible position based on the unit
+     * size and the map size.
+     * Rounds up the value to the nearest integer and always returns
+     * a multiple of the 'unitSize'
+     *
+     * @returns number
+     */
+    generateRandomPosition() {
+        let canvasAvailableSize = GameManager.canvas.width - GameManager.unitSize;
+        return Math.round((Math.random() * canvasAvailableSize) / GameManager.unitSize) * GameManager.unitSize;
     }
 }

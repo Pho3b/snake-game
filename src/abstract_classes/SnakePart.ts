@@ -1,6 +1,6 @@
 import {IPosition} from "../interfaces/IPosition.js";
 import {Direction} from "../components/EnumeratorsComponent.js";
-import {Main} from "../Main.js";
+import {GameManager} from "../GameManager.js";
 
 export abstract class SnakePart {
     size: number;
@@ -18,12 +18,12 @@ export abstract class SnakePart {
      *
      * @returns void
      */
-    protected drawRect(): void {
-        Main.context.fillStyle = "black";
-        Main.context.fillRect(this.posX, this.posY, this.size, this.size);
-        Main.context.strokeStyle = "white";
-        Main.context.lineWidth = 0.5;
-        Main.context.strokeRect(this.posX, this.posY, this.size, this.size);
+    protected draw(): void {
+        GameManager.context.fillStyle = "black";
+        GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
+        GameManager.context.strokeStyle = "white";
+        GameManager.context.lineWidth = 0.5;
+        GameManager.context.strokeRect(this.posX, this.posY, this.size, this.size);
     }
 
     /**
@@ -49,6 +49,6 @@ export abstract class SnakePart {
         }
     }
 
-    public draw() {};
+    public update() {};
     public disappear() {};
 }

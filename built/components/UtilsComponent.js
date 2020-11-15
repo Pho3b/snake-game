@@ -1,58 +1,49 @@
-import { Main } from '../Main.js';
+import { GameManager } from "../GameManager.js";
 export class UtilsComponent {
     static backgroundRefresh() {
-        Main.context.fillStyle = "#FFFFFF";
-        Main.context.fillRect(0, 0, Main.canvas.width, Main.canvas.height);
-    }
-    static populateRandomPos(position_increment) {
-        let single = 0;
-        let randomPos = [];
-        while (single <= (Main.canvas.width - position_increment)) {
-            randomPos.push(single);
-            single += position_increment;
-        }
-        return randomPos;
+        GameManager.context.fillStyle = "#FFFFFF";
+        GameManager.context.fillRect(0, 0, GameManager.canvas.width, GameManager.canvas.height);
     }
     static updatePointsText() {
-        if (Main.isGameRunning) {
-            Main.current_points++;
-            if (Main.current_points < 3)
-                Main.displayPointsElement.innerHTML = "0";
+        if (GameManager.isGameRunning) {
+            GameManager.current_points++;
+            if (GameManager.current_points < 3)
+                GameManager.displayPointsElement.innerHTML = "0";
             else
-                Main.displayPointsElement.innerHTML = Main.current_points.toString();
+                GameManager.displayPointsElement.innerHTML = GameManager.current_points.toString();
         }
         else {
-            Main.current_points = 1;
-            Main.displayPointsElement.innerHTML = "0";
+            GameManager.current_points = 1;
+            GameManager.displayPointsElement.innerHTML = "0";
         }
-        Main.FPS += 0.2;
+        GameManager.FPS += 0.2;
     }
     static updateRecordsList(entry) {
-        for (let i = 0; i < Main.records.length; i++) {
-            if (entry === Main.records[i]) {
+        for (let i = 0; i < GameManager.records.length; i++) {
+            if (entry === GameManager.records[i]) {
                 break;
             }
-            else if (entry > Main.records[i]) {
-                Main.records[i] = entry;
-                Main.recordListElements[i].innerHTML = Main.records[i].toString();
+            else if (entry > GameManager.records[i]) {
+                GameManager.records[i] = entry;
+                GameManager.recordListElements[i].innerHTML = GameManager.records[i].toString();
                 break;
             }
         }
     }
     static hideTailPieces() {
-        for (let i = 0; i < Main.tailPieces.length; i++) {
-            Main.tailPieces[i].disappear();
+        for (let i = 0; i < GameManager.tailPieces.length; i++) {
+            GameManager.tailPieces[i].disappear();
         }
     }
     static gameOver() {
-        Main.context.font = "30px Comic Sans MS";
-        Main.context.strokeStyle = "black";
-        Main.context.textAlign = "center";
-        Main.context.strokeText("You Lost!", Main.canvas.width / 2, Main.canvas.height / 2);
+        GameManager.context.font = "30px Comic Sans MS";
+        GameManager.context.strokeStyle = "black";
+        GameManager.context.textAlign = "center";
+        GameManager.context.strokeText("You Lost!", GameManager.canvas.width / 2, GameManager.canvas.height / 2);
         //Restart the game after 2 seconds
         setTimeout(function () {
-            Main.isGameRunning = true;
-            Main.mainLoop();
+            GameManager.isGameRunning = true;
+            GameManager.mainLoop();
         }, 1800);
     }
 }

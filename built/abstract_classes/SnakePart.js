@@ -1,5 +1,5 @@
 import { Direction } from "../components/EnumeratorsComponent.js";
-import { Main } from "../Main.js";
+import { GameManager } from "../GameManager.js";
 export class SnakePart {
     constructor() {
         this.increment = 10;
@@ -14,12 +14,12 @@ export class SnakePart {
      *
      * @returns void
      */
-    drawRect() {
-        Main.context.fillStyle = "black";
-        Main.context.fillRect(this.posX, this.posY, this.size, this.size);
-        Main.context.strokeStyle = "white";
-        Main.context.lineWidth = 0.5;
-        Main.context.strokeRect(this.posX, this.posY, this.size, this.size);
+    draw() {
+        GameManager.context.fillStyle = "black";
+        GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
+        GameManager.context.strokeStyle = "white";
+        GameManager.context.lineWidth = 0.5;
+        GameManager.context.strokeRect(this.posX, this.posY, this.size, this.size);
     }
     /**
      * Updates the snake part position starting from
@@ -43,7 +43,7 @@ export class SnakePart {
                 break;
         }
     }
-    draw() { }
+    update() { }
     ;
     disappear() { }
     ;

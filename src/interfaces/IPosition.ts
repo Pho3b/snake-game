@@ -1,4 +1,4 @@
-import {Direction} from "../components/UtilsComponent.js";
+import {Direction} from "../components/EnumeratorsComponent.js";
 
 export interface IPosition {
     posX: number,
