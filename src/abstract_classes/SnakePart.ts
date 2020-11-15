@@ -1,5 +1,5 @@
 import {IPosition} from "../interfaces/IPosition.js";
-import {Direction} from "../components/UtilsComponent.js";
+import {Direction} from "../components/EnumeratorsComponent.js";
 import {Main} from "../Main.js";
 
 export abstract class SnakePart {

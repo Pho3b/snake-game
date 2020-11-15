@@ -1,14 +1,16 @@
 import {UtilsComponent} from "../components/UtilsComponent.js";
 import {Main} from '../Main.js';
 import {Tail} from './Tail.js';
-import {Direction} from "../components/UtilsComponent.js";
+import {Direction, SoundEffect} from "../components/EnumeratorsComponent.js";
 import {SnakePart} from "../abstract_classes/SnakePart.js";
 import {SnakeComponent} from "../components/SnakeComponent.js";
+import {SoundComponent} from "../components/SoundComponent.js";
 
 export class Snake extends SnakePart {
     direction: Direction = Direction.Right;
     haveTail: boolean = false;
     tailPosition: number = 0;
+    soundComponent: SoundComponent;
 
 
     constructor(size: number, posX: number, posY: number) {
@@ -16,6 +18,7 @@ export class Snake extends SnakePart {
         this.size = size;
         this.posX = posX;
         this.posY = posY;
+        this.soundComponent = SoundComponent.getInstance();
     }
 
     public changeDirection(e) {
@@ -101,7 +104,7 @@ export class Snake extends SnakePart {
             this.tailPosition++;
 
             if (Main.game_starting > 2) {
-                UtilsComponent.playEatingSound();
+                this.soundComponent.playSoundEffect(SoundEffect.EatingSound);
             }
         }
     };

@@ -1,5 +1,4 @@
 import {Main} from '../Main.js';
-import {Direction} from "../components/UtilsComponent.js";
 import {SnakePart} from "../abstract_classes/SnakePart.js";
 
 export class Tail extends SnakePart {

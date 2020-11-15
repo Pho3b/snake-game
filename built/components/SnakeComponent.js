@@ -1,4 +1,4 @@
-import { Direction } from "./UtilsComponent.js";
+import { Direction } from "./EnumeratorsComponent.js";
 import { Main } from "../Main.js";
 export class SnakeComponent {
     /**

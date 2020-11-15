@@ -7,6 +7,8 @@ export class Food {
     }
     /**
      * Spawns the food piece in a random position on the grid
+     *
+     * @returns void
      */
     randomSpawn() {
         this.posX = Main.randomPos[Math.floor((Math.random() * Main.randomPos.length))];
@@ -16,6 +18,8 @@ export class Food {
     ;
     /**
      * Draws the green food piece on the map.
+     *
+     * @returns void
      */
     draw() {
         Main.context.fillStyle = "green";
@@ -24,6 +28,8 @@ export class Food {
     ;
     /**
      * Makes the food piece disappear
+     *
+     * @returns void
      */
     disappear() {
         Main.context.fillStyle = "white";

@@ -1,35 +1,5 @@
 import { Main } from '../Main.js';
 export class UtilsComponent {
-    constructor() {
-    }
-    /**
-     * Singleton related method to retrieve a single
-     * instance of the HelperComponent.
-     *
-     * TODO: use it instead of using all of the static methods
-     */
-    getInstance() {
-        if (UtilsComponent.instance !== null) {
-            return new UtilsComponent();
-        }
-        else {
-            return UtilsComponent.instance;
-        }
-    }
-    /**
-     * Plays the eating sound
-     */
-    static playEatingSound() {
-        UtilsComponent.eatingSound.load();
-        let playPromise = UtilsComponent.eatingSound.play();
-        if (playPromise !== undefined) {
-            playPromise.then(function () {
-                UtilsComponent.eatingSound.volume = 0.2;
-            }).catch(function (error) {
-                console.log('Error while playing sound : ' + error);
-            });
-        }
-    }
     static backgroundRefresh() {
         Main.context.fillStyle = "#FFFFFF";
         Main.context.fillRect(0, 0, Main.canvas.width, Main.canvas.height);
@@ -86,13 +56,3 @@ export class UtilsComponent {
         }, 1800);
     }
 }
-UtilsComponent.eatingSound = new Audio("sounds/eat.mp3");
-UtilsComponent.instance = null;
-export var Direction;
-(function (Direction) {
-    Direction[Direction["Up"] = 0] = "Up";
-    Direction[Direction["Down"] = 1] = "Down";
-    Direction[Direction["Left"] = 2] = "Left";
-    Direction[Direction["Right"] = 3] = "Right";
-    Direction[Direction["Null"] = 4] = "Null";
-})(Direction || (Direction = {}));
