@@ -1,12 +1,4 @@
 import { Main } from '../Main.js';
-export var Direction;
-(function (Direction) {
-    Direction[Direction["Up"] = 0] = "Up";
-    Direction[Direction["Down"] = 1] = "Down";
-    Direction[Direction["Left"] = 2] = "Left";
-    Direction[Direction["Right"] = 3] = "Right";
-    Direction[Direction["Null"] = 4] = "Null";
-})(Direction || (Direction = {}));
 export class UtilsComponent {
     constructor() {
     }
@@ -96,3 +88,11 @@ export class UtilsComponent {
 }
 UtilsComponent.eatingSound = new Audio("sounds/eat.mp3");
 UtilsComponent.instance = null;
+export var Direction;
+(function (Direction) {
+    Direction[Direction["Up"] = 0] = "Up";
+    Direction[Direction["Down"] = 1] = "Down";
+    Direction[Direction["Left"] = 2] = "Left";
+    Direction[Direction["Right"] = 3] = "Right";
+    Direction[Direction["Null"] = 4] = "Null";
+})(Direction || (Direction = {}));

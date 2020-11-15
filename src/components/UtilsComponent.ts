@@ -1,13 +1,5 @@
 import {Main} from '../Main.js';
 
-export enum Direction {
-    Up,
-    Down,
-    Left,
-    Right,
-    Null
-}
-
 export class UtilsComponent {
     static eatingSound: HTMLAudioElement = new Audio("sounds/eat.mp3");
     static instance = null;
@@ -106,4 +98,12 @@ export class UtilsComponent {
             Main.mainLoop();
         }, 1800);
     }
+}
+
+export enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+    Null
 }
