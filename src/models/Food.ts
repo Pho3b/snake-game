@@ -1,14 +1,15 @@
 import {GameManager} from "../GameManager.js";
-import {UtilsComponent} from "../components/UtilsComponent.js";
+import {Unit} from "../abstract_classes/Unit.js";
 
-export class Food {
+export class Food extends Unit {
     size: number;
     posX: number;
     posY: number;
 
 
-    constructor(size: number, posX: number, posY: number) {
-        this.size = size;
+    constructor(posX: number, posY: number) {
+        super();
+        this.size = GameManager.unitSize;
         this.posX = posX;
         this.posY = posY;
     }
@@ -34,16 +35,6 @@ export class Food {
         GameManager.context.fillStyle = "green";
         GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
     };
-
-    /**
-     * Makes the food piece disappear
-     *
-     * @returns void
-     */
-    public disappear(): void {
-        GameManager.context.fillStyle = "white";
-        GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
-    }
 
     /**
      * Generates a feasible position based on the unit

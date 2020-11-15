@@ -1,9 +1,9 @@
 import { Direction } from "../components/EnumeratorsComponent.js";
 import { GameManager } from "../GameManager.js";
-export class SnakePart {
+import { Unit } from "./Unit.js";
+export class SnakeUnit extends Unit {
     constructor() {
-        this.size = GameManager.unitSize;
-        this.increment = GameManager.unitSize;
+        super(...arguments);
         this.prevPosition = {
             posX: 0,
             posY: 0,
@@ -11,7 +11,7 @@ export class SnakePart {
         };
     }
     /**
-     * Draws a single snake square part on the canvas.
+     * Draws the snake unit on the canvas.
      *
      * @returns void
      */
@@ -31,21 +31,19 @@ export class SnakePart {
     updatePositionFromDirection(direction) {
         switch (direction) {
             case Direction.Left:
-                this.posX -= this.increment;
+                this.posX -= this.size;
                 break;
             case Direction.Right:
-                this.posX += this.increment;
+                this.posX += this.size;
                 break;
             case Direction.Up:
-                this.posY -= this.increment;
+                this.posY -= this.size;
                 break;
             case Direction.Down:
-                this.posY += this.increment;
+                this.posY += this.size;
                 break;
         }
     }
     update() { }
-    ;
-    disappear() { }
     ;
 }

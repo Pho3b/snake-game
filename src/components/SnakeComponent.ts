@@ -11,7 +11,7 @@ export class SnakeComponent {
      * @param key
      * @returns Direction | null
      */
-    public static checkDirectionFromKey(key: string | number): Direction | null {
+     static checkDirectionFromKey(key: string | number): Direction | null {
         switch (key) {
             case 'ArrowUp':
             case 'w':
@@ -33,6 +33,17 @@ export class SnakeComponent {
             case 83:
             case 40:
                 return GameManager.snake.direction !== Direction.Up ? Direction.Down : Direction.Up;
+        }
+    }
+
+    /**
+     * Cycles over the snake tails pieces and hides them.
+     *
+     * @returns void
+     */
+    static hideTailPieces(): void {
+        for (let i = 0; i < GameManager.tailPieces.length; i++) {
+            GameManager.tailPieces[i].disappear();
         }
     }
 }

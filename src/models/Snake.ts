@@ -1,21 +1,21 @@
 import {UtilsComponent} from "../components/UtilsComponent.js";
 import {GameManager} from "../GameManager.js";
-import {Tail} from './Tail.js';
+import {TailUnit} from './TailUnit.js';
 import {Direction, SoundEffect} from "../components/EnumeratorsComponent.js";
-import {SnakePart} from "../abstract_classes/SnakePart.js";
+import {SnakeUnit} from "../abstract_classes/SnakeUnit.js";
 import {SnakeComponent} from "../components/SnakeComponent.js";
 import {SoundComponent} from "../components/SoundComponent.js";
 
-export class Snake extends SnakePart {
+export class Snake extends SnakeUnit {
     direction: Direction = Direction.Right;
     haveTail: boolean = false;
     tailPosition: number = 0;
     soundComponent: SoundComponent;
 
 
-    constructor(size: number, posX: number, posY: number) {
+    constructor(posX: number, posY: number) {
         super();
-        this.size = size;
+        this.size = GameManager.unitSize;
         this.posX = posX;
         this.posY = posY;
         this.soundComponent = SoundComponent.getInstance();
@@ -58,7 +58,7 @@ export class Snake extends SnakePart {
         // Faccio scomparire temporaneamente il serpente
         GameManager.context.fillStyle = "white";
         GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
-        UtilsComponent.hideTailPieces();
+        SnakeComponent.hideTailPieces();
         GameManager.tailPieces = [];
         GameManager.food.disappear();
         UtilsComponent.gameOver();
@@ -95,10 +95,10 @@ export class Snake extends SnakePart {
             GameManager.food.randomSpawn();
 
             if (this.haveTail === false) {
-                GameManager.tailPieces.push(new Tail(this.tailPosition));
+                GameManager.tailPieces.push(new TailUnit(this.tailPosition));
                 this.haveTail = true;
             } else {
-                GameManager.tailPieces.push(new Tail(this.tailPosition));
+                GameManager.tailPieces.push(new TailUnit(this.tailPosition));
             }
 
             this.tailPosition++;

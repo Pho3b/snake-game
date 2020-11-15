@@ -30,13 +30,8 @@ export class UtilsComponent {
             }
         }
     }
-    static hideTailPieces() {
-        for (let i = 0; i < GameManager.tailPieces.length; i++) {
-            GameManager.tailPieces[i].disappear();
-        }
-    }
     static gameOver() {
-        GameManager.context.font = "30px Comic Sans MS";
+        GameManager.context.font = "30px Consolas";
         GameManager.context.strokeStyle = "black";
         GameManager.context.textAlign = "center";
         GameManager.context.strokeText("You Lost!", GameManager.canvas.width / 2, GameManager.canvas.height / 2);

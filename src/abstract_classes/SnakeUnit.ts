@@ -1,12 +1,9 @@
 import {IPosition} from "../interfaces/IPosition.js";
 import {Direction} from "../components/EnumeratorsComponent.js";
 import {GameManager} from "../GameManager.js";
+import {Unit} from "./Unit.js";
 
-export abstract class SnakePart {
-    size: number;
-    increment: number = 10;
-    posX: number;
-    posY: number;
+export abstract class SnakeUnit extends Unit{
     prevPosition: IPosition = {
         posX: 0,
         posY: 0,
@@ -14,7 +11,7 @@ export abstract class SnakePart {
     };
 
     /**
-     * Draws a single snake square part on the canvas.
+     * Draws the snake unit on the canvas.
      *
      * @returns void
      */
@@ -35,20 +32,19 @@ export abstract class SnakePart {
     protected updatePositionFromDirection(direction: Direction): void {
         switch (direction) {
             case Direction.Left:
-                this.posX -= this.increment;
+                this.posX -= this.size;
                 break;
             case Direction.Right:
-                this.posX += this.increment;
+                this.posX += this.size;
                 break;
             case Direction.Up:
-                this.posY -= this.increment;
+                this.posY -= this.size;
                 break;
             case Direction.Down:
-                this.posY += this.increment;
+                this.posY += this.size;
                 break;
         }
     }
 
     public update() {};
-    public disappear() {};
 }

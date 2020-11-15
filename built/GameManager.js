@@ -3,8 +3,8 @@ import { Snake } from './models/Snake.js';
 import { Food } from './models/Food.js';
 export class GameManager {
     constructor() {
-        GameManager.snake = new Snake(GameManager.unitSize, 0, 0);
-        GameManager.food = new Food(GameManager.unitSize, 0, 0);
+        GameManager.snake = new Snake(0, 0);
+        GameManager.food = new Food(0, 0);
         document.addEventListener("keydown", GameManager.snake.changeDirection);
         setTimeout(GameManager.mainLoop, 1000 / GameManager.FPS);
     }
@@ -19,7 +19,7 @@ export class GameManager {
             // Starting the game with 3 points as the original game did.
             if (GameManager.game_starting <= 2) {
                 if (GameManager.game_starting < 2) {
-                    GameManager.food.posX = (GameManager.snake.posX + GameManager.snake.increment);
+                    GameManager.food.posX = (GameManager.snake.posX + GameManager.unitSize);
                     GameManager.food.posY = GameManager.snake.posY;
                 }
                 GameManager.game_starting++;

@@ -1,17 +1,17 @@
 import { UtilsComponent } from "../components/UtilsComponent.js";
 import { GameManager } from "../GameManager.js";
-import { Tail } from './Tail.js';
+import { TailUnit } from './TailUnit.js';
 import { Direction, SoundEffect } from "../components/EnumeratorsComponent.js";
-import { SnakePart } from "../abstract_classes/SnakePart.js";
+import { SnakeUnit } from "../abstract_classes/SnakeUnit.js";
 import { SnakeComponent } from "../components/SnakeComponent.js";
 import { SoundComponent } from "../components/SoundComponent.js";
-export class Snake extends SnakePart {
-    constructor(size, posX, posY) {
+export class Snake extends SnakeUnit {
+    constructor(posX, posY) {
         super();
         this.direction = Direction.Right;
         this.haveTail = false;
         this.tailPosition = 0;
-        this.size = size;
+        this.size = GameManager.unitSize;
         this.posX = posX;
         this.posY = posY;
         this.soundComponent = SoundComponent.getInstance();
@@ -51,7 +51,7 @@ export class Snake extends SnakePart {
         // Faccio scomparire temporaneamente il serpente
         GameManager.context.fillStyle = "white";
         GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
-        UtilsComponent.hideTailPieces();
+        SnakeComponent.hideTailPieces();
         GameManager.tailPieces = [];
         GameManager.food.disappear();
         UtilsComponent.gameOver();
@@ -85,11 +85,11 @@ export class Snake extends SnakePart {
             UtilsComponent.updatePointsText();
             GameManager.food.randomSpawn();
             if (this.haveTail === false) {
-                GameManager.tailPieces.push(new Tail(this.tailPosition));
+                GameManager.tailPieces.push(new TailUnit(this.tailPosition));
                 this.haveTail = true;
             }
             else {
-                GameManager.tailPieces.push(new Tail(this.tailPosition));
+                GameManager.tailPieces.push(new TailUnit(this.tailPosition));
             }
             this.tailPosition++;
             if (GameManager.game_starting > 2) {

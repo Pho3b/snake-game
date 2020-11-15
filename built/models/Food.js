@@ -1,7 +1,9 @@
 import { GameManager } from "../GameManager.js";
-export class Food {
-    constructor(size, posX, posY) {
-        this.size = size;
+import { Unit } from "../abstract_classes/Unit.js";
+export class Food extends Unit {
+    constructor(posX, posY) {
+        super();
+        this.size = GameManager.unitSize;
         this.posX = posX;
         this.posY = posY;
     }
@@ -27,15 +29,6 @@ export class Food {
         GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
     }
     ;
-    /**
-     * Makes the food piece disappear
-     *
-     * @returns void
-     */
-    disappear() {
-        GameManager.context.fillStyle = "white";
-        GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
-    }
     /**
      * Generates a feasible position based on the unit
      * size and the map size.
