@@ -1,5 +1,5 @@
-import { Direction } from "../HelperComponent.js";
-class SnakePart {
+import { Direction } from "../components/HelperComponent.js";
+export class SnakePart {
     constructor() {
         this.increment = 10;
         this.prevPosition = {
@@ -8,4 +8,8 @@ class SnakePart {
             direction: Direction.Still
         };
     }
+    draw() { }
+    ;
+    disappear() { }
+    ;
 }

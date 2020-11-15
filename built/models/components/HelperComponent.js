@@ -1,4 +1,4 @@
-import { Main } from './Main.js';
+import { Main } from '../../Main.js';
 export var Direction;
 (function (Direction) {
     Direction[Direction["Up"] = 0] = "Up";

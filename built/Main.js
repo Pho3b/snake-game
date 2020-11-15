@@ -1,17 +1,17 @@
-import { HelperComponent } from './HelperComponent.js';
+import { UtilsComponent } from "./components/UtilsComponent.js";
 import { Snake } from './models/Snake.js';
 import { Food } from './models/Food.js';
 export class Main {
     constructor() {
-        Main.randomPos = HelperComponent.populateRandomPos(10);
+        Main.randomPos = UtilsComponent.populateRandomPos(10);
         Main.snake = new Snake(10, 0, 0);
         Main.food = new Food(10, 0, 0);
-        window.addEventListener("keydown", Main.snake.changeDirection);
+        document.addEventListener("keydown", Main.snake.changeDirection);
         setTimeout(Main.mainLoop, 1000 / Main.FPS);
     }
     static mainLoop() {
         if (Main.isGameRunning) {
-            HelperComponent.backgroundRefresh();
+            UtilsComponent.backgroundRefresh();
             //Tail pieces update
             for (let i = 0; i < Main.tailPieces.length; i++) {
                 Main.tailPieces[i].draw();

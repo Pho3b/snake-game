@@ -1,21 +1,13 @@
 import {Main} from '../Main.js';
-import {Direction} from "../HelperComponent.js";
-import {IPosition} from "./interfaces/IPosition.js";
+import {Direction} from "../components/UtilsComponent.js";
+import {SnakePart} from "../abstract_classes/SnakePart.js";
 
-export class Tail {
-    size: number;
-    increment: number;
+export class Tail extends SnakePart{
     tailArrPos: number;
-    prevPosition: IPosition = {
-        posX: 0,
-        posY: 0,
-        direction: Direction.Still
-    };
-    posX: number;
-    posY: number;
-    direction: Direction;
+
 
     constructor(tailArrPos: number) {
+        super();
         this.tailArrPos = tailArrPos;
         this.size = Main.snake.size;
         this.increment = Main.snake.increment;
@@ -24,19 +16,39 @@ export class Tail {
     public draw() {
         this.prevPosition.posX = this.posX;
         this.prevPosition.posY = this.posY;
-        this.prevPosition.direction = this.direction;
 
         if (this.tailArrPos === 0) {
             this.posX = Main.snake.prevPosition['posX'];
             this.posY = Main.snake.prevPosition['posY'];
-            this.direction = Main.snake.prevPosition['direction'];
+            this.followSnakesHeadDirection();
         } else {
             this.posX = Main.tailPieces[this.tailArrPos - 1].prevPosition['posX'];
             this.posY = Main.tailPieces[this.tailArrPos - 1].prevPosition['posY'];
-            this.direction = Main.tailPieces[this.tailArrPos - 1].prevPosition['posY'];
         }
 
-        switch (this.direction) {
+        this.drawRect();
+    };
+
+    public disappear() {
+        Main.context.fillStyle = "white";
+        Main.context.fillRect(this.posX, this.posY, this.size, this.size);
+    };
+
+    public foodCollisionDetection() {
+        if (this.posX === Main.food.posX && this.posY === Main.food.posY) {
+            Main.food.randomSpawn();
+        }
+    };
+
+    /**
+     * Launched only for the first tail piece.
+     * Makes it follow the snakes head direction in order to correctly visualize the animation.
+     *
+     * @returns void
+     */
+    private followSnakesHeadDirection(): void
+    {
+        switch (Main.snake.prevPosition['direction']) {
             case Direction.Left:
                 this.posX -= this.increment;
                 break;
@@ -50,22 +62,5 @@ export class Tail {
                 this.posY += this.increment;
                 break;
         }
-
-        Main.context.fillStyle = "black";
-        Main.context.fillRect(this.posX, this.posY, this.size, this.size);
-        Main.context.strokeStyle = "white";
-        Main.context.lineWidth = 0.5;
-        Main.context.strokeRect(this.posX, this.posY, this.size, this.size);
-    };
-
-    public disappear() {
-        Main.context.fillStyle = "white";
-        Main.context.fillRect(this.posX, this.posY, this.size, this.size);
-    };
-
-    public foodCollisionDetection() {
-        if (this.posX === Main.food.posX && this.posY === Main.food.posY) {
-            Main.food.randomSpawn();
-        }
-    };
+    }
 }

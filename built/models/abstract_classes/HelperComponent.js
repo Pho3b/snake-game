@@ -1,55 +1,47 @@
-import {Main} from './Main.js';
-
-export enum Direction {
-    Up,
-    Down,
-    Left,
-    Right,
-    Still
-}
-
+import { Main } from '../../Main.js';
+export var Direction;
+(function (Direction) {
+    Direction[Direction["Up"] = 0] = "Up";
+    Direction[Direction["Down"] = 1] = "Down";
+    Direction[Direction["Left"] = 2] = "Left";
+    Direction[Direction["Right"] = 3] = "Right";
+    Direction[Direction["Still"] = 4] = "Still";
+})(Direction || (Direction = {}));
 export class HelperComponent {
-    static eatingSound: HTMLAudioElement = new Audio("sounds/eat.mp3");
-    static instance = null;
-
-
-    private constructor() {
+    constructor() {
     }
-
     /**
      * Singleton related method to retrieve a single
      * instance of the HelperComponent.
      *
      * TODO: use it instead of using all of the static methods
      */
-    public getInstance(): HelperComponent {
+    getInstance() {
         if (HelperComponent.instance !== null) {
             return new HelperComponent();
-        } else {
+        }
+        else {
             return HelperComponent.instance;
         }
     }
-
     /**
      * Plays the eating sound
      */
-    static playEatingSound(): void {
-        let playPromise: Promise<HTMLAudioElement> = HelperComponent.eatingSound.play().then();
-
+    static playEatingSound() {
+        HelperComponent.eatingSound.load();
+        let playPromise = HelperComponent.eatingSound.play();
         if (playPromise !== undefined) {
-            playPromise.then(function() {
+            playPromise.then(function () {
                 HelperComponent.eatingSound.volume = 0.2;
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console.log('Error while playing sound : ' + error);
             });
         }
     }
-
     static backgroundRefresh() {
         Main.context.fillStyle = "#FFFFFF";
         Main.context.fillRect(0, 0, Main.canvas.width, Main.canvas.height);
     }
-
     static populateRandomPos(position_increment) {
         let single = 0;
         let randomPos = [];
@@ -59,7 +51,6 @@ export class HelperComponent {
         }
         return randomPos;
     }
-
     static updatePointsText() {
         if (Main.isGameRunning) {
             Main.current_points++;
@@ -74,7 +65,6 @@ export class HelperComponent {
         }
         Main.FPS += 0.2;
     }
-
     static updateRecordsList(entry) {
         for (let i = 0; i < Main.records.length; i++) {
             if (entry === Main.records[i]) {
@@ -87,13 +77,11 @@ export class HelperComponent {
             }
         }
     }
-
     static hideTailPieces() {
         for (let i = 0; i < Main.tailPieces.length; i++) {
             Main.tailPieces[i].disappear();
         }
     }
-
     static gameOver() {
         Main.context.font = "30px Comic Sans MS";
         Main.context.strokeStyle = "black";
@@ -106,3 +94,5 @@ export class HelperComponent {
         }, 1800);
     }
 }
+HelperComponent.eatingSound = new Audio("sounds/eat.mp3");
+HelperComponent.instance = null;

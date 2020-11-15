@@ -1,16 +1,13 @@
-import { HelperComponent } from '../HelperComponent.js';
+import { UtilsComponent } from "../components/UtilsComponent.js";
 import { Main } from '../Main.js';
 import { Tail } from './Tail.js';
-import { Direction } from "../HelperComponent.js";
-export class Snake {
+import { Direction } from "../components/UtilsComponent.js";
+import { SnakePart } from "../abstract_classes/SnakePart.js";
+import { SnakeComponent } from "../components/SnakeComponent.js";
+export class Snake extends SnakePart {
     constructor(size, posX, posY) {
+        super();
         this.direction = Direction.Right;
-        this.increment = 10;
-        this.prevPosition = {
-            posX: 0,
-            posY: 0,
-            direction: Direction.Still
-        };
         this.haveTail = false;
         this.tailPosition = 0;
         this.size = size;
@@ -20,49 +17,8 @@ export class Snake {
     changeDirection(e) {
         if (Main.game_starting > 2 && Main.can_press_key === true) {
             Main.can_press_key = false;
-            let currentKeyCode = e.keyCode;
-            switch (currentKeyCode) {
-                case 87:
-                    if (Main.snake.direction !== Direction.Right) {
-                        Main.snake.direction = Direction.Up;
-                    }
-                    break;
-                case 38:
-                    if (Main.snake.direction !== Direction.Down) {
-                        Main.snake.direction = Direction.Up;
-                    }
-                    break;
-                case 68:
-                    if (Main.snake.direction !== Direction.Left) {
-                        Main.snake.direction = Direction.Right;
-                    }
-                    break;
-                case 39:
-                    if (Main.snake.direction !== Direction.Left) {
-                        Main.snake.direction = Direction.Right;
-                    }
-                    break;
-                case 65:
-                    if (Main.snake.direction !== Direction.Right) {
-                        Main.snake.direction = Direction.Left;
-                    }
-                    break;
-                case 37:
-                    if (Main.snake.direction !== Direction.Right) {
-                        Main.snake.direction = Direction.Left;
-                    }
-                    break;
-                case 83:
-                    if (Main.snake.direction !== Direction.Up) {
-                        Main.snake.direction = Direction.Down;
-                    }
-                    break;
-                case 40:
-                    if (Main.snake.direction !== Direction.Up) {
-                        Main.snake.direction = Direction.Down;
-                    }
-                    break;
-            }
+            let key = e.key || e.keyCode;
+            Main.snake.direction = SnakeComponent.checkForDirectionFromKey(key);
         }
     }
     ;
@@ -84,12 +40,7 @@ export class Snake {
                 this.posY += this.increment;
                 break;
         }
-        //Drawing the rect
-        Main.context.fillStyle = "black";
-        Main.context.fillRect(this.posX, this.posY, this.size, this.size);
-        Main.context.strokeStyle = "white";
-        Main.context.lineWidth = 0.5;
-        Main.context.strokeRect(this.posX, this.posY, this.size, this.size);
+        this.drawRect();
     }
     ;
     die() {
@@ -101,9 +52,9 @@ export class Snake {
         this.haveTail = false;
         this.tailPosition = 0;
         // Updating records list
-        HelperComponent.updateRecordsList(Main.current_points);
+        UtilsComponent.updateRecordsList(Main.current_points);
         // Resetto il punteggio
-        HelperComponent.updatePointsText();
+        UtilsComponent.updatePointsText();
         // Resetto la velocità
         Main.FPS = 5;
         // Reset della variabile che serve a far partire il gioco a 3 punti
@@ -111,10 +62,10 @@ export class Snake {
         // Faccio scomparire temporaneamente il serpente
         Main.context.fillStyle = "white";
         Main.context.fillRect(this.posX, this.posY, this.size, this.size);
-        HelperComponent.hideTailPieces();
+        UtilsComponent.hideTailPieces();
         Main.tailPieces = [];
         Main.food.disappear();
-        HelperComponent.gameOver();
+        UtilsComponent.gameOver();
     }
     ;
     /**
@@ -140,7 +91,7 @@ export class Snake {
      */
     foodCollisionDetection(foodPosX, foodPosY) {
         if (this.posX === foodPosX && this.posY === foodPosY) {
-            HelperComponent.updatePointsText();
+            UtilsComponent.updatePointsText();
             Main.food.randomSpawn();
             if (this.haveTail === false) {
                 Main.tailPieces.push(new Tail(this.tailPosition));
@@ -151,7 +102,7 @@ export class Snake {
             }
             this.tailPosition++;
             if (Main.game_starting > 2) {
-                HelperComponent.playEatingSound();
+                UtilsComponent.playEatingSound();
             }
         }
     }

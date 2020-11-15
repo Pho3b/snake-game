@@ -1,47 +1,56 @@
-import { Main } from './Main.js';
-export var Direction;
-(function (Direction) {
-    Direction[Direction["Up"] = 0] = "Up";
-    Direction[Direction["Down"] = 1] = "Down";
-    Direction[Direction["Left"] = 2] = "Left";
-    Direction[Direction["Right"] = 3] = "Right";
-    Direction[Direction["Still"] = 4] = "Still";
-})(Direction || (Direction = {}));
-export class HelperComponent {
-    constructor() {
+import {Main} from '../Main.js';
+
+export enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+    Null
+}
+
+export class UtilsComponent {
+    static eatingSound: HTMLAudioElement = new Audio("sounds/eat.mp3");
+    static instance = null;
+
+
+    private constructor() {
     }
+
     /**
      * Singleton related method to retrieve a single
      * instance of the HelperComponent.
      *
      * TODO: use it instead of using all of the static methods
      */
-    getInstance() {
-        if (HelperComponent.instance !== null) {
-            return new HelperComponent();
-        }
-        else {
-            return HelperComponent.instance;
+    public getInstance(): UtilsComponent {
+        if (UtilsComponent.instance !== null) {
+            return new UtilsComponent();
+        } else {
+            return UtilsComponent.instance;
         }
     }
+
     /**
      * Plays the eating sound
      */
-    static playEatingSound() {
-        HelperComponent.eatingSound.load();
-        let playPromise = HelperComponent.eatingSound.play();
+    static playEatingSound(): void {
+        UtilsComponent.eatingSound.load();
+        let playPromise: Promise<void> = UtilsComponent.eatingSound.play();
+
         if (playPromise !== undefined) {
-            playPromise.then(function () {
-                HelperComponent.eatingSound.volume = 0.2;
-            }).catch(function (error) {
+            playPromise.then(function() {
+                UtilsComponent.eatingSound.volume = 0.2;
+            }).catch(function(error) {
                 console.log('Error while playing sound : ' + error);
             });
         }
     }
+
     static backgroundRefresh() {
         Main.context.fillStyle = "#FFFFFF";
         Main.context.fillRect(0, 0, Main.canvas.width, Main.canvas.height);
     }
+
     static populateRandomPos(position_increment) {
         let single = 0;
         let randomPos = [];
@@ -51,6 +60,7 @@ export class HelperComponent {
         }
         return randomPos;
     }
+
     static updatePointsText() {
         if (Main.isGameRunning) {
             Main.current_points++;
@@ -65,6 +75,7 @@ export class HelperComponent {
         }
         Main.FPS += 0.2;
     }
+
     static updateRecordsList(entry) {
         for (let i = 0; i < Main.records.length; i++) {
             if (entry === Main.records[i]) {
@@ -77,11 +88,13 @@ export class HelperComponent {
             }
         }
     }
+
     static hideTailPieces() {
         for (let i = 0; i < Main.tailPieces.length; i++) {
             Main.tailPieces[i].disappear();
         }
     }
+
     static gameOver() {
         Main.context.font = "30px Comic Sans MS";
         Main.context.strokeStyle = "black";
@@ -94,5 +107,3 @@ export class HelperComponent {
         }, 1800);
     }
 }
-HelperComponent.eatingSound = new Audio("sounds/eat.mp3");
-HelperComponent.instance = null;

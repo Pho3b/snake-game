@@ -1,4 +1,4 @@
-import {Direction} from "../../HelperComponent.js";
+import {Direction} from "../components/UtilsComponent.js";
 
 export interface IPosition {
     posX: number,

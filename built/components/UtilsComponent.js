@@ -1,13 +1,13 @@
-import { Main } from './Main.js';
+import { Main } from '../Main.js';
 export var Direction;
 (function (Direction) {
     Direction[Direction["Up"] = 0] = "Up";
     Direction[Direction["Down"] = 1] = "Down";
     Direction[Direction["Left"] = 2] = "Left";
     Direction[Direction["Right"] = 3] = "Right";
-    Direction[Direction["Still"] = 4] = "Still";
+    Direction[Direction["Null"] = 4] = "Null";
 })(Direction || (Direction = {}));
-export class HelperComponent {
+export class UtilsComponent {
     constructor() {
     }
     /**
@@ -17,22 +17,22 @@ export class HelperComponent {
      * TODO: use it instead of using all of the static methods
      */
     getInstance() {
-        if (HelperComponent.instance !== null) {
-            return new HelperComponent();
+        if (UtilsComponent.instance !== null) {
+            return new UtilsComponent();
         }
         else {
-            return HelperComponent.instance;
+            return UtilsComponent.instance;
         }
     }
     /**
      * Plays the eating sound
      */
     static playEatingSound() {
-        HelperComponent.eatingSound.load();
-        let playPromise = HelperComponent.eatingSound.play();
+        UtilsComponent.eatingSound.load();
+        let playPromise = UtilsComponent.eatingSound.play();
         if (playPromise !== undefined) {
             playPromise.then(function () {
-                HelperComponent.eatingSound.volume = 0.2;
+                UtilsComponent.eatingSound.volume = 0.2;
             }).catch(function (error) {
                 console.log('Error while playing sound : ' + error);
             });
@@ -94,5 +94,5 @@ export class HelperComponent {
         }, 1800);
     }
 }
-HelperComponent.eatingSound = new Audio("sounds/eat.mp3");
-HelperComponent.instance = null;
+UtilsComponent.eatingSound = new Audio("sounds/eat.mp3");
+UtilsComponent.instance = null;

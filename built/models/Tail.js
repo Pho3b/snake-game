@@ -1,12 +1,9 @@
 import { Main } from '../Main.js';
-import { Direction } from "../HelperComponent.js";
-export class Tail {
+import { Direction } from "../components/UtilsComponent.js";
+import { SnakePart } from "../abstract_classes/SnakePart.js";
+export class Tail extends SnakePart {
     constructor(tailArrPos) {
-        this.prevPosition = {
-            posX: 0,
-            posY: 0,
-            direction: Direction.Still
-        };
+        super();
         this.tailArrPos = tailArrPos;
         this.size = Main.snake.size;
         this.increment = Main.snake.increment;
@@ -14,36 +11,16 @@ export class Tail {
     draw() {
         this.prevPosition.posX = this.posX;
         this.prevPosition.posY = this.posY;
-        this.prevPosition.direction = this.direction;
         if (this.tailArrPos === 0) {
             this.posX = Main.snake.prevPosition['posX'];
             this.posY = Main.snake.prevPosition['posY'];
-            this.direction = Main.snake.prevPosition['direction'];
+            this.followSnakesHeadDirection();
         }
         else {
             this.posX = Main.tailPieces[this.tailArrPos - 1].prevPosition['posX'];
             this.posY = Main.tailPieces[this.tailArrPos - 1].prevPosition['posY'];
-            this.direction = Main.tailPieces[this.tailArrPos - 1].prevPosition['posY'];
         }
-        switch (this.direction) {
-            case Direction.Left:
-                this.posX -= this.increment;
-                break;
-            case Direction.Right:
-                this.posX += this.increment;
-                break;
-            case Direction.Up:
-                this.posY -= this.increment;
-                break;
-            case Direction.Down:
-                this.posY += this.increment;
-                break;
-        }
-        Main.context.fillStyle = "black";
-        Main.context.fillRect(this.posX, this.posY, this.size, this.size);
-        Main.context.strokeStyle = "white";
-        Main.context.lineWidth = 0.5;
-        Main.context.strokeRect(this.posX, this.posY, this.size, this.size);
+        this.drawRect();
     }
     ;
     disappear() {
@@ -57,4 +34,26 @@ export class Tail {
         }
     }
     ;
+    /**
+     * Launched only for the first tail piece.
+     * Makes it follow the snakes head direction in order to correctly visualize the animation.
+     *
+     * @returns void
+     */
+    followSnakesHeadDirection() {
+        switch (Main.snake.prevPosition['direction']) {
+            case Direction.Left:
+                this.posX -= this.increment;
+                break;
+            case Direction.Right:
+                this.posX += this.increment;
+                break;
+            case Direction.Up:
+                this.posY -= this.increment;
+                break;
+            case Direction.Down:
+                this.posY += this.increment;
+                break;
+        }
+    }
 }
