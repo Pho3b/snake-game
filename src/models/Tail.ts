@@ -2,7 +2,7 @@ import {Main} from '../Main.js';
 import {Direction} from "../components/UtilsComponent.js";
 import {SnakePart} from "../abstract_classes/SnakePart.js";
 
-export class Tail extends SnakePart{
+export class Tail extends SnakePart {
     tailArrPos: number;
 
 
@@ -20,7 +20,9 @@ export class Tail extends SnakePart{
         if (this.tailArrPos === 0) {
             this.posX = Main.snake.prevPosition['posX'];
             this.posY = Main.snake.prevPosition['posY'];
-            this.followSnakesHeadDirection();
+
+            // Makes the first tail piece to correctly follow the snakes head direction
+            this.updatePositionFromDirection(Main.snake.prevPosition['direction']);
         } else {
             this.posX = Main.tailPieces[this.tailArrPos - 1].prevPosition['posX'];
             this.posY = Main.tailPieces[this.tailArrPos - 1].prevPosition['posY'];
@@ -39,28 +41,4 @@ export class Tail extends SnakePart{
             Main.food.randomSpawn();
         }
     };
-
-    /**
-     * Launched only for the first tail piece.
-     * Makes it follow the snakes head direction in order to correctly visualize the animation.
-     *
-     * @returns void
-     */
-    private followSnakesHeadDirection(): void
-    {
-        switch (Main.snake.prevPosition['direction']) {
-            case Direction.Left:
-                this.posX -= this.increment;
-                break;
-            case Direction.Right:
-                this.posX += this.increment;
-                break;
-            case Direction.Up:
-                this.posY -= this.increment;
-                break;
-            case Direction.Down:
-                this.posY += this.increment;
-                break;
-        }
-    }
 }

@@ -57,7 +57,6 @@ export class Main {
             setTimeout(Main.mainLoop, 1000 / Main.FPS);
         }
     }
-
 }
 
-let main = new Main();
+new Main();

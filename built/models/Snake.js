@@ -18,7 +18,7 @@ export class Snake extends SnakePart {
         if (Main.game_starting > 2 && Main.can_press_key === true) {
             Main.can_press_key = false;
             let key = e.key || e.keyCode;
-            Main.snake.direction = SnakeComponent.checkForDirectionFromKey(key);
+            Main.snake.direction = SnakeComponent.checkDirectionFromKey(key);
         }
     }
     ;
@@ -26,20 +26,7 @@ export class Snake extends SnakePart {
         this.prevPosition.posX = this.posX;
         this.prevPosition.posY = this.posY;
         this.prevPosition.direction = this.direction;
-        switch (this.direction) {
-            case Direction.Left:
-                this.posX -= this.increment;
-                break;
-            case Direction.Right:
-                this.posX += this.increment;
-                break;
-            case Direction.Up:
-                this.posY -= this.increment;
-                break;
-            case Direction.Down:
-                this.posY += this.increment;
-                break;
-        }
+        this.updatePositionFromDirection(this.direction);
         this.drawRect();
     }
     ;
@@ -70,6 +57,8 @@ export class Snake extends SnakePart {
     ;
     /**
      * Checks whether the snake is colliding with the map borders or no.
+     * In case it is colliding it calls the die method.
+     *
      * @return void
      */
     checkForBorders() {
@@ -107,6 +96,12 @@ export class Snake extends SnakePart {
         }
     }
     ;
+    /**
+     * Checks whether the snake is colliding with the map borders or no.
+     * In case it is colliding it calls the die method.
+     *
+     * @returns void
+     */
     selfCollisionDetection() {
         for (let i = 0; i < Main.tailPieces.length; i++) {
             if (this.posX == Main.tailPieces[i]['posX'] && this.posY == Main.tailPieces[i]['posY']) {

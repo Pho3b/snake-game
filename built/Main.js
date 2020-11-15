@@ -46,4 +46,4 @@ Main.records = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 Main.displayPointsElement = document.getElementById('points');
 Main.recordListElements = document.getElementsByClassName('record_list_element');
 Main.FPS = 6;
-let main = new Main();
+new Main();
