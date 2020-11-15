@@ -7,11 +7,10 @@ export class Food extends Unit {
     posY: number;
 
 
-    constructor(posX: number, posY: number) {
+    constructor() {
         super();
         this.size = GameManager.unitSize;
-        this.posX = posX;
-        this.posY = posY;
+        this.randomSpawn();
     }
 
     /**

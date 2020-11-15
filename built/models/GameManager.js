@@ -40,7 +40,7 @@ export class GameManager {
 GameManager.canvas = document.getElementById("snakeCanvas");
 GameManager.context = Main.canvas.getContext("2d");
 GameManager.current_points = 1;
-GameManager.tailPieces = [];
+GameManager.tailUnits = [];
 GameManager.isGameRunning = true;
 GameManager.game_starting = 0;
 GameManager.can_press_key = true;

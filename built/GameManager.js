@@ -1,48 +1,49 @@
 import { UtilsComponent } from "./components/UtilsComponent.js";
 import { Snake } from './models/Snake.js';
+import { TailUnit } from './models/TailUnit.js';
 import { Food } from './models/Food.js';
 export class GameManager {
     constructor() {
         GameManager.snake = new Snake(0, 0);
-        GameManager.food = new Food(0, 0);
+        GameManager.food = new Food();
         document.addEventListener("keydown", GameManager.snake.changeDirection);
-        setTimeout(GameManager.mainLoop, 1000 / GameManager.FPS);
+        GameManager.start();
+    }
+    static start() {
+        GameManager.gameSetup();
+        GameManager.mainLoop();
     }
     static mainLoop() {
         if (GameManager.isGameRunning) {
             UtilsComponent.backgroundRefresh();
-            //Tail pieces update
-            for (let i = 0; i < GameManager.tailPieces.length; i++) {
-                GameManager.tailPieces[i].update();
-                GameManager.tailPieces[i].foodCollisionDetection();
-            }
-            // Starting the game with 3 points as the original game did.
-            if (GameManager.game_starting <= 2) {
-                if (GameManager.game_starting < 2) {
-                    GameManager.food.posX = (GameManager.snake.posX + GameManager.unitSize);
-                    GameManager.food.posY = GameManager.snake.posY;
-                }
-                GameManager.game_starting++;
-            }
+            TailUnit.updateAllUnits();
             GameManager.food.draw();
             GameManager.snake.update();
-            GameManager.snake.checkForBorders();
-            GameManager.snake.selfCollisionDetection();
-            GameManager.snake.foodCollisionDetection(GameManager.food.posX, GameManager.food.posY);
-            GameManager.can_press_key = true;
             setTimeout(GameManager.mainLoop, 1000 / GameManager.FPS);
         }
     }
-    static gameSetup() {
+    static gameSetup(tailStartingLength = 2) {
+        GameManager.isGameRunning = true;
+        for (let i = 0; i < tailStartingLength; i++) {
+            TailUnit.tailUnits.push(new TailUnit(i));
+            GameManager.snake.update();
+        }
+    }
+    static gameOver() {
+        GameManager.context.font = "30px Consolas";
+        GameManager.context.strokeStyle = "black";
+        GameManager.context.textAlign = "center";
+        GameManager.context.strokeText("You Lost!", GameManager.canvas.width / 2, GameManager.canvas.height / 2);
+        //Restart the game after 2 seconds
+        setTimeout(function () {
+            GameManager.start();
+        }, 1800);
     }
 }
 GameManager.canvas = document.getElementById('main-canvas');
 GameManager.context = GameManager.canvas.getContext('2d');
-GameManager.current_points = 1;
-GameManager.tailPieces = [];
-GameManager.isGameRunning = true;
-GameManager.game_starting = 0;
-GameManager.can_press_key = true;
+GameManager.current_points = 3;
+GameManager.isGameRunning = false;
 GameManager.records = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 GameManager.displayPointsElement = document.getElementById('points');
 GameManager.recordListElements = document.getElementsByClassName('record_list_element');

@@ -1,11 +1,10 @@
 import { GameManager } from "../GameManager.js";
 import { Unit } from "../abstract_classes/Unit.js";
 export class Food extends Unit {
-    constructor(posX, posY) {
+    constructor() {
         super();
         this.size = GameManager.unitSize;
-        this.posX = posX;
-        this.posY = posY;
+        this.randomSpawn();
     }
     /**
      * Assign the posX and posY to random position values

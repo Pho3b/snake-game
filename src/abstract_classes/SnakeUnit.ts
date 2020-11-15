@@ -3,7 +3,7 @@ import {Direction} from "../components/EnumeratorsComponent.js";
 import {GameManager} from "../GameManager.js";
 import {Unit} from "./Unit.js";
 
-export abstract class SnakeUnit extends Unit{
+export abstract class SnakeUnit extends Unit {
     prevPosition: IPosition = {
         posX: 0,
         posY: 0,

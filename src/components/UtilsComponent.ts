@@ -10,10 +10,7 @@ export class UtilsComponent {
     static updatePointsText() {
         if (GameManager.isGameRunning) {
             GameManager.current_points++;
-            if (GameManager.current_points < 3)
-                GameManager.displayPointsElement.innerHTML = "0";
-            else
-                GameManager.displayPointsElement.innerHTML = GameManager.current_points.toString();
+            GameManager.displayPointsElement.innerHTML = GameManager.current_points.toString();
         }
         else {
             GameManager.current_points = 1;
@@ -33,17 +30,5 @@ export class UtilsComponent {
                 break;
             }
         }
-    }
-
-    static gameOver() {
-        GameManager.context.font = "30px Consolas";
-        GameManager.context.strokeStyle = "black";
-        GameManager.context.textAlign = "center";
-        GameManager.context.strokeText("You Lost!", GameManager.canvas.width / 2, GameManager.canvas.height / 2);
-        //Restart the game after 2 seconds
-        setTimeout(function () {
-            GameManager.isGameRunning = true;
-            GameManager.mainLoop();
-        }, 1800);
     }
 }

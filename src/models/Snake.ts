@@ -8,8 +8,6 @@ import {SoundComponent} from "../components/SoundComponent.js";
 
 export class Snake extends SnakeUnit {
     direction: Direction = Direction.Right;
-    haveTail: boolean = false;
-    tailPosition: number = 0;
     soundComponent: SoundComponent;
 
 
@@ -22,12 +20,8 @@ export class Snake extends SnakeUnit {
     }
 
     public changeDirection(e) {
-        if (GameManager.game_starting > 2 && GameManager.can_press_key === true) {
-            GameManager.can_press_key = false;
-            let key: string | number = e.key || e.keyCode;
-
-            GameManager.snake.direction = SnakeComponent.checkDirectionFromKey(key);
-        }
+        let key: string | number = e.key || e.keyCode;
+        GameManager.snake.direction = SnakeComponent.checkDirectionFromKey(key);
     };
 
     public update() {
@@ -37,6 +31,9 @@ export class Snake extends SnakeUnit {
 
         this.updatePositionFromDirection(this.direction);
         this.draw();
+        this.checkForBorders();
+        this.selfCollisionDetection();
+        this.foodCollisionDetection(GameManager.food.posX, GameManager.food.posY);
     };
 
     die() {
@@ -45,23 +42,19 @@ export class Snake extends SnakeUnit {
         this.posX = 0;
         this.posY = 0;
         this.direction = Direction.Right;
-        this.haveTail = false;
-        this.tailPosition = 0;
         // Updating records list
         UtilsComponent.updateRecordsList(GameManager.current_points);
         // Resetto il punteggio
         UtilsComponent.updatePointsText();
         // Resetto la velocità
-        GameManager.FPS = 5;
-        // Reset della variabile che serve a far partire il gioco a 3 punti
-        GameManager.game_starting = 0;
+        GameManager.FPS = 6;
         // Faccio scomparire temporaneamente il serpente
         GameManager.context.fillStyle = "white";
         GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
-        SnakeComponent.hideTailPieces();
-        GameManager.tailPieces = [];
+        TailUnit.hideTailPieces();
+        TailUnit.tailUnits = [];
         GameManager.food.disappear();
-        UtilsComponent.gameOver();
+        GameManager.gameOver();
     };
 
     /**
@@ -93,19 +86,9 @@ export class Snake extends SnakeUnit {
         if (this.posX === foodPosX && this.posY === foodPosY) {
             UtilsComponent.updatePointsText();
             GameManager.food.randomSpawn();
+            TailUnit.tailUnits.push(new TailUnit(TailUnit.tailUnits.length));
 
-            if (this.haveTail === false) {
-                GameManager.tailPieces.push(new TailUnit(this.tailPosition));
-                this.haveTail = true;
-            } else {
-                GameManager.tailPieces.push(new TailUnit(this.tailPosition));
-            }
-
-            this.tailPosition++;
-
-            if (GameManager.game_starting > 2) {
-                this.soundComponent.playSoundEffect(SoundEffect.EatingSound);
-            }
+            this.soundComponent.playSoundEffect(SoundEffect.EatingSound);
         }
     };
 
@@ -116,8 +99,8 @@ export class Snake extends SnakeUnit {
      * @returns void
      */
     selfCollisionDetection(): void {
-        for (let i = 0; i < GameManager.tailPieces.length; i++) {
-            if (this.posX == GameManager.tailPieces[i]['posX'] && this.posY == GameManager.tailPieces[i]['posY']) {
+        for (let i = 0; i < TailUnit.tailUnits.length; i++) {
+            if (this.posX == TailUnit.tailUnits[i]['posX'] && this.posY == TailUnit.tailUnits[i]['posY']) {
                 this.die();
             }
         }

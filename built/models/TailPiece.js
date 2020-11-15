@@ -3,7 +3,7 @@ import { SnakePart } from "../abstract_classes/SnakePart.js";
 export class TailPiece extends SnakePart {
     constructor(tailArrPos) {
         super();
-        this.tailPieceIndex = tailArrPos;
+        this.tailUnitIndex = tailArrPos;
         this.size = GameManager.snake.size;
         this.increment = GameManager.snake.increment;
     }
