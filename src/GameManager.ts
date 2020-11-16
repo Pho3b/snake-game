@@ -34,8 +34,12 @@ export class GameManager {
             UtilsComponent.backgroundRefresh();
 
             TailUnit.updateAllUnits();
-            GameManager.food.draw();
             GameManager.snake.update();
+            GameManager.food.draw();
+
+            if (!Snake.canPressKey) {
+                Snake.canPressKey = true
+            }
 
             setTimeout(GameManager.mainLoop, 1000 / GameManager.FPS);
         }

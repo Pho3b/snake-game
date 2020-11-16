@@ -14,11 +14,11 @@ export class Snake extends SnakeUnit {
         this.posY = posY;
         this.soundComponent = SoundComponent.getInstance();
     }
-    changeDirection(e) {
-        let key = e.key || e.keyCode;
-        GameManager.snake.direction = SnakeComponent.checkDirectionFromKey(key);
-    }
-    ;
+    /**
+     * Refresh the element position and attributes.
+     *
+     * @returns void
+     */
     update() {
         this.prevPosition.posX = this.posX;
         this.prevPosition.posY = this.posY;
@@ -28,6 +28,14 @@ export class Snake extends SnakeUnit {
         this.checkForBorders();
         this.selfCollisionDetection();
         this.foodCollisionDetection(GameManager.food.posX, GameManager.food.posY);
+    }
+    ;
+    changeDirection(e) {
+        if (Snake.canPressKey) {
+            let key = e.key || e.keyCode;
+            Snake.canPressKey = false;
+            GameManager.snake.direction = SnakeComponent.checkDirectionFromKey(key);
+        }
     }
     ;
     die() {
@@ -98,3 +106,4 @@ export class Snake extends SnakeUnit {
     }
     ;
 }
+Snake.canPressKey = true;

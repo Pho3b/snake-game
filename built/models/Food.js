@@ -7,6 +7,16 @@ export class Food extends Unit {
         this.randomSpawn();
     }
     /**
+     * Draws the green food piece on the map.
+     *
+     * @returns void
+     */
+    draw() {
+        GameManager.context.fillStyle = "green";
+        GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
+    }
+    ;
+    /**
      * Assign the posX and posY to random position values
      * and then it calls the draw method.
      *
@@ -16,16 +26,6 @@ export class Food extends Unit {
         this.posX = this.generateRandomPosition();
         this.posY = this.generateRandomPosition();
         this.draw();
-    }
-    ;
-    /**
-     * Draws the green food piece on the map.
-     *
-     * @returns void
-     */
-    draw() {
-        GameManager.context.fillStyle = "green";
-        GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
     }
     ;
     /**

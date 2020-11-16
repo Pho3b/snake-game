@@ -5,6 +5,11 @@ export class TailUnit extends SnakeUnit {
         super();
         this.tailUnitIndex = tailUnitIndex;
     }
+    /**
+     * Refresh the element position and attributes.
+     *
+     * @returns void
+     */
     update() {
         this.prevPosition.posX = this.posX;
         this.prevPosition.posY = this.posY;

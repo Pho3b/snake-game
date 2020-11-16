@@ -7,9 +7,9 @@ import {SnakeComponent} from "../components/SnakeComponent.js";
 import {SoundComponent} from "../components/SoundComponent.js";
 
 export class Snake extends SnakeUnit {
-    direction: Direction = Direction.Right;
-    soundComponent: SoundComponent;
-
+    static canPressKey: boolean = true;
+    private direction: Direction = Direction.Right;
+    private soundComponent: SoundComponent;
 
     constructor(posX: number, posY: number) {
         super();
@@ -19,12 +19,12 @@ export class Snake extends SnakeUnit {
         this.soundComponent = SoundComponent.getInstance();
     }
 
-    public changeDirection(e) {
-        let key: string | number = e.key || e.keyCode;
-        GameManager.snake.direction = SnakeComponent.checkDirectionFromKey(key);
-    };
-
-    public update() {
+    /**
+     * Refresh the element position and attributes.
+     *
+     * @returns void
+     */
+    public update(): void {
         this.prevPosition.posX = this.posX;
         this.prevPosition.posY = this.posY;
         this.prevPosition.direction = this.direction;
@@ -34,6 +34,15 @@ export class Snake extends SnakeUnit {
         this.checkForBorders();
         this.selfCollisionDetection();
         this.foodCollisionDetection(GameManager.food.posX, GameManager.food.posY);
+    };
+
+    public changeDirection(e) {
+        if (Snake.canPressKey) {
+            let key: string | number = e.key || e.keyCode;
+            Snake.canPressKey = false;
+
+            GameManager.snake.direction = SnakeComponent.checkDirectionFromKey(key);
+        }
     };
 
     die() {
