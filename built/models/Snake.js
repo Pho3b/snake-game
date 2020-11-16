@@ -38,25 +38,16 @@ export class Snake extends SnakeUnit {
         }
     }
     ;
+    /**
+     * Resets the Snake properties to the default state.
+     *
+     * @returns void
+     */
     die() {
-        GameManager.isGameRunning = false;
         this.size = 10;
         this.posX = 0;
         this.posY = 0;
         this.direction = Direction.Right;
-        // Updating records list
-        UtilsComponent.updateRecordsList(GameManager.current_points);
-        // Resetto il punteggio
-        UtilsComponent.updatePointsText();
-        // Resetto la velocità
-        GameManager.FPS = 6;
-        // Faccio scomparire temporaneamente il serpente
-        GameManager.context.fillStyle = "white";
-        GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
-        TailUnit.hideTailPieces();
-        TailUnit.tailUnits = [];
-        GameManager.food.disappear();
-        GameManager.gameOver();
     }
     ;
     /**
@@ -70,7 +61,7 @@ export class Snake extends SnakeUnit {
             (this.posY + (this.size / 2)) > GameManager.canvas.height ||
             (this.posX + (this.size / 2)) < 0 ||
             (this.posY + (this.size / 2)) < 0) {
-            this.die();
+            GameManager.gameOver();
         }
     }
     /**

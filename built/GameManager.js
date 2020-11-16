@@ -9,22 +9,24 @@ export class GameManager {
         document.addEventListener("keydown", GameManager.snake.changeDirection);
         GameManager.start();
     }
+    /**
+     * Calls the gameSetup method and starts the game main loop.
+     *
+     * @private
+     * @returns void
+     */
     static start() {
         GameManager.gameSetup();
         GameManager.mainLoop();
     }
-    static mainLoop() {
-        if (GameManager.isGameRunning) {
-            UtilsComponent.backgroundRefresh();
-            TailUnit.updateAllUnits();
-            GameManager.snake.update();
-            GameManager.food.draw();
-            if (!Snake.canPressKey) {
-                Snake.canPressKey = true;
-            }
-            setTimeout(GameManager.mainLoop, 1000 / GameManager.FPS);
-        }
-    }
+    /**
+     * Performs all the task that needs to be done
+     * before starting the game mainLoop.
+     *
+     * @param tailStartingLength
+     * @private
+     * @returns void
+     */
     static gameSetup(tailStartingLength = 2) {
         GameManager.isGameRunning = true;
         for (let i = 0; i < tailStartingLength; i++) {
@@ -32,12 +34,40 @@ export class GameManager {
             GameManager.snake.update();
         }
     }
+    /**
+     * Game main loop.
+     *
+     * @returns void
+     */
+    static mainLoop() {
+        if (GameManager.isGameRunning) {
+            UtilsComponent.backgroundRefresh();
+            TailUnit.updateAllUnits();
+            GameManager.food.draw();
+            GameManager.snake.update();
+            if (!Snake.canPressKey) {
+                Snake.canPressKey = true;
+            }
+            setTimeout(GameManager.mainLoop, 1000 / GameManager.FPS);
+        }
+    }
+    /**
+     * Updates the various component to reset themselves.
+     * Also resets the points and texts.
+     *
+     * @returns void
+     */
     static gameOver() {
-        GameManager.context.font = "30px Consolas";
-        GameManager.context.strokeStyle = "black";
-        GameManager.context.textAlign = "center";
-        GameManager.context.strokeText("You Lost!", GameManager.canvas.width / 2, GameManager.canvas.height / 2);
-        //Restart the game after 2 seconds
+        GameManager.isGameRunning = false;
+        UtilsComponent.backgroundRefresh();
+        GameManager.food.disappear();
+        GameManager.snake.die();
+        TailUnit.hideTailPieces();
+        TailUnit.tailUnits = [];
+        UtilsComponent.updateRecordsList(GameManager.current_points);
+        UtilsComponent.updatePointsText();
+        GameManager.FPS = GameManager.defaultFPS;
+        UtilsComponent.showTextMessage("You Lost!");
         setTimeout(function () {
             GameManager.start();
         }, 1800);
@@ -45,11 +75,12 @@ export class GameManager {
 }
 GameManager.canvas = document.getElementById('main-canvas');
 GameManager.context = GameManager.canvas.getContext('2d');
+GameManager.defaultFPS = 6;
+GameManager.unitSize = 10;
 GameManager.current_points = 3;
 GameManager.isGameRunning = false;
 GameManager.records = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 GameManager.displayPointsElement = document.getElementById('points');
 GameManager.recordListElements = document.getElementsByClassName('record_list_element');
-GameManager.FPS = 6;
-GameManager.unitSize = 10;
+GameManager.FPS = GameManager.defaultFPS;
 new GameManager();

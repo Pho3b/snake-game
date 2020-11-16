@@ -1,5 +1,11 @@
 import { GameManager } from "../GameManager.js";
 export class UtilsComponent {
+    /**
+     * Colors the canvas background of the game
+     * default background color.
+     *
+     * @returns void
+     */
     static backgroundRefresh() {
         GameManager.context.fillStyle = "#FFFFFF";
         GameManager.context.fillRect(0, 0, GameManager.canvas.width, GameManager.canvas.height);
@@ -26,5 +32,19 @@ export class UtilsComponent {
                 break;
             }
         }
+    }
+    /**
+     * Makes the passed message appear in the middle of the canvas.
+     *
+     * @param msg
+     * @param color
+     * @param textAlign
+     * @returns void
+     */
+    static showTextMessage(msg, color = 'black', textAlign = 'center') {
+        GameManager.context.font = '25px Consolas';
+        GameManager.context.strokeStyle = color;
+        GameManager.context.textAlign = textAlign;
+        GameManager.context.strokeText(msg, GameManager.canvas.width / 2, GameManager.canvas.height / 2);
     }
 }

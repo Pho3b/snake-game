@@ -6,6 +6,8 @@ import {Food} from './models/Food.js';
 export class GameManager {
     static readonly canvas: HTMLCanvasElement = document.getElementById('main-canvas') as HTMLCanvasElement;
     static readonly context: CanvasRenderingContext2D = GameManager.canvas.getContext('2d');
+    static readonly defaultFPS: number = 6;
+    static readonly unitSize: number = 10;
     static current_points: number = 3;
     static isGameRunning: boolean = false;
     static records: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -13,8 +15,7 @@ export class GameManager {
     static recordListElements = document.getElementsByClassName('record_list_element');
     static snake: Snake;
     static food: Food;
-    static FPS: number = 6;
-    static readonly unitSize: number = 10;
+    static FPS: number = GameManager.defaultFPS;
 
 
     constructor() {
@@ -24,27 +25,25 @@ export class GameManager {
         GameManager.start();
     }
 
+    /**
+     * Calls the gameSetup method and starts the game main loop.
+     *
+     * @private
+     * @returns void
+     */
     private static start(): void {
         GameManager.gameSetup();
         GameManager.mainLoop();
     }
 
-    static mainLoop() {
-        if (GameManager.isGameRunning) {
-            UtilsComponent.backgroundRefresh();
-
-            TailUnit.updateAllUnits();
-            GameManager.snake.update();
-            GameManager.food.draw();
-
-            if (!Snake.canPressKey) {
-                Snake.canPressKey = true
-            }
-
-            setTimeout(GameManager.mainLoop, 1000 / GameManager.FPS);
-        }
-    }
-
+    /**
+     * Performs all the task that needs to be done
+     * before starting the game mainLoop.
+     *
+     * @param tailStartingLength
+     * @private
+     * @returns void
+     */
     private static gameSetup(tailStartingLength: number = 2): void {
         GameManager.isGameRunning = true;
 
@@ -54,15 +53,48 @@ export class GameManager {
         }
     }
 
-    public static gameOver() {
-        GameManager.context.font = "30px Consolas";
-        GameManager.context.strokeStyle = "black";
-        GameManager.context.textAlign = "center";
-        GameManager.context.strokeText("You Lost!", GameManager.canvas.width / 2, GameManager.canvas.height / 2);
-        //Restart the game after 2 seconds
+    /**
+     * Game main loop.
+     *
+     * @returns void
+     */
+    static mainLoop(): void {
+        if (GameManager.isGameRunning) {
+            UtilsComponent.backgroundRefresh();
+
+            TailUnit.updateAllUnits();
+            GameManager.food.draw();
+            GameManager.snake.update();
+
+            if (!Snake.canPressKey) {
+                Snake.canPressKey = true
+            }
+
+            setTimeout(GameManager.mainLoop, 1000 / GameManager.FPS);
+        }
+    }
+
+    /**
+     * Updates the various component to reset themselves.
+     * Also resets the points and texts.
+     *
+     * @returns void
+     */
+    public static gameOver(): void {
+        GameManager.isGameRunning = false;
+        UtilsComponent.backgroundRefresh();
+        GameManager.food.disappear();
+        GameManager.snake.die();
+        TailUnit.hideTailPieces();
+        TailUnit.tailUnits = [];
+        UtilsComponent.updateRecordsList(GameManager.current_points);
+        UtilsComponent.updatePointsText();
+        GameManager.FPS = GameManager.defaultFPS;
+        UtilsComponent.showTextMessage("You Lost!");
+
         setTimeout(function () {
             GameManager.start();
-        }, 1800);
+        },1800);
     }
 }
 
