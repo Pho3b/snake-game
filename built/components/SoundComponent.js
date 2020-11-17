@@ -1,8 +1,7 @@
 import { SoundEffect } from "./EnumeratorsComponent.js";
 export class SoundComponent {
     constructor() {
-        this.soundEffects = new Array(5);
-        this.soundEffectsVolume = 0.2;
+        this.defaultSoundEffectsVolume = 0.2;
         this.populateGameAudioList();
         this.preloadAudioAndSetVolume();
     }
@@ -25,9 +24,9 @@ export class SoundComponent {
      *
      * @returns void
      */
-    playSoundEffect(sound) {
-        this.soundEffects[sound].currentTime = 0;
-        let playPromise = this.soundEffects[sound].play();
+    static playSoundEffect(sound) {
+        SoundComponent.soundEffects[sound].currentTime = 0;
+        let playPromise = SoundComponent.soundEffects[sound].play();
         if (playPromise !== undefined) {
             playPromise
                 .then(function () {
@@ -43,20 +42,28 @@ export class SoundComponent {
      * @returns void
      */
     populateGameAudioList() {
-        this.soundEffects[SoundEffect.EatingSound] = new Audio("sounds/eat.mp3");
-        this.soundEffects[SoundEffect.DefeatSound] = new Audio("sounds/eat.mp3");
+        SoundComponent.soundEffects[SoundEffect.EatingSound] = new Audio("sounds/eat.mp3");
+        SoundComponent.soundEffects[SoundEffect.GameOverSound] = new Audio("sounds/game-over.wav");
     }
     /**
-     * Pre loads and set the volume of all of the sounds
-     * found in the 'soundEffects' list.
+     * Pre loads and set the volume of all of the
+     * sounds stored in the 'soundEffects' list.
      *
      * @returns void
      */
     preloadAudioAndSetVolume() {
-        this.soundEffects.forEach((soundEffect) => {
+        SoundComponent.soundEffects.forEach((soundEffect, soundKey) => {
             soundEffect.load();
-            soundEffect.volume = this.soundEffectsVolume;
+            switch (soundKey) {
+                case SoundEffect.GameOverSound:
+                    soundEffect.volume = 0.8;
+                    break;
+                default:
+                    soundEffect.volume = this.defaultSoundEffectsVolume;
+                    break;
+            }
         });
     }
 }
+SoundComponent.soundEffects = new Array(5);
 SoundComponent.instance = null;

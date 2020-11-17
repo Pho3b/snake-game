@@ -2,11 +2,13 @@ import { UtilsComponent } from "./components/UtilsComponent.js";
 import { Snake } from './models/Snake.js';
 import { TailUnit } from './models/TailUnit.js';
 import { Food } from './models/Food.js';
+import { SoundComponent } from "./components/SoundComponent.js";
+import { SoundEffect } from "./components/EnumeratorsComponent.js";
 export class GameManager {
     constructor() {
+        this.soundComponent = SoundComponent.getInstance();
         GameManager.snake = new Snake(0, 0);
         GameManager.food = new Food();
-        document.addEventListener("keydown", GameManager.snake.changeDirection);
         GameManager.start();
     }
     /**
@@ -29,6 +31,7 @@ export class GameManager {
      */
     static gameSetup(tailStartingLength = 2) {
         GameManager.isGameRunning = true;
+        Snake.canPressKey = false;
         for (let i = 0; i < tailStartingLength; i++) {
             TailUnit.tailUnits.push(new TailUnit(i));
             GameManager.snake.update();
@@ -58,6 +61,7 @@ export class GameManager {
      * @returns void
      */
     static gameOver() {
+        SoundComponent.playSoundEffect(SoundEffect.GameOverSound);
         GameManager.isGameRunning = false;
         UtilsComponent.backgroundRefresh();
         GameManager.food.disappear();
@@ -75,12 +79,12 @@ export class GameManager {
 }
 GameManager.canvas = document.getElementById('main-canvas');
 GameManager.context = GameManager.canvas.getContext('2d');
+GameManager.displayPointsElement = document.getElementById('points');
+GameManager.recordListElements = document.getElementsByClassName('record_list_element');
 GameManager.defaultFPS = 6;
 GameManager.unitSize = 10;
 GameManager.current_points = 3;
 GameManager.isGameRunning = false;
 GameManager.records = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-GameManager.displayPointsElement = document.getElementById('points');
-GameManager.recordListElements = document.getElementsByClassName('record_list_element');
 GameManager.FPS = GameManager.defaultFPS;
 new GameManager();

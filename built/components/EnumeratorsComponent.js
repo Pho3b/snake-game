@@ -1,7 +1,7 @@
 export var SoundEffect;
 (function (SoundEffect) {
     SoundEffect[SoundEffect["EatingSound"] = 0] = "EatingSound";
-    SoundEffect[SoundEffect["DefeatSound"] = 1] = "DefeatSound";
+    SoundEffect[SoundEffect["GameOverSound"] = 1] = "GameOverSound";
     SoundEffect[SoundEffect["VictorySound"] = 2] = "VictorySound";
     SoundEffect[SoundEffect["RecordPassedSound"] = 3] = "RecordPassedSound";
 })(SoundEffect || (SoundEffect = {}));

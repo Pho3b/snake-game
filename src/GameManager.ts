@@ -2,26 +2,30 @@ import {UtilsComponent} from "./components/UtilsComponent.js";
 import {Snake} from './models/Snake.js';
 import {TailUnit} from './models/TailUnit.js';
 import {Food} from './models/Food.js';
+import {SoundComponent} from "./components/SoundComponent.js";
+import {SoundEffect} from "./components/EnumeratorsComponent.js";
 
 export class GameManager {
     static readonly canvas: HTMLCanvasElement = document.getElementById('main-canvas') as HTMLCanvasElement;
     static readonly context: CanvasRenderingContext2D = GameManager.canvas.getContext('2d');
+    static readonly displayPointsElement = document.getElementById('points');
+    static readonly recordListElements = document.getElementsByClassName('record_list_element');
     static readonly defaultFPS: number = 6;
     static readonly unitSize: number = 10;
     static current_points: number = 3;
     static isGameRunning: boolean = false;
     static records: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    static displayPointsElement = document.getElementById('points');
-    static recordListElements = document.getElementsByClassName('record_list_element');
     static snake: Snake;
     static food: Food;
     static FPS: number = GameManager.defaultFPS;
+    private soundComponent: SoundComponent;
 
 
     constructor() {
+        this.soundComponent = SoundComponent.getInstance();
         GameManager.snake = new Snake(0, 0);
         GameManager.food = new Food();
-        document.addEventListener("keydown", GameManager.snake.changeDirection);
+
         GameManager.start();
     }
 
@@ -46,6 +50,7 @@ export class GameManager {
      */
     private static gameSetup(tailStartingLength: number = 2): void {
         GameManager.isGameRunning = true;
+        Snake.canPressKey = false;
 
         for (let i = 0; i < tailStartingLength; i++) {
             TailUnit.tailUnits.push(new TailUnit(i));
@@ -81,6 +86,7 @@ export class GameManager {
      * @returns void
      */
     public static gameOver(): void {
+        SoundComponent.playSoundEffect(SoundEffect.GameOverSound);
         GameManager.isGameRunning = false;
         UtilsComponent.backgroundRefresh();
         GameManager.food.disappear();

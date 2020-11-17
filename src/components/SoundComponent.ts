@@ -1,8 +1,8 @@
 import {SoundEffect} from "./EnumeratorsComponent.js";
 
 export class SoundComponent {
-    public soundEffects: HTMLAudioElement[] = new Array(5);
-    readonly soundEffectsVolume = 0.2;
+    private static soundEffects: HTMLAudioElement[] = new Array(5);
+    private readonly defaultSoundEffectsVolume = 0.2;
     private static instance = null;
 
 
@@ -30,9 +30,9 @@ export class SoundComponent {
      *
      * @returns void
      */
-    public playSoundEffect(sound: SoundEffect): void {
-        this.soundEffects[sound].currentTime = 0;
-        let playPromise: Promise<void> = this.soundEffects[sound].play();
+    public static playSoundEffect(sound: SoundEffect): void {
+        SoundComponent.soundEffects[sound].currentTime = 0;
+        let playPromise: Promise<void> = SoundComponent.soundEffects[sound].play();
 
         if (playPromise !== undefined) {
             playPromise
@@ -50,20 +50,28 @@ export class SoundComponent {
      * @returns void
      */
     private populateGameAudioList(): void {
-        this.soundEffects[SoundEffect.EatingSound] = new Audio("sounds/eat.mp3");
-        this.soundEffects[SoundEffect.DefeatSound] = new Audio("sounds/eat.mp3");
+        SoundComponent.soundEffects[SoundEffect.EatingSound] = new Audio("sounds/eat.mp3");
+        SoundComponent.soundEffects[SoundEffect.GameOverSound] = new Audio("sounds/game-over.wav");
     }
 
     /**
-     * Pre loads and set the volume of all of the sounds
-     * found in the 'soundEffects' list.
+     * Pre loads and set the volume of all of the
+     * sounds stored in the 'soundEffects' list.
      *
      * @returns void
      */
     private preloadAudioAndSetVolume(): void {
-        this.soundEffects.forEach((soundEffect) => {
+        SoundComponent.soundEffects.forEach((soundEffect: HTMLAudioElement, soundKey: SoundEffect) => {
             soundEffect.load();
-            soundEffect.volume = this.soundEffectsVolume;
+
+            switch (soundKey) {
+                case SoundEffect.GameOverSound:
+                    soundEffect.volume = 0.8;
+                    break;
+                default:
+                    soundEffect.volume = this.defaultSoundEffectsVolume;
+                    break;
+            }
         });
     }
 }

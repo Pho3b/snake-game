@@ -12,7 +12,6 @@ export class Snake extends SnakeUnit {
         this.size = GameManager.unitSize;
         this.posX = posX;
         this.posY = posY;
-        this.soundComponent = SoundComponent.getInstance();
     }
     /**
      * Refresh the element position and attributes.
@@ -78,7 +77,7 @@ export class Snake extends SnakeUnit {
             UtilsComponent.updatePointsText();
             GameManager.food.randomSpawn();
             TailUnit.tailUnits.push(new TailUnit(TailUnit.tailUnits.length));
-            this.soundComponent.playSoundEffect(SoundEffect.EatingSound);
+            SoundComponent.playSoundEffect(SoundEffect.EatingSound);
         }
     }
     ;
@@ -91,7 +90,7 @@ export class Snake extends SnakeUnit {
     selfCollisionDetection() {
         for (let i = 0; i < TailUnit.tailUnits.length; i++) {
             if (this.posX == TailUnit.tailUnits[i]['posX'] && this.posY == TailUnit.tailUnits[i]['posY']) {
-                this.die();
+                GameManager.gameOver();
             }
         }
     }

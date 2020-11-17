@@ -13,19 +13,14 @@ export class UtilsComponent {
         GameManager.context.fillRect(0, 0, GameManager.canvas.width, GameManager.canvas.height);
     }
 
-    static updatePointsText() {
-        if (GameManager.isGameRunning) {
-            GameManager.current_points++;
-            GameManager.displayPointsElement.innerHTML = GameManager.current_points.toString();
-        }
-        else {
-            GameManager.current_points = 1;
-            GameManager.displayPointsElement.innerHTML = "0";
-        }
-        GameManager.FPS += 0.2;
-    }
-
-    static updateRecordsList(entry) {
+    /**
+     * Updates the html list of records.
+     * TODO: move the record and points system in a different component.
+     *
+     * @param entry
+     * @returns void
+     */
+    static updateRecordsList(entry): void {
         for (let i = 0; i < GameManager.records.length; i++) {
             if (entry === GameManager.records[i]) {
                 break;
@@ -36,6 +31,23 @@ export class UtilsComponent {
                 break;
             }
         }
+    }
+
+    /**
+     * TODO: Same as above
+     *
+     * @returns void
+     */
+    static updatePointsText(): void {
+        if (GameManager.isGameRunning) {
+            GameManager.current_points++;
+            GameManager.displayPointsElement.innerHTML = GameManager.current_points.toString();
+        } else {
+            GameManager.current_points = 1;
+            GameManager.displayPointsElement.innerHTML = "0";
+        }
+
+        GameManager.FPS += 0.2;
     }
 
     /**
@@ -51,5 +63,9 @@ export class UtilsComponent {
         GameManager.context.strokeStyle = color;
         GameManager.context.textAlign = textAlign;
         GameManager.context.strokeText(msg, GameManager.canvas.width / 2, GameManager.canvas.height / 2);
+    }
+
+    static initEventListeners(): void {
+        document.addEventListener("keydown", GameManager.snake.changeDirection);
     }
 }

@@ -1,6 +1,6 @@
 export enum SoundEffect {
     EatingSound,
-    DefeatSound,
+    GameOverSound,
     VictorySound,
     RecordPassedSound
 }

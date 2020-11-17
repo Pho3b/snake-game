@@ -9,7 +9,6 @@ import {SoundComponent} from "../components/SoundComponent.js";
 export class Snake extends SnakeUnit {
     static canPressKey: boolean = true;
     private direction: Direction = Direction.Right;
-    private soundComponent: SoundComponent;
 
 
     constructor(posX: number, posY: number) {
@@ -17,7 +16,6 @@ export class Snake extends SnakeUnit {
         this.size = GameManager.unitSize;
         this.posX = posX;
         this.posY = posY;
-        this.soundComponent = SoundComponent.getInstance();
     }
 
     /**
@@ -89,7 +87,7 @@ export class Snake extends SnakeUnit {
             GameManager.food.randomSpawn();
             TailUnit.tailUnits.push(new TailUnit(TailUnit.tailUnits.length));
 
-            this.soundComponent.playSoundEffect(SoundEffect.EatingSound);
+            SoundComponent.playSoundEffect(SoundEffect.EatingSound);
         }
     };
 
@@ -102,7 +100,7 @@ export class Snake extends SnakeUnit {
     selfCollisionDetection(): void {
         for (let i = 0; i < TailUnit.tailUnits.length; i++) {
             if (this.posX == TailUnit.tailUnits[i]['posX'] && this.posY == TailUnit.tailUnits[i]['posY']) {
-                this.die();
+                GameManager.gameOver();
             }
         }
     };
