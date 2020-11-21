@@ -3,29 +3,50 @@
 <html lang="English">
 	<head>
 		<title>Snake</title>
-		<link rel="icon"  type='image/x-icon' href="/img/favicon.ico"/>
+		<link rel="icon" type='image/x-icon' href="/img/favicon.ico"/>
 		<link rel="stylesheet" type="text/css" href="/style/index.css">
 		<link rel="preload" href="./style/font/dogicapixel.ttf" as="font" type="font/ttf" crossorigin>
 	</head>
 	<body>
-		<canvas id="main-canvas" width="300" height="300" style="border:1px solid #000000;">
-			Your browser does not support the HTML5 canvas tag.
-		</canvas>
-		<p>Points:<b id="points">3</b></p>
-
-		<ul id="recordsList">
-			<li><b>Record List: </b></li>
-			<li class="record_list_element"></li>
-			<li class="record_list_element"></li>
-			<li class="record_list_element"></li>
-			<li class="record_list_element"></li>
-			<li class="record_list_element"></li>
-			<li class="record_list_element"></li>
-			<li class="record_list_element"></li>
-			<li class="record_list_element"></li>
-			<li class="record_list_element"></li>
-			<li class="record_list_element"></li>
-		</ul>
+		<div class="header"></div>
+		<div class="row">
+			<div class="column side-column">
+				<ol id="recordsList" type="1">
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+					<li class="record_list_element"></li>
+				</ol>
+			</div>
+			<div class="column">
+				<canvas id="main-canvas" width="250" height="250">
+					Your browser does not support the HTML5 canvas tag.
+				</canvas>
+				<h2>Points:<b id="points">3</b></h2>
+			</div>
+			<div class="column side-column"></div>
+		</div>
+		<div class="footer">
+			<p></p>
+		</div>
 	</body>
-	<script src="built/GameManager.js" type="module"></script>
+	<footer>
+		<script src="built/GameManager.js" type="module"></script>
+	</footer>
 </html>

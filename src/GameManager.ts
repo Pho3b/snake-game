@@ -10,7 +10,7 @@ export class GameManager {
     static readonly context: CanvasRenderingContext2D = GameManager.canvas.getContext('2d');
     static readonly displayPointsElement = document.getElementById('points');
     static readonly recordListElements = document.getElementsByClassName('record_list_element');
-    static readonly defaultFPS: number = 6;
+    static readonly defaultFPS: number = 7;
     static readonly unitSize: number = 10;
     static canPressKey: boolean = true;
     static current_points: number = 3;
