@@ -1,9 +1,29 @@
 import { GameManager } from "../GameManager.js";
 import { GameState } from "./EnumeratorsComponent.js";
+import { Snake } from "../models/Snake.js";
 export class UtilsComponent {
+    /**
+     * @constructor
+     */
     constructor() {
+        /**
+         * Initialize all of the document event listeners.
+         *
+         * @returns void
+         */
+        this.initEventListeners = () => {
+            document.addEventListener("keydown", this.snake.changeDirection);
+            document.addEventListener("keydown", (e) => {
+                if (GameManager.gameState === GameState.StartingScreen) {
+                    let key = e.key || e.keyCode;
+                    if (key === 'Enter' || key === 13) {
+                        this.gameManager.start();
+                    }
+                }
+            });
+        };
         this.gameManager = GameManager.getInstance();
-        this.snake = GameManager.snake;
+        this.snake = Snake.getInstance();
     }
     /**
      * Colors the canvas background of the game
@@ -59,26 +79,12 @@ export class UtilsComponent {
      * @param textAlign
      * @returns void
      */
-    static showTextMessage(msg, color = 'black', font = '25px', textAlign = 'center') {
+    static showTextMessage(msg, color = 'black', font = '25px Comic Sans MS', textAlign = 'center') {
         GameManager.context.font = font;
+        GameManager.context.lineWidth = 1;
+        GameManager.context.fillStyle = "black";
         GameManager.context.strokeStyle = color;
         GameManager.context.textAlign = textAlign;
-        GameManager.context.strokeText(msg, GameManager.canvas.width / 2, GameManager.canvas.height / 2);
-    }
-    /**
-     * Initialize all of the document event listeners.
-     *
-     * @returns void
-     */
-    initEventListeners() {
-        document.addEventListener("keydown", this.snake.changeDirection);
-        document.addEventListener("keydown", (e) => {
-            if (GameManager.gameState === GameState.StartingScreen) {
-                let key = e.key || e.keyCode;
-                if (key === 'Enter' || key === 13) {
-                    this.gameManager.start();
-                }
-            }
-        });
+        GameManager.context.fillText(msg, GameManager.canvas.width / 2, GameManager.canvas.height / 2);
     }
 }

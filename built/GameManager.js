@@ -5,6 +5,19 @@ import { Food } from './models/Food.js';
 import { SoundComponent } from "./components/SoundComponent.js";
 import { TailUnit } from './models/TailUnit.js';
 export class GameManager {
+    constructor() {
+        /**
+         * Calls the beforeStart method and starts the game main loop.
+         * NOTE: This method is bind to the keydown event on the 'Enter' button click,
+         * only when the game is in the 'startingScreen' state.
+         *
+         * @returns void
+         */
+        this.start = () => {
+            this.beforeStart();
+            GameManager.mainLoop();
+        };
+    }
     /**
      * Singleton related method
      *
@@ -30,17 +43,6 @@ export class GameManager {
         GameManager.startingScreen();
     }
     /**
-     * Calls the gameSetup method and starts the game main loop.
-     * NOTE: This method is bind to the keydown event on the 'Enter' button click,
-     * only when the game in in the 'startingScreen' state.
-     *
-     * @returns void
-     */
-    start() {
-        this.gameSetup();
-        GameManager.mainLoop();
-    }
-    /**
      * Performs all the task that needs to be done
      * before starting the game mainLoop.
      *
@@ -48,9 +50,9 @@ export class GameManager {
      * @private
      * @returns void
      */
-    gameSetup(tailStartingLength = 2) {
+    beforeStart(tailStartingLength = 2) {
         GameManager.gameState = GameState.Running;
-        Snake.canPressKey = false;
+        GameManager.canPressKey = false;
         // Adding by default the first 2 pieces of tail
         for (let i = 0; i < tailStartingLength; i++) {
             GameManager.snake.update();
@@ -58,8 +60,6 @@ export class GameManager {
             TailUnit.tailUnits.push(temp);
             temp.update();
         }
-        console.log(TailUnit.tailUnits);
-        console.log(GameManager.snake);
     }
     /**
      *
@@ -69,7 +69,7 @@ export class GameManager {
     static startingScreen() {
         GameManager.gameState = GameState.StartingScreen;
         UtilsComponent.backgroundRefresh();
-        UtilsComponent.showTextMessage("Press Enter to start", 'black', '23px');
+        UtilsComponent.showTextMessage("Press ENTER to start");
     }
     /**
      * Game main loop.
@@ -82,8 +82,8 @@ export class GameManager {
             TailUnit.updateAllUnits();
             GameManager.food.draw();
             GameManager.snake.update();
-            if (!Snake.canPressKey) {
-                Snake.canPressKey = true;
+            if (!GameManager.canPressKey) {
+                GameManager.canPressKey = true;
             }
             setTimeout(GameManager.mainLoop, 1000 / GameManager.FPS);
         }
@@ -117,6 +117,7 @@ GameManager.displayPointsElement = document.getElementById('points');
 GameManager.recordListElements = document.getElementsByClassName('record_list_element');
 GameManager.defaultFPS = 6;
 GameManager.unitSize = 10;
+GameManager.canPressKey = true;
 GameManager.current_points = 3;
 GameManager.gameState = GameState.StartingScreen;
 GameManager.records = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];

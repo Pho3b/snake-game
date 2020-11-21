@@ -3,8 +3,8 @@ import {SnakeUnit} from "../abstract_classes/SnakeUnit.js";
 import {Snake} from "./Snake.js";
 
 export class TailUnit extends SnakeUnit {
-    tailUnitIndex: number;
     static tailUnits: TailUnit[] = [];
+    tailUnitIndex: number;
     gameManager: GameManager;
     snake: Snake;
 

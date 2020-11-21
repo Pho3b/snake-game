@@ -1,5 +1,5 @@
 import {UtilsComponent} from "./components/UtilsComponent.js";
-import {GameState, SoundEffect} from "./components/EnumeratorsComponent.js";
+import {Direction, GameState, SoundEffect} from "./components/EnumeratorsComponent.js";
 import {Snake} from './models/Snake.js';
 import {Food} from './models/Food.js';
 import {SoundComponent} from "./components/SoundComponent.js";
@@ -12,11 +12,12 @@ export class GameManager {
     static readonly recordListElements = document.getElementsByClassName('record_list_element');
     static readonly defaultFPS: number = 6;
     static readonly unitSize: number = 10;
+    static canPressKey: boolean = true;
     static current_points: number = 3;
     static gameState: GameState = GameState.StartingScreen;
     static records: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     public static snake: Snake;
-    static food: Food;
+    public static food: Food;
     static FPS: number = GameManager.defaultFPS;
     private static instance: GameManager;
     private utilsComponent: UtilsComponent;
@@ -50,18 +51,6 @@ export class GameManager {
     }
 
     /**
-     * Calls the gameSetup method and starts the game main loop.
-     * NOTE: This method is bind to the keydown event on the 'Enter' button click,
-     * only when the game in in the 'startingScreen' state.
-     *
-     * @returns void
-     */
-    public start(): void {
-        this.gameSetup();
-        GameManager.mainLoop();
-    }
-
-    /**
      * Performs all the task that needs to be done
      * before starting the game mainLoop.
      *
@@ -69,9 +58,9 @@ export class GameManager {
      * @private
      * @returns void
      */
-    private gameSetup(tailStartingLength: number = 2): void {
+    private beforeStart(tailStartingLength: number = 2): void {
         GameManager.gameState = GameState.Running;
-        Snake.canPressKey = false;
+        GameManager.canPressKey = false;
 
         // Adding by default the first 2 pieces of tail
         for (let i = 0; i < tailStartingLength; i++) {
@@ -80,9 +69,18 @@ export class GameManager {
             TailUnit.tailUnits.push(temp);
             temp.update();
         }
+    }
 
-        console.log(TailUnit.tailUnits);
-        console.log(GameManager.snake);
+    /**
+     * Calls the beforeStart method and starts the game main loop.
+     * NOTE: This method is bind to the keydown event on the 'Enter' button click,
+     * only when the game is in the 'startingScreen' state.
+     *
+     * @returns void
+     */
+    public start = (): void =>  {
+        this.beforeStart();
+        GameManager.mainLoop();
     }
 
     /**
@@ -93,7 +91,7 @@ export class GameManager {
     private static startingScreen(): void {
         GameManager.gameState = GameState.StartingScreen;
         UtilsComponent.backgroundRefresh();
-        UtilsComponent.showTextMessage("Press Enter to start",'black','23px');
+        UtilsComponent.showTextMessage("Press ENTER to start");
     }
 
     /**
@@ -109,8 +107,8 @@ export class GameManager {
             GameManager.food.draw();
             GameManager.snake.update();
 
-            if (!Snake.canPressKey) {
-                Snake.canPressKey = true
+            if (!GameManager.canPressKey) {
+                GameManager.canPressKey = true
             }
 
             setTimeout(GameManager.mainLoop, 1000 / GameManager.FPS);

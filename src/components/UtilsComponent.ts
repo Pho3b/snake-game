@@ -6,9 +6,13 @@ export class UtilsComponent {
     private gameManager: GameManager;
     private snake: Snake;
 
+
+    /**
+     * @constructor
+     */
     public constructor() {
         this.gameManager = GameManager.getInstance();
-        this.snake = GameManager.snake;
+        this.snake = Snake.getInstance();
     }
 
     /**
@@ -68,11 +72,13 @@ export class UtilsComponent {
      * @param textAlign
      * @returns void
      */
-    static showTextMessage(msg: string, color: string = 'black', font: string = '25px', textAlign: CanvasTextAlign = 'center'): void {
+    static showTextMessage(msg: string, color: string = 'black', font: string = '25px Comic Sans MS', textAlign: CanvasTextAlign = 'center'): void {
         GameManager.context.font = font;
+        GameManager.context.lineWidth = 1;
+        GameManager.context.fillStyle = "black";
         GameManager.context.strokeStyle = color;
         GameManager.context.textAlign = textAlign;
-        GameManager.context.strokeText(msg, GameManager.canvas.width / 2, GameManager.canvas.height / 2);
+        GameManager.context.fillText(msg, GameManager.canvas.width / 2, GameManager.canvas.height / 2);
     }
 
     /**
@@ -80,7 +86,7 @@ export class UtilsComponent {
      *
      * @returns void
      */
-    public initEventListeners(): void {
+    public initEventListeners = (): void => {
         document.addEventListener("keydown", this.snake.changeDirection);
         document.addEventListener("keydown", (e) => {
             if (GameManager.gameState === GameState.StartingScreen) {
