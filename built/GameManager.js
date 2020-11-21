@@ -1,24 +1,43 @@
 import { UtilsComponent } from "./components/UtilsComponent.js";
+import { GameState, SoundEffect } from "./components/EnumeratorsComponent.js";
 import { Snake } from './models/Snake.js';
-import { TailUnit } from './models/TailUnit.js';
 import { Food } from './models/Food.js';
 import { SoundComponent } from "./components/SoundComponent.js";
-import { SoundEffect } from "./components/EnumeratorsComponent.js";
+import { TailUnit } from './models/TailUnit.js';
 export class GameManager {
-    constructor() {
-        this.soundComponent = SoundComponent.getInstance();
-        GameManager.snake = new Snake(0, 0);
+    /**
+     * Singleton related method
+     *
+     * @returns GameManager
+     */
+    static getInstance() {
+        if (!GameManager.instance) {
+            GameManager.instance = new GameManager();
+        }
+        return GameManager.instance;
+    }
+    /**
+     * Initialize all of the games main objects and properties.
+     *
+     * @returns void
+     */
+    initializeGame() {
+        GameManager.snake = Snake.getInstance();
         GameManager.food = new Food();
-        GameManager.start();
+        SoundComponent.init();
+        this.utilsComponent = new UtilsComponent();
+        this.utilsComponent.initEventListeners();
+        GameManager.startingScreen();
     }
     /**
      * Calls the gameSetup method and starts the game main loop.
+     * NOTE: This method is bind to the keydown event on the 'Enter' button click,
+     * only when the game in in the 'startingScreen' state.
      *
-     * @private
      * @returns void
      */
-    static start() {
-        GameManager.gameSetup();
+    start() {
+        this.gameSetup();
         GameManager.mainLoop();
     }
     /**
@@ -29,13 +48,28 @@ export class GameManager {
      * @private
      * @returns void
      */
-    static gameSetup(tailStartingLength = 2) {
-        GameManager.isGameRunning = true;
+    gameSetup(tailStartingLength = 2) {
+        GameManager.gameState = GameState.Running;
         Snake.canPressKey = false;
+        // Adding by default the first 2 pieces of tail
         for (let i = 0; i < tailStartingLength; i++) {
-            TailUnit.tailUnits.push(new TailUnit(i));
             GameManager.snake.update();
+            let temp = new TailUnit(i);
+            TailUnit.tailUnits.push(temp);
+            temp.update();
         }
+        console.log(TailUnit.tailUnits);
+        console.log(GameManager.snake);
+    }
+    /**
+     *
+     * @private
+     * @returns void
+     */
+    static startingScreen() {
+        GameManager.gameState = GameState.StartingScreen;
+        UtilsComponent.backgroundRefresh();
+        UtilsComponent.showTextMessage("Press Enter to start", 'black', '23px');
     }
     /**
      * Game main loop.
@@ -43,7 +77,7 @@ export class GameManager {
      * @returns void
      */
     static mainLoop() {
-        if (GameManager.isGameRunning) {
+        if (GameManager.gameState === GameState.Running) {
             UtilsComponent.backgroundRefresh();
             TailUnit.updateAllUnits();
             GameManager.food.draw();
@@ -60,9 +94,9 @@ export class GameManager {
      *
      * @returns void
      */
-    static gameOver() {
+    gameOver() {
+        GameManager.gameState = GameState.Stopped;
         SoundComponent.playSoundEffect(SoundEffect.GameOverSound);
-        GameManager.isGameRunning = false;
         UtilsComponent.backgroundRefresh();
         GameManager.food.disappear();
         GameManager.snake.die();
@@ -73,7 +107,7 @@ export class GameManager {
         GameManager.FPS = GameManager.defaultFPS;
         UtilsComponent.showTextMessage("You Lost!");
         setTimeout(function () {
-            GameManager.start();
+            GameManager.startingScreen();
         }, 1800);
     }
 }
@@ -84,7 +118,8 @@ GameManager.recordListElements = document.getElementsByClassName('record_list_el
 GameManager.defaultFPS = 6;
 GameManager.unitSize = 10;
 GameManager.current_points = 3;
-GameManager.isGameRunning = false;
+GameManager.gameState = GameState.StartingScreen;
 GameManager.records = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 GameManager.FPS = GameManager.defaultFPS;
-new GameManager();
+const gameManager = GameManager.getInstance();
+gameManager.initializeGame();

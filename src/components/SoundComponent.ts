@@ -2,27 +2,18 @@ import {SoundEffect} from "./EnumeratorsComponent.js";
 
 export class SoundComponent {
     private static soundEffects: HTMLAudioElement[] = new Array(5);
-    private readonly defaultSoundEffectsVolume = 0.2;
-    private static instance = null;
+    private static readonly defaultSoundEffectsVolume = 0.2;
 
-
-    private constructor() {
-        this.populateGameAudioList();
-        this.preloadAudioAndSetVolume();
-    }
 
     /**
-     * Singleton related method to retrieve a single
-     * instance of the HelperComponent.
+     * Performs all of the tasks need to initialize and
+     * make the SoundComponent usable.
      *
-     * @returns UtilsComponent
+     * @returns void
      */
-    public static getInstance(): SoundComponent {
-        if (SoundComponent.instance === null) {
-            return new SoundComponent();
-        } else {
-            return SoundComponent.instance;
-        }
+    public static init(): void {
+        SoundComponent.populateGameAudioList();
+        SoundComponent.preloadAudioAndSetVolume();
     }
 
     /**
@@ -49,7 +40,7 @@ export class SoundComponent {
      *
      * @returns void
      */
-    private populateGameAudioList(): void {
+    private static populateGameAudioList(): void {
         SoundComponent.soundEffects[SoundEffect.EatingSound] = new Audio("sounds/eat.mp3");
         SoundComponent.soundEffects[SoundEffect.GameOverSound] = new Audio("sounds/game-over.wav");
     }
@@ -60,7 +51,7 @@ export class SoundComponent {
      *
      * @returns void
      */
-    private preloadAudioAndSetVolume(): void {
+    private static preloadAudioAndSetVolume(): void {
         SoundComponent.soundEffects.forEach((soundEffect: HTMLAudioElement, soundKey: SoundEffect) => {
             soundEffect.load();
 
@@ -69,7 +60,7 @@ export class SoundComponent {
                     soundEffect.volume = 0.8;
                     break;
                 default:
-                    soundEffect.volume = this.defaultSoundEffectsVolume;
+                    soundEffect.volume = SoundComponent.defaultSoundEffectsVolume;
                     break;
             }
         });

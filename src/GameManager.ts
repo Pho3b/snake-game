@@ -1,9 +1,9 @@
 import {UtilsComponent} from "./components/UtilsComponent.js";
+import {GameState, SoundEffect} from "./components/EnumeratorsComponent.js";
 import {Snake} from './models/Snake.js';
-import {TailUnit} from './models/TailUnit.js';
 import {Food} from './models/Food.js';
 import {SoundComponent} from "./components/SoundComponent.js";
-import {SoundEffect} from "./components/EnumeratorsComponent.js";
+import {TailUnit} from './models/TailUnit.js';
 
 export class GameManager {
     static readonly canvas: HTMLCanvasElement = document.getElementById('main-canvas') as HTMLCanvasElement;
@@ -13,30 +13,51 @@ export class GameManager {
     static readonly defaultFPS: number = 6;
     static readonly unitSize: number = 10;
     static current_points: number = 3;
-    static isGameRunning: boolean = false;
+    static gameState: GameState = GameState.StartingScreen;
     static records: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    static snake: Snake;
+    public static snake: Snake;
     static food: Food;
     static FPS: number = GameManager.defaultFPS;
-    private soundComponent: SoundComponent;
+    private static instance: GameManager;
+    private utilsComponent: UtilsComponent;
 
 
-    constructor() {
-        this.soundComponent = SoundComponent.getInstance();
-        GameManager.snake = new Snake(0, 0);
+    /**
+     * Singleton related method
+     *
+     * @returns GameManager
+     */
+    public static getInstance(): GameManager {
+        if(!GameManager.instance) {
+            GameManager.instance = new GameManager();
+        }
+
+        return GameManager.instance;
+    }
+
+    /**
+     * Initialize all of the games main objects and properties.
+     *
+     * @returns void
+     */
+    public initializeGame(): void {
+        GameManager.snake = Snake.getInstance();
         GameManager.food = new Food();
-
-        GameManager.start();
+        SoundComponent.init();
+        this.utilsComponent = new UtilsComponent();
+        this.utilsComponent.initEventListeners();
+        GameManager.startingScreen();
     }
 
     /**
      * Calls the gameSetup method and starts the game main loop.
+     * NOTE: This method is bind to the keydown event on the 'Enter' button click,
+     * only when the game in in the 'startingScreen' state.
      *
-     * @private
      * @returns void
      */
-    private static start(): void {
-        GameManager.gameSetup();
+    public start(): void {
+        this.gameSetup();
         GameManager.mainLoop();
     }
 
@@ -48,14 +69,31 @@ export class GameManager {
      * @private
      * @returns void
      */
-    private static gameSetup(tailStartingLength: number = 2): void {
-        GameManager.isGameRunning = true;
+    private gameSetup(tailStartingLength: number = 2): void {
+        GameManager.gameState = GameState.Running;
         Snake.canPressKey = false;
 
+        // Adding by default the first 2 pieces of tail
         for (let i = 0; i < tailStartingLength; i++) {
-            TailUnit.tailUnits.push(new TailUnit(i));
             GameManager.snake.update();
+            let temp = new TailUnit(i);
+            TailUnit.tailUnits.push(temp);
+            temp.update();
         }
+
+        console.log(TailUnit.tailUnits);
+        console.log(GameManager.snake);
+    }
+
+    /**
+     *
+     * @private
+     * @returns void
+     */
+    private static startingScreen(): void {
+        GameManager.gameState = GameState.StartingScreen;
+        UtilsComponent.backgroundRefresh();
+        UtilsComponent.showTextMessage("Press Enter to start",'black','23px');
     }
 
     /**
@@ -63,8 +101,8 @@ export class GameManager {
      *
      * @returns void
      */
-    static mainLoop(): void {
-        if (GameManager.isGameRunning) {
+    public static mainLoop(): void {
+        if (GameManager.gameState === GameState.Running) {
             UtilsComponent.backgroundRefresh();
 
             TailUnit.updateAllUnits();
@@ -85,9 +123,9 @@ export class GameManager {
      *
      * @returns void
      */
-    public static gameOver(): void {
+    public gameOver(): void {
+        GameManager.gameState = GameState.Stopped;
         SoundComponent.playSoundEffect(SoundEffect.GameOverSound);
-        GameManager.isGameRunning = false;
         UtilsComponent.backgroundRefresh();
         GameManager.food.disappear();
         GameManager.snake.die();
@@ -99,9 +137,10 @@ export class GameManager {
         UtilsComponent.showTextMessage("You Lost!");
 
         setTimeout(function () {
-            GameManager.start();
+            GameManager.startingScreen();
         },1800);
     }
 }
 
-new GameManager();
+const gameManager = GameManager.getInstance();
+gameManager.initializeGame();

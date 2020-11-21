@@ -1,5 +1,10 @@
 import { GameManager } from "../GameManager.js";
+import { GameState } from "./EnumeratorsComponent.js";
 export class UtilsComponent {
+    constructor() {
+        this.gameManager = GameManager.getInstance();
+        this.snake = GameManager.snake;
+    }
     /**
      * Colors the canvas background of the game
      * default background color.
@@ -35,7 +40,7 @@ export class UtilsComponent {
      * @returns void
      */
     static updatePointsText() {
-        if (GameManager.isGameRunning) {
+        if (GameManager.gameState === GameState.Running) {
             GameManager.current_points++;
             GameManager.displayPointsElement.innerHTML = GameManager.current_points.toString();
         }
@@ -43,23 +48,37 @@ export class UtilsComponent {
             GameManager.current_points = 1;
             GameManager.displayPointsElement.innerHTML = "0";
         }
-        GameManager.FPS += 0.2;
+        GameManager.FPS += 0.1;
     }
     /**
      * Makes the passed message appear in the middle of the canvas.
      *
      * @param msg
      * @param color
+     * @param font
      * @param textAlign
      * @returns void
      */
-    static showTextMessage(msg, color = 'black', textAlign = 'center') {
-        GameManager.context.font = '25px Consolas';
+    static showTextMessage(msg, color = 'black', font = '25px', textAlign = 'center') {
+        GameManager.context.font = font;
         GameManager.context.strokeStyle = color;
         GameManager.context.textAlign = textAlign;
         GameManager.context.strokeText(msg, GameManager.canvas.width / 2, GameManager.canvas.height / 2);
     }
-    static initEventListeners() {
-        document.addEventListener("keydown", GameManager.snake.changeDirection);
+    /**
+     * Initialize all of the document event listeners.
+     *
+     * @returns void
+     */
+    initEventListeners() {
+        document.addEventListener("keydown", this.snake.changeDirection);
+        document.addEventListener("keydown", (e) => {
+            if (GameManager.gameState === GameState.StartingScreen) {
+                let key = e.key || e.keyCode;
+                if (key === 'Enter' || key === 13) {
+                    this.gameManager.start();
+                }
+            }
+        });
     }
 }

@@ -12,3 +12,9 @@ export enum Direction {
     Right,
     Null
 }
+
+export enum GameState {
+    StartingScreen,
+    Running,
+    Stopped
+}

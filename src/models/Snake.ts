@@ -1,21 +1,44 @@
+import {Direction, SoundEffect} from "../components/EnumeratorsComponent.js";
 import {UtilsComponent} from "../components/UtilsComponent.js";
 import {GameManager} from "../GameManager.js";
 import {TailUnit} from './TailUnit.js';
-import {Direction, SoundEffect} from "../components/EnumeratorsComponent.js";
 import {SnakeUnit} from "../abstract_classes/SnakeUnit.js";
-import {SnakeComponent} from "../components/SnakeComponent.js";
 import {SoundComponent} from "../components/SoundComponent.js";
 
 export class Snake extends SnakeUnit {
     static canPressKey: boolean = true;
-    private direction: Direction = Direction.Right;
+    static instance: Snake;
+    static direction: Direction;
+    gameManager: GameManager;
 
 
-    constructor(posX: number, posY: number) {
+    /**
+     * @constructor
+     * @param posX
+     * @param posY
+     * @param direction
+     * @private
+     */
+    private constructor(posX: number, posY: number, direction: Direction = Direction.Right) {
         super();
+        this.gameManager = GameManager.getInstance();
         this.size = GameManager.unitSize;
         this.posX = posX;
         this.posY = posY;
+        Snake.direction = direction;
+    }
+
+    /**
+     * Singleton related method
+     *
+     * @returns GameManager
+     */
+    public static getInstance(): Snake {
+        if(!Snake.instance) {
+            Snake.instance = new Snake(30, 0, Direction.Right);
+        }
+
+        return Snake.instance;
     }
 
     /**
@@ -26,12 +49,12 @@ export class Snake extends SnakeUnit {
     public update(): void {
         this.prevPosition.posX = this.posX;
         this.prevPosition.posY = this.posY;
-        this.prevPosition.direction = this.direction;
+        this.prevPosition.direction = Snake.direction;
 
-        this.updatePositionFromDirection(this.direction);
+        this.updatePositionFromDirection(Snake.direction);
         this.draw();
         this.checkForBorders();
-        this.selfCollisionDetection();
+        //this.selfCollisionDetection();
         this.foodCollisionDetection(GameManager.food.posX, GameManager.food.posY);
     };
 
@@ -40,7 +63,7 @@ export class Snake extends SnakeUnit {
             let key: string | number = e.key || e.keyCode;
             Snake.canPressKey = false;
 
-            GameManager.snake.direction = SnakeComponent.checkDirectionFromKey(key);
+            Snake.direction = Snake.checkDirectionFromKey(key);
         }
     };
 
@@ -53,7 +76,7 @@ export class Snake extends SnakeUnit {
         this.size = 10;
         this.posX = 0;
         this.posY = 0;
-        this.direction = Direction.Right;
+        Snake.direction = Direction.Right;
     };
 
     /**
@@ -68,7 +91,7 @@ export class Snake extends SnakeUnit {
             (this.posX + (this.size / 2)) < 0 ||
             (this.posY + (this.size / 2)) < 0)
         {
-            GameManager.gameOver();
+            this.gameManager.gameOver();
         }
     }
 
@@ -100,8 +123,41 @@ export class Snake extends SnakeUnit {
     selfCollisionDetection(): void {
         for (let i = 0; i < TailUnit.tailUnits.length; i++) {
             if (this.posX == TailUnit.tailUnits[i]['posX'] && this.posY == TailUnit.tailUnits[i]['posY']) {
-                GameManager.gameOver();
+                this.gameManager.gameOver();
             }
         }
     };
+
+    /**
+     * Switches over various browser keyboard keys and returns
+     * the according direction.
+     * Returns null if the key is invalid.
+     *
+     * @param key
+     * @returns Direction | null
+     */
+    private static checkDirectionFromKey(key: string | number): Direction | null {
+        switch (key) {
+            case 'ArrowUp':
+            case 'w':
+            case 87:
+            case 38:
+                return Snake.direction !== Direction.Down ? Direction.Up : Direction.Down;
+            case 'ArrowRight':
+            case 'd':
+            case 68:
+            case 39:
+                return Snake.direction !== Direction.Left ? Direction.Right : Direction.Left;
+            case 'ArrowLeft':
+            case 'a':
+            case 65:
+            case 37:
+                return Snake.direction !== Direction.Right ? Direction.Left : Direction.Right;
+            case 'ArrowDown':
+            case 's':
+            case 83:
+            case 40:
+                return Snake.direction !== Direction.Up ? Direction.Down : Direction.Up;
+        }
+    }
 }

@@ -13,3 +13,9 @@ export var Direction;
     Direction[Direction["Right"] = 3] = "Right";
     Direction[Direction["Null"] = 4] = "Null";
 })(Direction || (Direction = {}));
+export var GameState;
+(function (GameState) {
+    GameState[GameState["StartingScreen"] = 0] = "StartingScreen";
+    GameState[GameState["Running"] = 1] = "Running";
+    GameState[GameState["Stopped"] = 2] = "Stopped";
+})(GameState || (GameState = {}));

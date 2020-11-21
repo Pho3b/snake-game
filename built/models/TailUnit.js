@@ -1,8 +1,14 @@
 import { GameManager } from "../GameManager.js";
 import { SnakeUnit } from "../abstract_classes/SnakeUnit.js";
 export class TailUnit extends SnakeUnit {
+    /**
+     * @constructor
+     * @param tailUnitIndex
+     */
     constructor(tailUnitIndex) {
         super();
+        this.gameManager = GameManager.getInstance();
+        this.snake = GameManager.snake;
         this.tailUnitIndex = tailUnitIndex;
     }
     /**
@@ -14,10 +20,10 @@ export class TailUnit extends SnakeUnit {
         this.prevPosition.posX = this.posX;
         this.prevPosition.posY = this.posY;
         if (this.tailUnitIndex === 0) {
-            this.posX = GameManager.snake.prevPosition['posX'];
-            this.posY = GameManager.snake.prevPosition['posY'];
+            this.posX = this.snake.prevPosition['posX'];
+            this.posY = this.snake.prevPosition['posY'];
             // Makes the first tail piece to correctly follow the snakes head direction
-            this.updatePositionFromDirection(GameManager.snake.prevPosition['direction']);
+            this.updatePositionFromDirection(this.snake.prevPosition['direction']);
         }
         else {
             this.posX = TailUnit.tailUnits[this.tailUnitIndex - 1].prevPosition['posX'];

@@ -10,6 +10,7 @@ export abstract class SnakeUnit extends Unit {
         direction: Direction.Null
     };
 
+
     /**
      * Draws the snake unit on the canvas.
      *

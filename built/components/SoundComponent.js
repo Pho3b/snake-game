@@ -1,23 +1,14 @@
 import { SoundEffect } from "./EnumeratorsComponent.js";
 export class SoundComponent {
-    constructor() {
-        this.defaultSoundEffectsVolume = 0.2;
-        this.populateGameAudioList();
-        this.preloadAudioAndSetVolume();
-    }
     /**
-     * Singleton related method to retrieve a single
-     * instance of the HelperComponent.
+     * Performs all of the tasks need to initialize and
+     * make the SoundComponent usable.
      *
-     * @returns UtilsComponent
+     * @returns void
      */
-    static getInstance() {
-        if (SoundComponent.instance === null) {
-            return new SoundComponent();
-        }
-        else {
-            return SoundComponent.instance;
-        }
+    static init() {
+        SoundComponent.populateGameAudioList();
+        SoundComponent.preloadAudioAndSetVolume();
     }
     /**
      * Plays the sound passed as parameter.
@@ -41,7 +32,7 @@ export class SoundComponent {
      *
      * @returns void
      */
-    populateGameAudioList() {
+    static populateGameAudioList() {
         SoundComponent.soundEffects[SoundEffect.EatingSound] = new Audio("sounds/eat.mp3");
         SoundComponent.soundEffects[SoundEffect.GameOverSound] = new Audio("sounds/game-over.wav");
     }
@@ -51,7 +42,7 @@ export class SoundComponent {
      *
      * @returns void
      */
-    preloadAudioAndSetVolume() {
+    static preloadAudioAndSetVolume() {
         SoundComponent.soundEffects.forEach((soundEffect, soundKey) => {
             soundEffect.load();
             switch (soundKey) {
@@ -59,11 +50,11 @@ export class SoundComponent {
                     soundEffect.volume = 0.8;
                     break;
                 default:
-                    soundEffect.volume = this.defaultSoundEffectsVolume;
+                    soundEffect.volume = SoundComponent.defaultSoundEffectsVolume;
                     break;
             }
         });
     }
 }
 SoundComponent.soundEffects = new Array(5);
-SoundComponent.instance = null;
+SoundComponent.defaultSoundEffectsVolume = 0.2;
