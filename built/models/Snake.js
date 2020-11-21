@@ -59,7 +59,6 @@ export class Snake extends SnakeUnit {
         this.selfCollisionDetection();
         this.foodCollisionDetection(GameManager.food.posX, GameManager.food.posY);
     }
-    ;
     /**
      * Resets the Snake properties to the default state.
      *
@@ -71,7 +70,6 @@ export class Snake extends SnakeUnit {
         this.posY = 0;
         this.direction = Direction.Right;
     }
-    ;
     /**
      * Checks whether the snake is colliding with the map borders or no.
      * In case it is colliding it calls the die method.
@@ -103,7 +101,6 @@ export class Snake extends SnakeUnit {
             SoundComponent.playSoundEffect(SoundEffect.EatingSound);
         }
     }
-    ;
     /**
      * Checks whether the snake is colliding with the map borders or no.
      * In case it is colliding it calls the die method.
@@ -118,7 +115,6 @@ export class Snake extends SnakeUnit {
             }
         }
     }
-    ;
     /**
      * Switches over various browser keyboard keys and returns
      * the according direction.

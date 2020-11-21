@@ -72,7 +72,7 @@ export class UtilsComponent {
      * @param textAlign
      * @returns void
      */
-    static showTextMessage(msg: string, color: string = 'black', font: string = '25px Comic Sans MS', textAlign: CanvasTextAlign = 'center'): void {
+    static showTextMessage(msg: string, color: string = 'black', font: string = '16px pixel', textAlign: CanvasTextAlign = 'center'): void {
         GameManager.context.font = font;
         GameManager.context.lineWidth = 1;
         GameManager.context.fillStyle = "black";

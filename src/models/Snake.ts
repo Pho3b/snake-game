@@ -56,7 +56,7 @@ export class Snake extends SnakeUnit {
 
         this.selfCollisionDetection();
         this.foodCollisionDetection(GameManager.food.posX, GameManager.food.posY);
-    };
+    }
 
     /**
      * Changes the snake current direction based on the
@@ -71,7 +71,7 @@ export class Snake extends SnakeUnit {
 
             this.direction = this.checkDirectionFromKey(key);
         }
-    };
+    }
 
 
     /**
@@ -84,7 +84,7 @@ export class Snake extends SnakeUnit {
         this.posX = 0;
         this.posY = 0;
         this.direction = Direction.Right;
-    };
+    }
 
     /**
      * Checks whether the snake is colliding with the map borders or no.
@@ -119,7 +119,7 @@ export class Snake extends SnakeUnit {
 
             SoundComponent.playSoundEffect(SoundEffect.EatingSound);
         }
-    };
+    }
 
     /**
      * Checks whether the snake is colliding with the map borders or no.
@@ -135,7 +135,7 @@ export class Snake extends SnakeUnit {
                 this.gameManager.gameOver();
             }
         }
-    };
+    }
 
     /**
      * Switches over various browser keyboard keys and returns

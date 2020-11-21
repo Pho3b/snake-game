@@ -32,13 +32,17 @@ export class TailUnit extends SnakeUnit {
         this.draw();
         this.foodCollisionDetection();
     }
-    ;
+    /**
+     * Checks if the snake's Tail is colliding with the food piece.
+     * If yes, it triggers the food re spawn.
+     *
+     * @return void
+     */
     foodCollisionDetection() {
         if (this.posX === GameManager.food.posX && this.posY === GameManager.food.posY) {
             GameManager.food.randomSpawn();
         }
     }
-    ;
     /**
      * Cycles over the tail units and trigger
      * the update method.

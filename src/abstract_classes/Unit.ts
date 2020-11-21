@@ -13,5 +13,5 @@ export abstract class Unit {
     public disappear() {
         GameManager.context.fillStyle = "white";
         GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
-    };
+    }
 }
