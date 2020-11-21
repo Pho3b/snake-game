@@ -88,7 +88,7 @@ export class UtilsComponent {
      */
     public initEventListeners = (): void => {
         document.addEventListener("keydown", this.snake.changeDirection);
-        document.addEventListener("keydown", (e) => {
+        document.addEventListener("keydown", (e : KeyboardEvent) => {
             if (GameManager.gameState === GameState.StartingScreen) {
                 let key: string | number = e.key || e.keyCode;
 
