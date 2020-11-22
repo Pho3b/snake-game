@@ -6,15 +6,33 @@
 		<link rel="icon" type='image/x-icon' href="/img/favicon.ico"/>
 		<link rel="stylesheet" type="text/css" href="/style/index.css">
 		<link rel="preload" href="./style/font/dogicapixel.ttf" as="font" type="font/ttf" crossorigin>
+		<script src="https://use.fontawesome.com/67fc9e4ae1.js"></script>
 	</head>
 	<body>
 		<div class="header"></div>
 		<div class="row">
-			<div class="column side-column">
-				<ol id="recordsList" type="1">
-					<li class="record_list_element"></li>
-					<li class="record_list_element"></li>
-					<li class="record_list_element"></li>
+			<div class="column" style="background-color: #862c2c">
+				<canvas id="main-canvas" width="250" height="250">
+					Your browser does not support the HTML5 canvas tag.
+				</canvas>
+				<h2>Points:<b id="points">3</b></h2>
+			</div>
+			<div class="column left-column">
+				<div>
+					<label for="player-name">Playing as:</label>
+					<input type="text" id="player-name" value="player-name">
+				</div>
+
+				<ol id="recordsList" type="1" style="background-color: blanchedalmond">
+					<li class="record_list_element">
+						<i class="fa fa-trophy" aria-hidden="true" style="color: #d8da48"></i>
+					</li>
+					<li class="record_list_element">
+						<i class="fa fa-trophy" aria-hidden="true" style="color: #8e888c"></i>
+					</li>
+					<li class="record_list_element">
+						<i class="fa fa-trophy" aria-hidden="true" style="color: #84481d"></i>
+					</li>
 					<li class="record_list_element"></li>
 					<li class="record_list_element"></li>
 					<li class="record_list_element"></li>
@@ -33,12 +51,6 @@
 					<li class="record_list_element"></li>
 					<li class="record_list_element"></li>
 				</ol>
-			</div>
-			<div class="column">
-				<canvas id="main-canvas" width="250" height="250">
-					Your browser does not support the HTML5 canvas tag.
-				</canvas>
-				<h2>Points:<b id="points">3</b></h2>
 			</div>
 			<div class="column side-column"></div>
 		</div>
