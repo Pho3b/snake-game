@@ -1,5 +1,5 @@
 import {UtilsComponent} from "./components/UtilsComponent.js";
-import {Direction, GameState, SoundEffect} from "./components/EnumeratorsComponent.js";
+import {GameState, SoundEffect} from "./components/EnumeratorsComponent.js";
 import {Snake} from './models/Snake.js';
 import {Food} from './models/Food.js';
 import {SoundComponent} from "./components/SoundComponent.js";
@@ -13,7 +13,7 @@ export class GameManager {
     static readonly defaultFPS: number = 7;
     static readonly unitSize: number = 10;
     static canPressKey: boolean = true;
-    static current_points: number = 3;
+    static current_points: number = 0;
     static gameState: GameState = GameState.StartingScreen;
     static records: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     public static snake: Snake;

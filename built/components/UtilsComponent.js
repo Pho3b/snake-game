@@ -68,7 +68,7 @@ export class UtilsComponent {
             GameManager.current_points = 1;
             GameManager.displayPointsElement.innerHTML = "0";
         }
-        GameManager.FPS += 0.1;
+        GameManager.FPS += 0.2;
     }
     /**
      * Makes the passed message appear in the middle of the canvas.

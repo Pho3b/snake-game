@@ -60,7 +60,7 @@ export class UtilsComponent {
             GameManager.displayPointsElement.innerHTML = "0";
         }
 
-        GameManager.FPS += 0.1;
+        GameManager.FPS += 0.2;
     }
 
     /**
