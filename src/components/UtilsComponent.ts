@@ -40,7 +40,7 @@ export class UtilsComponent {
             }
             else if (entry > GameManager.records[i]) {
                 GameManager.records[i] = entry;
-                GameManager.recordListElements[i].innerHTML = GameManager.records[i].toString();
+                GameManager.recordListElements[i].children[0].innerHTML = GameManager.records[i].toString();
                 break;
             }
         }
