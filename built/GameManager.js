@@ -10,7 +10,6 @@ export class GameManager {
          * Calls the beforeStart method and starts the game main loop.
          * NOTE: This method is bind to the keydown event on the 'Enter' button click,
          * only when the game is in the 'startingScreen' state.
-         *
          * @returns void
          */
         this.start = () => {
@@ -20,7 +19,6 @@ export class GameManager {
     }
     /**
      * Singleton related method
-     *
      * @returns GameManager
      */
     static getInstance() {
@@ -31,7 +29,6 @@ export class GameManager {
     }
     /**
      * Initialize all of the games main objects and properties.
-     *
      * @returns void
      */
     initializeGame() {
@@ -45,7 +42,6 @@ export class GameManager {
     /**
      * Performs all the task that needs to be done
      * before starting the game mainLoop.
-     *
      * @param tailStartingLength
      * @private
      * @returns void
@@ -62,7 +58,6 @@ export class GameManager {
         }
     }
     /**
-     *
      * @private
      * @returns void
      */
@@ -73,7 +68,6 @@ export class GameManager {
     }
     /**
      * Game main loop.
-     *
      * @returns void
      */
     static mainLoop() {
@@ -91,7 +85,6 @@ export class GameManager {
     /**
      * Updates the various component to reset themselves.
      * Also resets the points and texts.
-     *
      * @returns void
      */
     gameOver() {

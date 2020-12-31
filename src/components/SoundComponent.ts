@@ -8,7 +8,6 @@ export class SoundComponent {
     /**
      * Performs all of the tasks need to initialize and
      * make the SoundComponent usable.
-     *
      * @returns void
      */
     public static init(): void {
@@ -18,7 +17,6 @@ export class SoundComponent {
 
     /**
      * Plays the sound passed as parameter.
-     *
      * @returns void
      */
     public static playSoundEffect(sound: SoundEffect): void {
@@ -37,7 +35,6 @@ export class SoundComponent {
 
     /**
      * Populate the instance sound effects list.
-     *
      * @returns void
      */
     private static populateGameAudioList(): void {
@@ -48,7 +45,6 @@ export class SoundComponent {
     /**
      * Pre loads and set the volume of all of the
      * sounds stored in the 'soundEffects' list.
-     *
      * @returns void
      */
     private static preloadAudioAndSetVolume(): void {

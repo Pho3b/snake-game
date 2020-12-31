@@ -8,7 +8,6 @@ export class UtilsComponent {
     constructor() {
         /**
          * Initialize all of the document event listeners.
-         *
          * @returns void
          */
         this.initEventListeners = () => {
@@ -28,7 +27,6 @@ export class UtilsComponent {
     /**
      * Colors the canvas background of the game
      * default background color.
-     *
      * @returns void
      */
     static backgroundRefresh() {
@@ -38,7 +36,6 @@ export class UtilsComponent {
     /**
      * Updates the html list of records.
      * TODO: move the record and points system in a different component.
-     *
      * @param entry
      * @returns void
      */
@@ -56,7 +53,6 @@ export class UtilsComponent {
     }
     /**
      * TODO: Same as above
-     *
      * @returns void
      */
     static updatePointsText() {
@@ -72,7 +68,6 @@ export class UtilsComponent {
     }
     /**
      * Makes the passed message appear in the middle of the canvas.
-     *
      * @param msg
      * @param color
      * @param font

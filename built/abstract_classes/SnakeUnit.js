@@ -12,7 +12,6 @@ export class SnakeUnit extends Unit {
     }
     /**
      * Draws the snake unit on the canvas.
-     *
      * @returns void
      */
     draw() {
@@ -25,7 +24,6 @@ export class SnakeUnit extends Unit {
     /**
      * Updates the snake part position starting from
      * the passed direction.
-     *
      * @param direction
      */
     updatePositionFromDirection(direction) {

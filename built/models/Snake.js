@@ -17,7 +17,6 @@ export class Snake extends SnakeUnit {
         /**
          * Changes the snake current direction based on the
          * player pressed key.
-         *
          * @param e
          */
         this.changeDirection = (e) => {
@@ -35,7 +34,6 @@ export class Snake extends SnakeUnit {
     }
     /**
      * Singleton related method
-     *
      * @returns GameManager
      */
     static getInstance() {
@@ -46,7 +44,6 @@ export class Snake extends SnakeUnit {
     }
     /**
      * Refresh the element position and attributes.
-     *
      * @returns void
      */
     update() {
@@ -61,7 +58,6 @@ export class Snake extends SnakeUnit {
     }
     /**
      * Resets the Snake properties to the default state.
-     *
      * @returns void
      */
     die() {
@@ -73,7 +69,6 @@ export class Snake extends SnakeUnit {
     /**
      * Checks whether the snake is colliding with the map borders or no.
      * In case it is colliding it calls the die method.
-     *
      * @return void
      */
     checkForBorders() {
@@ -88,7 +83,6 @@ export class Snake extends SnakeUnit {
      * Checks if the snake is colliding with the food piece.
      * If yes, it triggers the food re spawn, updates player points
      * and add a tail piece.
-     *
      * @param foodPosX
      * @param foodPosY
      * @return void
@@ -104,7 +98,6 @@ export class Snake extends SnakeUnit {
     /**
      * Checks whether the snake is colliding with the map borders or no.
      * In case it is colliding it calls the die method.
-     *
      * @returns void
      */
     selfCollisionDetection() {
@@ -119,7 +112,6 @@ export class Snake extends SnakeUnit {
      * Switches over various browser keyboard keys and returns
      * the according direction.
      * Returns null if the key is invalid.
-     *
      * @param key
      * @returns Direction | null
      */

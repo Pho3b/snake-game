@@ -5,7 +5,6 @@ export class Unit {
     }
     /**
      * Makes the unit disappear.
-     *
      * @returns void
      */
     disappear() {

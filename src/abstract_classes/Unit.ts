@@ -7,7 +7,6 @@ export abstract class Unit {
 
     /**
      * Makes the unit disappear.
-     *
      * @returns void
      */
     public disappear() {

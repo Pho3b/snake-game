@@ -13,7 +13,6 @@ export class TailUnit extends SnakeUnit {
     }
     /**
      * Refresh the element position and attributes.
-     *
      * @returns void
      */
     update() {
@@ -35,7 +34,6 @@ export class TailUnit extends SnakeUnit {
     /**
      * Checks if the snake's Tail is colliding with the food piece.
      * If yes, it triggers the food re spawn.
-     *
      * @return void
      */
     foodCollisionDetection() {
@@ -46,7 +44,6 @@ export class TailUnit extends SnakeUnit {
     /**
      * Cycles over the tail units and trigger
      * the update method.
-     *
      * @returns void
      */
     static updateAllUnits() {
@@ -57,7 +54,6 @@ export class TailUnit extends SnakeUnit {
     /**
      * Cycles over the snake tails units and
      * triggers the disappear method.
-     *
      * @returns void
      */
     static hideTailPieces() {
