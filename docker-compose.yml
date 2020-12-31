@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  snake:
+    container_name: snake-game
+    build:
+      context: ./
+    ports:
+      - 8080:80
+    volumes:
+      - ./:/usr/share/nginx/html

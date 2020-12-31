@@ -65,7 +65,7 @@ export class Snake extends SnakeUnit {
      * @param e
      */
     public changeDirection = (e) => {
-        if (true && GameManager.gameState === GameState.Running) {
+        if (GameManager.gameState === GameState.Running) {
             let key: string | number = e.key || e.keyCode;
             GameManager.canPressKey = false;
 
