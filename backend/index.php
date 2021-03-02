@@ -1,4 +1,4 @@
 <?php
 
-echo "Ciao ci sono";
+echo "ping";
 
