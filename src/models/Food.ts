@@ -15,6 +15,7 @@ export class Food extends Unit {
 
     /**
      * Draws the green food piece on the map.
+     *
      * @returns void
      */
     public draw(): void {
@@ -25,6 +26,7 @@ export class Food extends Unit {
     /**
      * Assign the posX and posY to random position values
      * and then it calls the draw method.
+     *
      * @returns void
      */
     public randomSpawn(): void {
@@ -38,6 +40,7 @@ export class Food extends Unit {
      * size and the map size.
      * Rounds up the value to the nearest integer and always returns
      * a multiple of the 'unitSize'
+     *
      * @returns number
      */
     private generateRandomPosition(): number {
