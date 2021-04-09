@@ -37,8 +37,7 @@ export class UtilsComponent {
         for (let i = 0; i < GameManager.records.length; i++) {
             if (entry === GameManager.records[i]) {
                 break;
-            }
-            else if (entry > GameManager.records[i]) {
+            } else if (entry > GameManager.records[i]) {
                 GameManager.records[i] = entry;
                 GameManager.recordListElements[i].children[0].innerHTML = GameManager.records[i].toString();
                 break;
@@ -82,7 +81,7 @@ export class UtilsComponent {
     }
 
     /**
-     * Initialize all of the document event listeners.
+     * Initializes all the document event listeners.
      *
      * @returns void
      */
