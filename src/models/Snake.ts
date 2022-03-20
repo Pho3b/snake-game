@@ -33,7 +33,7 @@ export class Snake extends SnakeUnit {
      * @returns GameManager
      */
     public static getInstance(): Snake {
-        if(!Snake.instance) {
+        if (!Snake.instance) {
             Snake.instance = new Snake(0, 0, 3);
         }
 
@@ -80,7 +80,7 @@ export class Snake extends SnakeUnit {
      * @returns void
      */
     die(): void {
-        this.size = 10;
+        this.size = GameManager.unitSize;
         this.posX = 0;
         this.posY = 0;
         this.direction = Direction.Right;
@@ -96,8 +96,7 @@ export class Snake extends SnakeUnit {
         if ((this.posX + (this.size / 2)) > GameManager.canvas.width ||
             (this.posY + (this.size / 2)) > GameManager.canvas.height ||
             (this.posX + (this.size / 2)) < 0 ||
-            (this.posY + (this.size / 2)) < 0)
-        {
+            (this.posY + (this.size / 2)) < 0) {
             this.gameManager.gameOver();
         }
     }
@@ -130,8 +129,7 @@ export class Snake extends SnakeUnit {
     selfCollisionDetection(): void {
         for (let i = 0; i < TailUnit.tailUnits.length; i++) {
             if (this.posX == TailUnit.tailUnits[i]['posX'] &&
-                this.posY == TailUnit.tailUnits[i]['posY'])
-            {
+                this.posY == TailUnit.tailUnits[i]['posY']) {
                 this.gameManager.gameOver();
             }
         }

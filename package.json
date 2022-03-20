@@ -2,13 +2,13 @@
   "name": "snake",
   "version": "1.0.0",
   "description": "Snake clone game",
-  "main": "Main.js",
+  "main": "built/GameManager.js",
   "dependencies": {},
   "devDependencies": {
     "typescript": "^4.0.5"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "tsc -watch"
   },
   "repository": {
     "type": "git",

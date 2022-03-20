@@ -11,7 +11,7 @@ export class GameManager {
     static readonly displayPointsElement = document.getElementById('points');
     static readonly recordListElements = document.getElementsByClassName('record_list_element');
     static readonly defaultFPS: number = 7;
-    static readonly unitSize: number = 10;
+    static readonly unitSize: number = 15;
     static canPressKey: boolean = true;
     static current_points: number = 0;
     static gameState: GameState = GameState.StartingScreen;
@@ -29,6 +29,8 @@ export class GameManager {
      * @returns GameManager
      */
     public static getInstance(): GameManager {
+        console.log('getting the instance');
+
         if(!GameManager.instance) {
             GameManager.instance = new GameManager();
         }
@@ -37,7 +39,7 @@ export class GameManager {
     }
 
     /**
-     * Initialize all of the games main objects and properties.
+     * Initialize all the games main objects and properties.
      *
      * @returns void
      */
@@ -90,7 +92,7 @@ export class GameManager {
     private static startingScreen(): void {
         GameManager.gameState = GameState.StartingScreen;
         UtilsComponent.backgroundRefresh();
-        UtilsComponent.showTextMessage("Press ENTER to start");
+        UtilsComponent.showTextMessage('Press ENTER to start');
     }
 
     /**
@@ -131,7 +133,7 @@ export class GameManager {
         UtilsComponent.updateRecordsList(GameManager.current_points);
         UtilsComponent.updatePointsText();
         GameManager.FPS = GameManager.defaultFPS;
-        UtilsComponent.showTextMessage("You Lost!");
+        UtilsComponent.showTextMessage('You Lost!');
 
         setTimeout(function () {
             GameManager.startingScreen();

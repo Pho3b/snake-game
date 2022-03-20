@@ -71,7 +71,7 @@ export class UtilsComponent {
      * @param textAlign
      * @returns void
      */
-    static showTextMessage(msg: string, color: string = 'black', font: string = '12px pixel', textAlign: CanvasTextAlign = 'center'): void {
+    static showTextMessage(msg: string, color: string = 'black', font: string = '14px pixel', textAlign: CanvasTextAlign = 'center'): void {
         GameManager.context.font = font;
         GameManager.context.lineWidth = 1;
         GameManager.context.fillStyle = "black";
@@ -86,14 +86,14 @@ export class UtilsComponent {
      * @returns void
      */
     public initEventListeners = (): void => {
-        document.addEventListener("keydown", this.snake.changeDirection);
         document.addEventListener("keydown", (e : KeyboardEvent) => {
             if (GameManager.gameState === GameState.StartingScreen) {
-                let key: string | number = e.key || e.keyCode;
+                let key: string | number = e.key;
 
-                if (key === 'Enter' || key === 13) {
+                if (key === 'Enter')
                     this.gameManager.start();
-                }
+            } else {
+                this.snake.changeDirection(e);
             }
         });
     }

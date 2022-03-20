@@ -4,5 +4,8 @@
     "allowJs": true,
     "target": "es6"
   },
-  "include": ["./src/**/*"]
+  "moduleResolution": "node",
+  "include": [
+    "./src/**/*"
+  ]
 }
