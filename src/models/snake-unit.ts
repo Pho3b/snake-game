@@ -1,10 +1,10 @@
-import {IPosition} from "../interfaces/IPosition.js";
-import {Direction} from "../components/EnumeratorsComponent.js";
-import {GameManager} from "../GameManager.js";
-import {Unit} from "./Unit.js";
+import {Position} from "./position.js";
+import {Direction} from "../components/enums-component.js";
+import {GameManager} from "../game-manager.js";
+import {Unit} from "./unit.js";
 
 export abstract class SnakeUnit extends Unit {
-    prevPosition: IPosition = {
+    prevPosition: Position = {
         posX: 0,
         posY: 0,
         direction: Direction.Null
@@ -26,11 +26,11 @@ export abstract class SnakeUnit extends Unit {
 
     /**
      * Updates the snake part position starting from
-     * the passed direction.
+     * the given direction.
      *
      * @param direction
      */
-    protected updatePositionFromDirection(direction: Direction): void {
+    protected updatePosition(direction: Direction): void {
         switch (direction) {
             case Direction.Left:
                 this.posX -= this.size;
@@ -46,6 +46,4 @@ export abstract class SnakeUnit extends Unit {
                 break;
         }
     }
-
-    public update() {};
 }

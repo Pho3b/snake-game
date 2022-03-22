@@ -1,13 +1,14 @@
-import {Direction, GameState, SoundEffect} from "../components/EnumeratorsComponent.js";
-import {UtilsComponent} from "../components/UtilsComponent.js";
-import {GameManager} from "../GameManager.js";
-import {TailUnit} from './TailUnit.js';
-import {SnakeUnit} from "../abstract_classes/SnakeUnit.js";
-import {SoundComponent} from "../components/SoundComponent.js";
+import {Direction, GameState, SoundEffect} from "../components/enums-component.js";
+import {UtilsComponent} from "../components/utils-component.js";
+import {GameManager} from "../game-manager.js";
+import {TailUnit} from './tail-unit.js';
+import {SnakeUnit} from "./snake-unit.js";
+import {SoundComponent} from "../components/sound-component.js";
 
 export class Snake extends SnakeUnit {
     static instance: Snake;
     direction: Direction;
+    lastInsertedDirection: Direction;
     gameManager: GameManager;
 
 
@@ -25,6 +26,7 @@ export class Snake extends SnakeUnit {
         this.posX = posX;
         this.posY = posY;
         this.direction = direction;
+        this.lastInsertedDirection = this.direction;
     }
 
     /**
@@ -33,9 +35,8 @@ export class Snake extends SnakeUnit {
      * @returns GameManager
      */
     public static getInstance(): Snake {
-        if (!Snake.instance) {
+        if (!Snake.instance)
             Snake.instance = new Snake(0, 0, 3);
-        }
 
         return Snake.instance;
     }
@@ -46,14 +47,14 @@ export class Snake extends SnakeUnit {
      * @returns void
      */
     public update(): void {
+        this.direction = this.lastInsertedDirection;
         this.prevPosition.posX = this.posX;
         this.prevPosition.posY = this.posY;
         this.prevPosition.direction = this.direction;
 
-        this.updatePositionFromDirection(this.direction);
+        this.updatePosition(this.direction);
         this.draw();
         this.checkForBorders();
-
         this.selfCollisionDetection();
         this.foodCollisionDetection(GameManager.food.posX, GameManager.food.posY);
     }
@@ -65,12 +66,8 @@ export class Snake extends SnakeUnit {
      * @param e
      */
     public changeDirection = (e) => {
-        if (GameManager.gameState === GameState.Running) {
-            let key: string | number = e.key || e.keyCode;
-            GameManager.canPressKey = false;
-
-            this.direction = this.checkDirectionFromKey(key);
-        }
+        if (GameManager.gameState === GameState.Running)
+            this.lastInsertedDirection = this.checkDirectionFromKey(e.key);
     }
 
 
@@ -79,7 +76,7 @@ export class Snake extends SnakeUnit {
      *
      * @returns void
      */
-    die(): void {
+    public die(): void {
         this.size = GameManager.unitSize;
         this.posX = 0;
         this.posY = 0;
@@ -92,7 +89,7 @@ export class Snake extends SnakeUnit {
      *
      * @return void
      */
-    checkForBorders(): void {
+    public checkForBorders(): void {
         if ((this.posX + (this.size / 2)) > GameManager.canvas.width ||
             (this.posY + (this.size / 2)) > GameManager.canvas.height ||
             (this.posX + (this.size / 2)) < 0 ||
@@ -103,14 +100,14 @@ export class Snake extends SnakeUnit {
 
     /**
      * Checks if the snake is colliding with the food piece.
-     * If yes, it triggers the food re spawn, updates player points
-     * and add a tail piece.
+     * If yes, it triggers the food re-spawn, updates player points
+     * and add a tailpiece.
      *
      * @param foodPosX
      * @param foodPosY
      * @return void
      */
-    foodCollisionDetection(foodPosX, foodPosY): void {
+    public foodCollisionDetection(foodPosX, foodPosY): void {
         if (this.posX === foodPosX && this.posY === foodPosY) {
             UtilsComponent.updatePointsText();
             GameManager.food.randomSpawn();
@@ -126,7 +123,7 @@ export class Snake extends SnakeUnit {
      *
      * @returns void
      */
-    selfCollisionDetection(): void {
+    public selfCollisionDetection(): void {
         for (let i = 0; i < TailUnit.tailUnits.length; i++) {
             if (this.posX == TailUnit.tailUnits[i]['posX'] &&
                 this.posY == TailUnit.tailUnits[i]['posY']) {
@@ -143,7 +140,7 @@ export class Snake extends SnakeUnit {
      * @param key
      * @returns Direction | null
      */
-    checkDirectionFromKey(key: string | number): Direction | null {
+    public checkDirectionFromKey(key: string | number): Direction | null {
         switch (key) {
             case 'ArrowUp':
             case 'w':

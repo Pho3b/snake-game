@@ -1,6 +1,6 @@
-import {GameManager} from "../GameManager.js";
-import {GameState} from "./EnumeratorsComponent.js";
-import {Snake} from "../models/Snake.js";
+import {GameManager} from "../game-manager.js";
+import {GameState} from "./enums-component.js";
+import {Snake} from "../models/snake.js";
 
 export class UtilsComponent {
     private gameManager: GameManager;
@@ -86,12 +86,9 @@ export class UtilsComponent {
      * @returns void
      */
     public initEventListeners = (): void => {
-        document.addEventListener("keydown", (e : KeyboardEvent) => {
-            if (GameManager.gameState === GameState.StartingScreen) {
-                let key: string | number = e.key;
-
-                if (key === 'Enter')
-                    this.gameManager.start();
+        document.addEventListener('keydown', (e: KeyboardEvent) => {
+            if (GameManager.gameState === GameState.StartingScreen && e.key === 'Enter') {
+                this.gameManager.start();
             } else {
                 this.snake.changeDirection(e);
             }

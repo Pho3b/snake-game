@@ -1,5 +1,5 @@
-import {GameManager} from "../GameManager.js";
-import {Unit} from "../abstract_classes/Unit.js";
+import {GameManager} from "../game-manager.js";
+import {Unit} from "./unit.js";
 
 export class Food extends Unit {
     size: number;
@@ -7,6 +7,9 @@ export class Food extends Unit {
     posY: number;
 
 
+    /**
+     * Default constructor
+     */
     constructor() {
         super();
         this.size = GameManager.unitSize;
@@ -24,14 +27,13 @@ export class Food extends Unit {
     };
 
     /**
-     * Assign the posX and posY to random position values
-     * and then it calls the draw method.
+     * Draws the food piece on a random spot on the grid
      *
      * @returns void
      */
     public randomSpawn(): void {
-        this.posX = this.generateRandomPosition();
-        this.posY = this.generateRandomPosition();
+        this.posX = Food.generateRandomPosition();
+        this.posY = Food.generateRandomPosition();
         this.draw();
     };
 
@@ -43,7 +45,7 @@ export class Food extends Unit {
      *
      * @returns number
      */
-    private generateRandomPosition(): number {
+    private static generateRandomPosition(): number {
         let canvasAvailableSize = GameManager.canvas.width - GameManager.unitSize;
         return Math.round((Math.random() * canvasAvailableSize) / GameManager.unitSize) * GameManager.unitSize;
     }

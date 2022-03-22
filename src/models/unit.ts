@@ -1,4 +1,4 @@
-import {GameManager} from "../GameManager.js";
+import {GameManager} from "../game-manager.js";
 
 export abstract class Unit {
     size: number = GameManager.unitSize;

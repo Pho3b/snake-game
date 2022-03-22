@@ -1,9 +1,9 @@
-import {UtilsComponent} from "./components/UtilsComponent.js";
-import {GameState, SoundEffect} from "./components/EnumeratorsComponent.js";
-import {Snake} from './models/Snake.js';
-import {Food} from './models/Food.js';
-import {SoundComponent} from "./components/SoundComponent.js";
-import {TailUnit} from './models/TailUnit.js';
+import {UtilsComponent} from "./components/utils-component.js";
+import {GameState, SoundEffect} from "./components/enums-component.js";
+import {Snake} from './models/snake.js';
+import {Food} from './models/food.js';
+import {SoundComponent} from "./components/sound-component.js";
+import {TailUnit} from './models/tail-unit.js';
 
 export class GameManager {
     static readonly canvas: HTMLCanvasElement = document.getElementById('main-canvas') as HTMLCanvasElement;
@@ -12,7 +12,6 @@ export class GameManager {
     static readonly recordListElements = document.getElementsByClassName('record_list_element');
     static readonly defaultFPS: number = 7;
     static readonly unitSize: number = 15;
-    static canPressKey: boolean = true;
     static current_points: number = 0;
     static gameState: GameState = GameState.StartingScreen;
     static records: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -29,8 +28,6 @@ export class GameManager {
      * @returns GameManager
      */
     public static getInstance(): GameManager {
-        console.log('getting the instance');
-
         if(!GameManager.instance) {
             GameManager.instance = new GameManager();
         }
@@ -62,7 +59,6 @@ export class GameManager {
      */
     private beforeStart(tailStartingLength: number = 2): void {
         GameManager.gameState = GameState.Running;
-        GameManager.canPressKey = false;
 
         // Adding by default the first 2 pieces of tail
         for (let i = 0; i < tailStartingLength; i++) {
@@ -107,10 +103,6 @@ export class GameManager {
             TailUnit.updateAllUnits();
             GameManager.food.draw();
             GameManager.snake.update();
-
-            if (!GameManager.canPressKey) {
-                GameManager.canPressKey = true
-            }
 
             setTimeout(GameManager.mainLoop, 1000 / GameManager.FPS);
         }
