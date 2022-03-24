@@ -1,5 +1,5 @@
-import {GameManager} from "../game-manager.js";
 import {Unit} from "./unit.js";
+import {Constant} from "../helper/constant.js";
 
 export class Food extends Unit {
     size: number;
@@ -12,7 +12,7 @@ export class Food extends Unit {
      */
     constructor() {
         super();
-        this.size = GameManager.unitSize;
+        this.size = Constant.unitSize;
         this.randomSpawn();
     }
 
@@ -22,8 +22,8 @@ export class Food extends Unit {
      * @returns void
      */
     public draw(): void {
-        GameManager.context.fillStyle = "green";
-        GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
+        Constant.context.fillStyle = "green";
+        Constant.context.fillRect(this.posX, this.posY, this.size, this.size);
     };
 
     /**
@@ -46,7 +46,7 @@ export class Food extends Unit {
      * @returns number
      */
     private static generateRandomPosition(): number {
-        let canvasAvailableSize = GameManager.canvas.width - GameManager.unitSize;
-        return Math.round((Math.random() * canvasAvailableSize) / GameManager.unitSize) * GameManager.unitSize;
+        let canvasAvailableSize = Constant.canvas.width - Constant.unitSize;
+        return Math.round((Math.random() * canvasAvailableSize) / Constant.unitSize) * Constant.unitSize;
     }
 }

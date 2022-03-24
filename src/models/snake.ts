@@ -1,9 +1,10 @@
-import {Direction, GameState, SoundEffect} from "../components/enums-component.js";
+import {Direction, GameState, SoundEffect} from "../helper/enum.js";
 import {UtilsComponent} from "../components/utils-component.js";
 import {GameManager} from "../game-manager.js";
 import {TailUnit} from './tail-unit.js';
 import {SnakeUnit} from "./snake-unit.js";
 import {SoundComponent} from "../components/sound-component.js";
+import {Constant} from "../helper/constant.js";
 
 export class Snake extends SnakeUnit {
     static instance: Snake;
@@ -22,7 +23,7 @@ export class Snake extends SnakeUnit {
     private constructor(posX: number, posY: number, direction: number) {
         super();
         this.gameManager = GameManager.getInstance();
-        this.size = GameManager.unitSize;
+        this.size = Constant.unitSize;
         this.posX = posX;
         this.posY = posY;
         this.direction = direction;
@@ -77,7 +78,7 @@ export class Snake extends SnakeUnit {
      * @returns void
      */
     public die(): void {
-        this.size = GameManager.unitSize;
+        this.size = Constant.unitSize;
         this.posX = 0;
         this.posY = 0;
         this.direction = Direction.Right;
@@ -90,8 +91,8 @@ export class Snake extends SnakeUnit {
      * @return void
      */
     public checkForBorders(): void {
-        if ((this.posX + (this.size / 2)) > GameManager.canvas.width ||
-            (this.posY + (this.size / 2)) > GameManager.canvas.height ||
+        if ((this.posX + (this.size / 2)) > Constant.canvas.width ||
+            (this.posY + (this.size / 2)) > Constant.canvas.height ||
             (this.posX + (this.size / 2)) < 0 ||
             (this.posY + (this.size / 2)) < 0) {
             this.gameManager.gameOver();

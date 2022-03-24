@@ -1,7 +1,7 @@
 import {Position} from "./position.js";
-import {Direction} from "../components/enums-component.js";
-import {GameManager} from "../game-manager.js";
+import {Direction} from "../helper/enum.js";
 import {Unit} from "./unit.js";
+import {Constant} from "../helper/constant.js";
 
 export abstract class SnakeUnit extends Unit {
     prevPosition: Position = {
@@ -17,11 +17,11 @@ export abstract class SnakeUnit extends Unit {
      * @returns void
      */
     protected draw(): void {
-        GameManager.context.fillStyle = "black";
-        GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
-        GameManager.context.strokeStyle = "white";
-        GameManager.context.lineWidth = 0.5;
-        GameManager.context.strokeRect(this.posX, this.posY, this.size, this.size);
+        Constant.context.fillStyle = "black";
+        Constant.context.fillRect(this.posX, this.posY, this.size, this.size);
+        Constant.context.strokeStyle = "white";
+        Constant.context.lineWidth = 0.5;
+        Constant.context.strokeRect(this.posX, this.posY, this.size, this.size);
     }
 
     /**

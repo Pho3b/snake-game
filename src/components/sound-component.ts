@@ -1,4 +1,4 @@
-import {SoundEffect} from "./enums-component.js";
+import {SoundEffect} from "../helper/enum.js";
 
 export class SoundComponent {
     private static soundEffects: HTMLAudioElement[] = new Array(5);

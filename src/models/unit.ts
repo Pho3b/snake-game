@@ -1,7 +1,7 @@
-import {GameManager} from "../game-manager.js";
+import {Constant} from "../helper/constant.js";
 
 export abstract class Unit {
-    size: number = GameManager.unitSize;
+    size: number = Constant.unitSize;
     posX: number;
     posY: number;
 
@@ -11,7 +11,7 @@ export abstract class Unit {
      * @returns void
      */
     public disappear() {
-        GameManager.context.fillStyle = "white";
-        GameManager.context.fillRect(this.posX, this.posY, this.size, this.size);
+        Constant.context.fillStyle = "white";
+        Constant.context.fillRect(this.posX, this.posY, this.size, this.size);
     }
 }

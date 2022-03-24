@@ -1,4 +1,4 @@
-import {Direction} from "../components/enums-component.js";
+import {Direction} from "../helper/enum.js";
 
 export interface Position {
     posX: number,

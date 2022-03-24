@@ -1,25 +1,20 @@
 import {UtilsComponent} from "./components/utils-component.js";
-import {GameState, SoundEffect} from "./components/enums-component.js";
+import {GameState, SoundEffect} from "./helper/enum.js";
 import {Snake} from './models/snake.js';
 import {Food} from './models/food.js';
 import {SoundComponent} from "./components/sound-component.js";
 import {TailUnit} from './models/tail-unit.js';
+import {Constant} from "./helper/constant.js";
 
 export class GameManager {
-    static readonly canvas: HTMLCanvasElement = document.getElementById('main-canvas') as HTMLCanvasElement;
-    static readonly context: CanvasRenderingContext2D = GameManager.canvas.getContext('2d');
-    static readonly displayPointsElement = document.getElementById('points');
-    static readonly recordListElements = document.getElementsByClassName('record_list_element');
-    static readonly defaultFPS: number = 7;
-    static readonly unitSize: number = 15;
     static current_points: number = 0;
     static gameState: GameState = GameState.StartingScreen;
     static records: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     public static snake: Snake;
     public static food: Food;
-    static FPS: number = GameManager.defaultFPS;
+    static FPS: number = Constant.defaultFPS;
     private static instance: GameManager;
-    private utilsComponent: UtilsComponent;
+    private utils: UtilsComponent;
 
 
     /**
@@ -28,7 +23,7 @@ export class GameManager {
      * @returns GameManager
      */
     public static getInstance(): GameManager {
-        if(!GameManager.instance) {
+        if (!GameManager.instance) {
             GameManager.instance = new GameManager();
         }
 
@@ -43,9 +38,9 @@ export class GameManager {
     public initializeGame(): void {
         GameManager.snake = Snake.getInstance();
         GameManager.food = new Food();
+        this.utils = new UtilsComponent();
         SoundComponent.init();
-        this.utilsComponent = new UtilsComponent();
-        this.utilsComponent.initEventListeners();
+        this.utils.initEventListeners();
         GameManager.startingScreen();
     }
 
@@ -60,7 +55,7 @@ export class GameManager {
     private beforeStart(tailStartingLength: number = 2): void {
         GameManager.gameState = GameState.Running;
 
-        // Adding by default the first 2 pieces of tail
+        // Adding the first 2 pieces of tail by default
         for (let i = 0; i < tailStartingLength; i++) {
             GameManager.snake.update();
             let temp = new TailUnit(i);
@@ -76,7 +71,7 @@ export class GameManager {
      *
      * @returns void
      */
-    public start = (): void =>  {
+    public start = (): void => {
         this.beforeStart();
         GameManager.mainLoop();
     }
@@ -124,12 +119,12 @@ export class GameManager {
         TailUnit.tailUnits = [];
         UtilsComponent.updateRecordsList(GameManager.current_points);
         UtilsComponent.updatePointsText();
-        GameManager.FPS = GameManager.defaultFPS;
+        GameManager.FPS = Constant.defaultFPS;
         UtilsComponent.showTextMessage('You Lost!');
 
         setTimeout(function () {
             GameManager.startingScreen();
-        },1800);
+        }, 1800);
     }
 }
 
