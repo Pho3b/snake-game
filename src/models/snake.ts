@@ -82,6 +82,7 @@ export class Snake extends SnakeUnit {
         this.posX = 0;
         this.posY = 0;
         this.direction = Direction.Right;
+        this.lastInsertedDirection = Direction.Right;
     }
 
     /**

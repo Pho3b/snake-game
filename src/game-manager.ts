@@ -117,7 +117,7 @@ export class GameManager {
         GameManager.snake.die();
         TailUnit.hideTailPieces();
         TailUnit.tailUnits = [];
-        UtilsComponent.updateRecordsList(GameManager.current_points);
+        // UtilsComponent.updateRecordsList(GameManager.current_points);
         UtilsComponent.updatePointsText();
         GameManager.FPS = Constant.defaultFPS;
         UtilsComponent.showTextMessage('You Lost!');

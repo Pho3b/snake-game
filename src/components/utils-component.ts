@@ -56,7 +56,7 @@ export class UtilsComponent {
             GameManager.current_points++;
             Constant.displayPointsElement.innerHTML = GameManager.current_points.toString();
         } else {
-            GameManager.current_points = 1;
+            GameManager.current_points = 0;
             Constant.displayPointsElement.innerHTML = "0";
         }
 
