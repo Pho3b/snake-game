@@ -1,10 +1,18 @@
-import { Direction, GameState, SoundEffect } from "../components/EnumeratorsComponent.js";
-import { UtilsComponent } from "../components/UtilsComponent.js";
-import { GameManager } from "../GameManager.js";
-import { TailUnit } from './TailUnit.js';
-import { SnakeUnit } from "../abstract_classes/SnakeUnit.js";
-import { SoundComponent } from "../components/SoundComponent.js";
+import {Direction, GameState, SoundEffect} from "../helper/enum.js";
+import {UtilsComponent} from "../components/utils-component.js";
+import {GameManager} from "../game-manager.js";
+import {TailUnit} from './tail-unit.js';
+import {SnakeUnit} from "./snake-unit.js";
+import {SoundComponent} from "../components/sound-component.js";
+import {Constant} from "../helper/constant.js";
+
 export class Snake extends SnakeUnit {
+    static instance: Snake;
+    direction: Direction;
+    lastInsertedDirection: Direction;
+    gameManager: GameManager;
+
+
     /**
      * @constructor
      * @param posX
@@ -12,95 +20,112 @@ export class Snake extends SnakeUnit {
      * @param direction
      * @private
      */
-    constructor(posX, posY, direction) {
+    private constructor(posX: number, posY: number, direction: number) {
         super();
-        /**
-         * Changes the snake current direction based on the
-         * player pressed key.
-         * @param e
-         */
-        this.changeDirection = (e) => {
-            if (GameManager.gameState === GameState.Running) {
-                let key = e.key || e.keyCode;
-                GameManager.canPressKey = false;
-                this.direction = this.checkDirectionFromKey(key);
-            }
-        };
         this.gameManager = GameManager.getInstance();
-        this.size = GameManager.unitSize;
+        this.size = Constant.unitSize;
         this.posX = posX;
         this.posY = posY;
         this.direction = direction;
+        this.lastInsertedDirection = this.direction;
     }
+
     /**
-     * Singleton related method
+     * Singleton related method.
+     *
      * @returns GameManager
      */
-    static getInstance() {
-        if (!Snake.instance) {
+    public static getInstance(): Snake {
+        if (!Snake.instance)
             Snake.instance = new Snake(0, 0, 3);
-        }
+
         return Snake.instance;
     }
+
     /**
      * Refresh the element position and attributes.
+     *
      * @returns void
      */
-    update() {
+    public update(): void {
+        this.direction = this.lastInsertedDirection;
         this.prevPosition.posX = this.posX;
         this.prevPosition.posY = this.posY;
         this.prevPosition.direction = this.direction;
-        this.updatePositionFromDirection(this.direction);
+
+        this.updatePosition(this.direction);
         this.draw();
         this.checkForBorders();
         this.selfCollisionDetection();
         this.foodCollisionDetection(GameManager.food.posX, GameManager.food.posY);
     }
+
+    /**
+     * Changes the snake current direction based on the
+     * player pressed key.
+     *
+     * @param e
+     */
+    public changeDirection = (e) => {
+        if (GameManager.gameState === GameState.Running)
+            this.lastInsertedDirection = this.checkDirectionFromKey(e.key);
+    }
+
+
     /**
      * Resets the Snake properties to the default state.
+     *
      * @returns void
      */
-    die() {
-        this.size = 10;
+    public die(): void {
+        this.size = Constant.unitSize;
         this.posX = 0;
         this.posY = 0;
         this.direction = Direction.Right;
+        this.lastInsertedDirection = Direction.Right;
     }
+
     /**
      * Checks whether the snake is colliding with the map borders or no.
      * In case it is colliding it calls the die method.
+     *
      * @return void
      */
-    checkForBorders() {
-        if ((this.posX + (this.size / 2)) > GameManager.canvas.width ||
-            (this.posY + (this.size / 2)) > GameManager.canvas.height ||
+    public checkForBorders(): void {
+        if ((this.posX + (this.size / 2)) > Constant.canvas.width ||
+            (this.posY + (this.size / 2)) > Constant.canvas.height ||
             (this.posX + (this.size / 2)) < 0 ||
             (this.posY + (this.size / 2)) < 0) {
             this.gameManager.gameOver();
         }
     }
+
     /**
      * Checks if the snake is colliding with the food piece.
-     * If yes, it triggers the food re spawn, updates player points
-     * and add a tail piece.
+     * If yes, it triggers the food re-spawn, updates player points
+     * and add a tailpiece.
+     *
      * @param foodPosX
      * @param foodPosY
      * @return void
      */
-    foodCollisionDetection(foodPosX, foodPosY) {
+    public foodCollisionDetection(foodPosX, foodPosY): void {
         if (this.posX === foodPosX && this.posY === foodPosY) {
             UtilsComponent.updatePointsText();
             GameManager.food.randomSpawn();
             TailUnit.tailUnits.push(new TailUnit(TailUnit.tailUnits.length));
+
             SoundComponent.playSoundEffect(SoundEffect.EatingSound);
         }
     }
+
     /**
      * Checks whether the snake is colliding with the map borders or no.
      * In case it is colliding it calls the die method.
+     *
      * @returns void
      */
-    selfCollisionDetection() {
+    public selfCollisionDetection(): void {
         for (let i = 0; i < TailUnit.tailUnits.length; i++) {
             if (this.posX == TailUnit.tailUnits[i]['posX'] &&
                 this.posY == TailUnit.tailUnits[i]['posY']) {
@@ -108,14 +133,16 @@ export class Snake extends SnakeUnit {
             }
         }
     }
+
     /**
      * Switches over various browser keyboard keys and returns
      * the according direction.
      * Returns null if the key is invalid.
+     *
      * @param key
      * @returns Direction | null
      */
-    checkDirectionFromKey(key) {
+    public checkDirectionFromKey(key: string | number): Direction | null {
         switch (key) {
             case 'ArrowUp':
             case 'w':

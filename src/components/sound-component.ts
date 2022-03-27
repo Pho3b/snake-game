@@ -1,4 +1,4 @@
-import {SoundEffect} from "./EnumeratorsComponent.js";
+import {SoundEffect} from "../helper/enum.js";
 
 export class SoundComponent {
     private static soundEffects: HTMLAudioElement[] = new Array(5);
@@ -6,7 +6,7 @@ export class SoundComponent {
 
 
     /**
-     * Performs all of the tasks need to initialize and
+     * Performs all the tasks need to initialize and
      * make the SoundComponent usable.
      *
      * @returns void
@@ -23,16 +23,8 @@ export class SoundComponent {
      */
     public static playSoundEffect(sound: SoundEffect): void {
         SoundComponent.soundEffects[sound].currentTime = 0;
-        let playPromise: Promise<void> = SoundComponent.soundEffects[sound].play();
-
-        if (playPromise !== undefined) {
-            playPromise
-                .then(function () {
-                })
-                .catch(function (error) {
-                    console.log('Error while playing sound : ' + error);
-                });
-        }
+        SoundComponent.soundEffects[sound].play().then(() => {
+        });
     }
 
     /**
@@ -46,7 +38,7 @@ export class SoundComponent {
     }
 
     /**
-     * Pre loads and set the volume of all of the
+     * Pre loads and set the volume of all the
      * sounds stored in the 'soundEffects' list.
      *
      * @returns void
