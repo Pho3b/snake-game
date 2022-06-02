@@ -1,9 +1,7 @@
 # Snake
 
-```sh
 A basic Snake Clone made in Typescript and HTML5. 
-Use WASD or directional arrows to move the snake. 
-```
+Use **WASD** or directional arrows to move the snake. 
 
 ## Docker based installation
 - Build: `docker build -t snake-game .`
@@ -12,6 +10,7 @@ Use WASD or directional arrows to move the snake.
 - Compose Build: `docker-compose up --detach`
 - Compose Start: `docker-compose start`
 
-
-
-![snake-game](https://user-images.githubusercontent.com/17745398/171750839-95aa0ef6-4d27-47aa-9b53-ff9ba1ad138f.gif)
+##
+<p align="center">
+<img src="https://user-images.githubusercontent.com/17745398/171750839-95aa0ef6-4d27-47aa-9b53-ff9ba1ad138f.gif" />
+</p>
