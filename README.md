@@ -11,7 +11,7 @@ As in the original you can use **WASD** keys or directional arrows to move the s
 - <b>Using docker:</b>
   - Build: `docker build -t snake-game .`
   - Start (attached): ``docker run -it --rm -d -p 8080:80 --name snake-game-nginx -v `pwd`:/usr/share/nginx/html snake-game``       
-<br>
+
 - <b>Using docker-compose:</b>
   - Compose Build: `docker-compose up --detach`
   - Compose Start: `docker-compose start`
